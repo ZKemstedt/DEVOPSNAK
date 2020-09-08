@@ -1,0 +1,13 @@
+How do I check out a remote Git branch?
+
+# only one remote?
+1.	git fetch <remotename> # defaults to origin
+
+# local branchname =/= remote branchname
+2.	git branch <local branchname> origin/<remote branchname>
+# 
+2.	git checkout -b <branchname origin/<branchname>
+#
+2.	git checkout <branchname>
+
+branch <local branchname> set up to track remote branch <remote branchname> from <remotename>
