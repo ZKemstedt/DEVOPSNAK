@@ -1,10 +1,13 @@
 import timeit
 import typing as t
 import sys
-sys.setrecursionlimit(1500)
+
 
 # numbers = [1, 9, 0, 5, 18, 4, 12, 6, 8, 14, 7, 16, 10, 11, 13, 15, 3, 2, 17]
 numbers = [1, 9, 0, 5, 18, 4]
+sys.setrecursionlimit(1500)  # default is around 1000
+# This algorithm hits recursion depth in no-time.
+# I'm unsure of how high I'm willing to push it
 
 
 def swap(numbers: t.List[int], i: int) -> t.Tuple[t.List[int], bool]:
