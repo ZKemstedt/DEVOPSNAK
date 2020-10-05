@@ -6,18 +6,26 @@ __pycache__/
 
 # VSCode
 *.code-workspace
-.vscode/
 .mypy_cache/
 
 # pdf
 *.pdf
 
-# Jupyther
+# Jupyther notebooks
 .ipynb
 
+
 # Certain projects have repositories of their own.
+
+# Programmering och Systemering
 Programmering\ och\ Systemering/Seminar4/
-Programmering\ och\ Systemering/Seminar5/lektion5/
-Programmering\ och\ Systemering/Seminar7/lektion7/ 
-Programmering\ och\ Systemering/Seminar9/lektion9/
-Programmering\ och\ Systemering/Seminar10/lektion10/
+Programmering\ och\ Systemering/Seminar5/
+Programmering\ och\ Systemering/Seminar7/
+Programmering\ och\ Systemering/Seminar9/
+Programmering\ och\ Systemering/Seminar10/
+Programmering\ och\ Systemering/Seminar12/
+Programmering\ och\ Systemering/Seminar12/
+Programmering\ och\ Systemering/Examination/
+Programmering\ och\ Systemering/Examples/stuff.txt
+
+# Programmering i Python
