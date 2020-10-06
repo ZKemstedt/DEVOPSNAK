@@ -9,6 +9,10 @@ def add(*term):
     return sum(term)
 
 
+def sum_inc_five(*factor):
+    return add((*factor), 5)
+
+
 def decide_branch(decide):
     if(decide):
         return decide
