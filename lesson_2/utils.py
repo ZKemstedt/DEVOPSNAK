@@ -2,6 +2,9 @@ from functools import reduce
 
 
 def multiply(*factor):
+    for f in factor:
+        if not isinstance(f, (int, float)):
+            raise TypeError("Only int is allowed as type")
     return reduce(lambda x, y: x*y, factor)
 
 

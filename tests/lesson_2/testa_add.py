@@ -5,7 +5,8 @@ from lesson_2 import utils
 class HappyPathTestCase(unittest.TestCase):
 
     def test_ones(self):
-        self.assertEqual(utils.add(1, 1), 2)
+        result = utils.add(1, 1)
+        self.assertEqual(result, 2)
 
     def test_decide_true(self):
         self.assertEqual(utils.decide_branch(True), True)
