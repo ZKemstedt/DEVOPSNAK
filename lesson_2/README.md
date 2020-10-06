@@ -36,7 +36,7 @@ When multiple developers work on a project, sometimes they need to modify the sa
     4. some text
     ```
 
-5. Checkout `master`
+5. Checkout `main`
 6. Create and checkout a branch named `ISSUE-2`
 7. Add following lines of text to README.md, commit and push
 
@@ -48,8 +48,8 @@ When multiple developers work on a project, sometimes they need to modify the sa
     3. another text
     ```
 
-8. Open and merge PR from `ISSUE-1` to `master`
-9. Open a PR from `ISSUE-2` to `master`
+8. Open and merge PR from `ISSUE-1` to `main`
+9. Open a PR from `ISSUE-2` to `main`
 10. What happens? Solve the merge conflict.
 
 ## Exercise 2
@@ -73,7 +73,7 @@ Write a function that returns the sum of x, y and adds 5. i.e
 6. Run the test again and make sure it's (Green)
 7. Refactor if something is not up to standard
 8. Repeat step 3 - 7 and add tests for negative values, wrongful type i.e x = "hello", y = "world"
-9. When you are done, create a PR against master (DON'T MERGE IT)
+9. When you are done, create a PR against `master` (DON'T MERGE IT)
 
 ## Links
 
