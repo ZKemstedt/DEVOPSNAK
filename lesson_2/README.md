@@ -43,14 +43,14 @@ When multiple developers work on a project, sometimes they need to modify the sa
     ```markdown
     # merge_conflict
 
-    1. another text
-    2. another text
-    3. another text
+    5. another text
+    6. another text
+    7. another text
     ```
 
 8. Open and merge PR from `ISSUE-1` to `main`
 9. Open a PR from `ISSUE-2` to `main`
-10. What happens? Solve the merge conflict.
+10. What happens? Solve the merge conflict. (7 lines of text)
 
 ## Exercise 2
 
