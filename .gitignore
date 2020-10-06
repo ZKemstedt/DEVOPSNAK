@@ -1,10 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -19,16 +15,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
 # pyenv
 .python-version
 
@@ -39,9 +25,6 @@ ipython_config.py
 #   install all needed dependencies.
 Pipfile.lock
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
 # Environments
 .env
 .venv
@@ -50,3 +33,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# lesson 2 git repo
+lesson_2/merge_conflict/
