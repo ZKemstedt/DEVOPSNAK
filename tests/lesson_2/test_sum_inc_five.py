@@ -19,7 +19,11 @@ class HappyPathTestCase(unittest.TestCase):
 
 class NegativeTestCase(unittest.TestCase):
 
-    def test_to_add_two_string(self):
+    def test_add_string(self):
+        with self.assertRaises(TypeError):
+            utils.sum_inc_five("2")
+
+    def test_add_two_string(self):
         with self.assertRaises(TypeError):
             utils.sum_inc_five("2", "2")
 
