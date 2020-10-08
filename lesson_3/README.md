@@ -8,6 +8,12 @@ To debug a test:
 python -m unittest -v tests.lesson_3.test_utils.UtilsTests
 ```
 
+To run file in module:
+
+```bash
+python -m lesson_3.deploy_cli
+```
+
 ## Exercise 1
 
 ### Exercise 1 - Description

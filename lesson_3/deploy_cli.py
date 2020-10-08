@@ -1,8 +1,8 @@
 import cmd
 import sys
-from cli_tool.api import deploy
-from cli_tool.validation import return_on_except
-from cli_tool.utils import parse
+from .cli_tool.api import deploy
+from .cli_tool.validation import return_on_except
+from .cli_tool.utils import parse
 
 
 class DeployTool(cmd.Cmd):
