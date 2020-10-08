@@ -1,5 +1,13 @@
 # Lesson 3
 
+## Tips
+
+To debug a test:
+
+```bash
+python -m unittest -v tests.lesson_3.test_utils.UtilsTests
+```
+
 ## Exercise 1
 
 ### Exercise 1 - Description
