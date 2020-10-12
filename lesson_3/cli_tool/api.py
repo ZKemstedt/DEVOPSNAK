@@ -16,3 +16,7 @@ def deploy(**kwargs):
         print(df)
         return 255
     return False
+
+
+def restart(**kwargs):
+    pass
