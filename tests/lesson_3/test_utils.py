@@ -4,7 +4,7 @@ from lesson_3.cli_tool import utils
 
 class UtilsTests(unittest.TestCase):
 
-    def test_arg_parse(self):
+    def test_parse_args(self):
         result = utils.parse("conf=prod service=backend")
         self.assertIsInstance(result, dict)
         self.assertEqual(result, {"conf": "prod", "service": "backend"})
