@@ -20,11 +20,11 @@ class ValidationTests(unittest.TestCase):
 
     # -- deploy_options --
     def test_validate_deploy_options_fail_not_dict(self):
-        with self.assertRaises(TypeError):
+        with self.assertRaises(AttributeError):
             validation.validate_deploy_options(5)
 
     def test_validate_deploy_options_fail_option_not_str(self):
-        with self.assertRaises(validation.ValidationError):
+        with self.assertRaises(TypeError):
             validation.validate_deploy_options({'conf': 5})
 
     # -- validate_conf --
