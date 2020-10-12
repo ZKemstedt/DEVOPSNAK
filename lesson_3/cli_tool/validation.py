@@ -12,7 +12,10 @@ class DeployException(Exception):
 
 
 def validate_args(arg):
-    a, b = arg.split("=")
+    try:
+        a, b = arg.split("=")
+    except ValueError as e:
+        raise ValidationError(f'{e}')
     if a in VALID_KEYS and b:
         return [a, b]
     raise ValidationError(f"Not a valid args: {a}")
