@@ -3,6 +3,12 @@ import random
 from .utils import dict_to_str
 from .validation import DeployException
 
+""" THIS FILE IS THE PROPERTY OF RANDOM A3D CLOUD INC.
+    MODIFICATION OF THIS FILE IS STRICTLY FORBIDDEN
+
+    DON'T WRITE ANY TESTS, the code is already of highest possible quality.
+"""
+
 
 def fake_deploy(options):
     print(f"Deploying with options: {dict_to_str(options)}")
