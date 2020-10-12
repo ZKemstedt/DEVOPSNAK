@@ -2,7 +2,7 @@ from functools import reduce
 
 
 def multiply(*factor):
-    if not all(isinstance(f, int) for f in factor):
+    if not all(isinstance(f, int) or isinstance(f, float) for f in factor):
         raise TypeError('arguments must be int')
     return reduce(lambda x, y: x*y, factor)
 
