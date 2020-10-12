@@ -1,5 +1,5 @@
 from .validation import validate_deploy_options, DeployException
-from .cloud_sdk import fake_deploy
+from .cloud_sdk import fake_deploy, fake_restart
 
 
 def deploy(**kwargs):
@@ -19,4 +19,11 @@ def deploy(**kwargs):
 
 
 def restart(**kwargs):
-    pass
+    options = {}  # extendable with default arguments
+    options.update(kwargs)
+    try:
+        fake_restart(options)
+    except Exception as e:
+        print(e)
+        return 255
+    return False
