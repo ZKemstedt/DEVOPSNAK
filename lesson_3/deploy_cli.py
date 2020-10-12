@@ -1,5 +1,6 @@
 import cmd
 import sys
+
 from cli_tool.api import deploy, restart
 from cli_tool.validation import return_on_except
 from cli_tool.utils import parse
