@@ -1,6 +1,6 @@
 import functools
 
-VALID_KEYS = ["region", "service", "conf"]
+VALID_KEYS = ["region", "service", "conf", "cluster", "timeout"]
 
 
 class ValidationError(Exception):
