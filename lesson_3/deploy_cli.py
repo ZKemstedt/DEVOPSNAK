@@ -26,7 +26,7 @@ class DeployTool(cmd.Cmd):
 
     def postcmd(self, stop, line):
         """Hook method executed just after a command dispatch is finished."""
-        if type(stop) == int:
+        if isinstance(stop, int):
             sys.exit(stop)
         return stop
 
