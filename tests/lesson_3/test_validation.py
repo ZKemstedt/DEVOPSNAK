@@ -35,18 +35,6 @@ class ValidationTests(unittest.TestCase):
     def test_validate_conf_is_string(self):
         self.assertEqual(validation.validate_conf('key', 'value'), None)
 
-# *   validation.validate_args
-#     *   Den kan hantera de options som finns.
-#     *   raises ValidationError if arg is invalid
-
-# *   validation.validate_deploy_options
-#     *   raise TypeError if not option is a dict
-#     *   raise ValidationError if any option is invalid
-#     *   255 if conf not in options
-# *   validation.validate_conf
-#     *   raises TypeError if not string
-#     *   does not raise error if string (aka returns None)
-
 
 if __name__ == '__main__':
     unittest.main()
