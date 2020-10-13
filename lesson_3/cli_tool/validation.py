@@ -36,10 +36,8 @@ def return_on_except(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except ValidationError as ve:
-            print(ve)
+        except ValidationError:
             return False
-        except TypeError as te:
-            print(te)
+        except TypeError:
             return False
     return wrapper
