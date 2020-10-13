@@ -39,3 +39,6 @@ lesson_2/merge_conflict/
 
 # Mac OS system files
 *.DS_Store
+
+# packaging tutorial git repo
+packaging-tutorial/
