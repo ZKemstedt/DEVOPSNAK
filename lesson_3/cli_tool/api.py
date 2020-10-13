@@ -19,7 +19,7 @@ def deploy(**kwargs):
 
 
 def restart(**kwargs):
-    options = {}  # extendable with default arguments
+    options = {}  # extendable with default/override arguments
     options.update(kwargs)
     try:
         fake_restart(options)
