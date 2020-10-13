@@ -21,13 +21,14 @@ def validate_args(arg):
     raise ValidationError(f"Not a valid args: {a}")
 
 
-def validate_conf(conf):
-    if not isinstance(conf, str):
-        raise TypeError("conf should be of type str")
+def validate_conf(k, v):
+    if not isinstance(v, str):
+        raise TypeError(f"{k} must be a str.")
 
 
 def validate_deploy_options(options):
-    validate_conf(options.get("conf"))
+    for k, v in options.items():
+        validate_conf(k, v)
 
 
 def return_on_except(func):
