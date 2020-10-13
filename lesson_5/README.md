@@ -11,16 +11,21 @@
 ```bash
 # Start minikube
 minikube start
+
+# Start dashboard (keeps running)
 minikube dashboard
 
 # Enable a local registry
 minikube addons enable registry
 
 # Get name of registry pod
+# Get the name for the pod named registry-<letters> i.e registry-jrgd8
 minikube kubectl -- get pods --all-namespaces
-Get the name for the pod named registry-<letters> i.e registry-jrgd8
 
+# Start local port-forwarding (keeps running)
 minikube kubectl -- port-forward --namespace kube-system registry-xyz123 5000:5000
+
+# ?? (keeps running)
 docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000"
 
 # Test local registry
