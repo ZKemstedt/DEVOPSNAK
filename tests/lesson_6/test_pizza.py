@@ -18,7 +18,6 @@ class TestPizza(unittest.TestCase):
     def test_pizza_create_default_ingredients_return_list(self):
         self.assertListEqual(self.pizza.ingredients, ["cheese", "tomato"])
 
-    # UnitOfWork_StateUnderTest_ExpectedBehavior
     def test_pizza_price_group_default_1(self):
         self.assertEqual(self.pizza.price_group, 1)
 
@@ -53,6 +52,15 @@ class TestPizza(unittest.TestCase):
         ingredients = ["mozzarella", "pepperoni"]
         self.pizza.add_ingredients(ingredients)
         self.assertEqual(self.pizza.price_group, 3)
+
+
+class TestPizzaVesuvio(unittest.TestCase):
+
+    def setUp(self):
+        self.pizza = Pizza("vesuvio", ["cheese", "tomato", "ham"])
+
+    def test_pizza_vesuvio_ingredients(self):
+        self.assertListEqual(self.pizza.ingredients, ["cheese", "tomato", "ham"])
 
 
 if __name__ == "__main__":

@@ -9,9 +9,9 @@ class Pizza:
         "pepperoni": 1
     }
 
-    def __init__(self, name, ingredients=["cheese", "tomato"]):
+    def __init__(self, name, ingredients=("cheese", "tomato")):
         self.name = name
-        self.ingredients = ["cheese", "tomato"]
+        self.ingredients = list(ingredients)
 
     def add_ingredients(self, ingredients):
         self.ingredients.extend(ingredients)
