@@ -5,7 +5,7 @@ from lesson_6.pizza import Pizza
 class TestPizza(unittest.TestCase):
 
     def setUp(self):
-        self.pizza = Pizza()
+        self.pizza = Pizza("margherita")
 
     def test_pizza_create_success(self):
         self.assertIsInstance(self.pizza, Pizza)
