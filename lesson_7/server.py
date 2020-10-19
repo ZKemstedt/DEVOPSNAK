@@ -8,12 +8,23 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
     def handle(self):
         # self.rfile is a file-like object created by the handler;
         # we can now use e.g. readline() instead of raw recv() calls
-        self.data = self.rfile.readline().strip()
-        print("{} wrote:".format(self.client_address[0]))
-        print(self.data)
+        data = self.rfile.readline().strip()
+
+        print(f"{self.client_address[0]} wrote:\n"
+              f"{data}")
+
         # Likewise, self.wfile is a file-like object used to write back
         # to the client
-        self.wfile.write(self.data.upper())
+        self.wfile.write(replace(data))
+
+
+def replace(b: bytes) -> bytes:
+    vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'å', 'ä', 'ö']
+    text = b.decode()
+    for c in text:
+        if c in vowels:
+            text = text.replace(c, '_')
+    return text.encode()
 
 
 if __name__ == "__main__":
