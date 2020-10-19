@@ -33,7 +33,8 @@ py lesson_7\server.py hello world
 
 ### Assignment
 
-1. Modify the message replied by the server
+1. Test with netstat (windows, mac) or ss (ubuntu) that your server did bind a port
+2. Modify the message replied by the server
 
    1. all vowels a, e, i, o, u, y, å, ä and ö should be replaced with a _
    2. Try to send some unicode signs, emojis etc.
