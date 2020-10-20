@@ -59,6 +59,7 @@ class ChatSocket:
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.selector.unregister(self.sock)
         self.sock.close()
         for thread in self.threads:
             thread.join()
