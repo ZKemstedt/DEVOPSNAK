@@ -1,4 +1,6 @@
 
+import pickle
+
 str_to_byte = b'abcdef'
 
 print(str_to_byte)
@@ -20,3 +22,10 @@ print(str_to_byte_3)
 byte_3_to_str = str_to_byte_3.decode()
 print(type(byte_3_to_str))
 print(byte_3_to_str)
+
+
+b = pickle.dumps([12123123, 2, 3])
+print(type(b))
+print(b)
+
+print(pickle.loads(b))

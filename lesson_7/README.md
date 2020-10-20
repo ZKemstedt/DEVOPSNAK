@@ -27,7 +27,7 @@ client.py hello world
 Powershell
 
 ```powershell
-py lesson_7\server.py hello world
+py lesson_7\client.py hello world
 # ctrl-c to quit
 ```
 
