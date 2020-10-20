@@ -1,6 +1,5 @@
 import socket
 import selectors
-import time
 import threading
 import signal
 import sys
