@@ -51,7 +51,7 @@
 
 ### Chat Tjänsten
 
-I denna uppgift ska du skriva en chat-server med tillhörande klienter.
+I denna uppgift ska du skriva en chat-server med tillhörande klient.
 
 #### Chat Tjänsten - Krav G
 
@@ -61,8 +61,8 @@ I denna uppgift ska du skriva en chat-server med tillhörande klienter.
 
 #### Chat Tjänsten - Krav VG
 
-* Du kan skicka till enskild person och alla
-* Ditt protokoll klarar av att skicka text och bilder/filer
+* Du kan skicka till en enskild person och alla
+* Ditt protokoll klarar av att skicka text och bilder
 * Koden är testbar och har rimliga enhetstester
 * Klient och server arbetar på ett icke blockerade vis (trådar eller annan lösning)
 * Klient och server arbetar på ett effektivt sätt och hanterar flera klienter
@@ -149,6 +149,7 @@ I denna uppgift ska du bygga en smart hem lösning. Dina mätvärden kan vara p�
 
 * Du kan fråga servern om en fil med historiska mätvärden
 * Du kan via din användares klient skicka en uppmaning till alla klienter att skicka in nuvarande mätvärden.
+* Du kan med klienten skicka en fil med flera mätvärden som servern lägger till
 * Din kod är testbar och har rimliga enhetstester
 * Klient och server arbetar på ett icke blockerade vis (trådar eller annan lösning)
 * Klient och server arbetar på ett effektivt sätt och hanterar flera klienter
@@ -169,6 +170,7 @@ I denna uppgift ska du bygga en övervakare till din serverhall. Dina mätvärd
 
 * Du kan fråga servern om en fil med historiska mätvärden
 * Du kan via din användarklient skicka en uppmaning till alla klienter att skicka in nuvarande mätvärden.
+* Du kan med klienten skicka en fil med flera mätvärden som servern lägger till
 * Din kod är testbar och har rimliga enhetstester
 * Klient och server arbetar på ett icke blockerade vis (trådar eller annan lösning)
 * Klient och server arbetar på ett effektivt sätt och hanterar flera klienter
