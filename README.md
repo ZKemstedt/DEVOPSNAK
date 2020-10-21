@@ -23,7 +23,7 @@
 
 * Slutuppgiften är enskild
 * Det är ok att fråga lärare och varandra generella frågor.
-* Ni ska skriva er egen kod, om ni använder er av kod bitar från webben
+* Ni ska skriva er egen kod, om ni använder er av kodbitar från webben
   t.ex. stackoverflow så måste ni ange källa.
 * Ni ansvarar för att Betygskriterierna är uppfyllda, kolla er kursplan.
 
