@@ -45,7 +45,7 @@
 ### Att välja uppgift
 
 * Skriv till mig vilken uppgift ni önskar.
-* Det finns ingen garanti alla kan få den uppgift de vill, så skriv ett andrahandsval.
+* Det finns ingen garanti att alla kan få den uppgift de vill, så skriv ett andrahandsval.
 
 ## Uppgifter
 
