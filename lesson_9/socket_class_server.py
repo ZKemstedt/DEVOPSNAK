@@ -3,6 +3,7 @@ import selectors
 import threading
 import signal
 import sys
+import time
 
 
 class Connection(threading.Thread):
@@ -11,13 +12,13 @@ class Connection(threading.Thread):
     def __init__(self, conn, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.conn = conn
+        self.running = True
 
     def run(self):
         self.read()
 
     def close(self):
         try:
-            self.conn.shutdown(socket.SHUT_RDWR)
             self.conn.close()
         except Exception as e:
             print(e)
@@ -25,19 +26,27 @@ class Connection(threading.Thread):
             self.conn = None
 
     def read(self):
-        # time.sleep(10)
-        try:
-            data = self.conn.recv(Connection.BUF_SIZE)
-            if not data:
-                self.close()
-                return
-        except Exception as e:
-            print(e)
-            self.close()
-            return
-        else:
-            print(str(data))
-            self.write()
+        while self.running:
+            time.sleep(1)
+            try:
+                print("read")
+                data = self.conn.recv(Connection.BUF_SIZE)
+                print("after read")
+
+                if not data:
+                    print("closing")
+                    self.close()
+                    return
+            except BlockingIOError:
+                pass
+            except Exception as e:
+                print(e)
+                raise e
+                print("exceptionawdawdw")
+                # self.close()
+            else:
+                print(str(data))
+                self.write()
 
     def write(self):
         self.conn.sendall(b"hello client")
@@ -59,8 +68,10 @@ class ChatSocket:
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.selector.unregister(self.sock)
+        print(self.sock.gettimeout())
         self.sock.close()
         for thread in self.threads:
+            thread.running = False
             thread.join()
 
     def listen(self):
@@ -101,6 +112,7 @@ def main():
 
         try:
             while True:
+                time.sleep(1)
                 events = sel.select(timeout=1.0)
                 for key, mask in events:
                     if(key.data == "accept"):
