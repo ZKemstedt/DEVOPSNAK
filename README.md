@@ -33,7 +33,7 @@
 * OBS ni ska alltså clona eran fork, inte detta repo.
 * När ni gör en fork så kommer alla få rätt att se innehållet. så innan ni börjar arbeta,
   ta bort alla utom mig från: settings -> Manage Access
-* Skapa en branch som ni arbetar i eran fork.
+* Skapa en branch som ni arbetar i.
 
 ### Inlämning 3/11 23:59
 
