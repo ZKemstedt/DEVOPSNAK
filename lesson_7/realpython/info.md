@@ -1,4 +1,5 @@
 https://realpython.com/python-sockets/
+https://github.com/realpython/materials/tree/master/python-sockets-tutorial
 
 Python's socket module provides an interface to the Berkeley sockets API. This is the module that we'll use and discuss in this tutorial.
 
