@@ -34,11 +34,14 @@ ENV/
 env.bak/
 venv.bak/
 
-# lesson 2 git repo
-lesson_2/merge_conflict/
-
 # Mac OS system files
 *.DS_Store
 
+# lesson 2 git repo
+lesson_2/merge_conflict/
+
 # packaging tutorial git repo
 packaging_tutorial/
+
+# course examination git repo
+course_examination/
