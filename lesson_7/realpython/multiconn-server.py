@@ -1,9 +1,7 @@
-import selectors
+import sys
 import socket
+import selectors
 import types
-
-host = '127.0.0.1'  # The server's hostname or IP adress
-port = 65432        # Port to listen on (non-privileged ports are > 1023)
 
 sel = selectors.DefaultSelector()
 
@@ -35,18 +33,27 @@ def service_connection(key, mask):
             data.outb = data.outb[sent:]
 
 
+if len(sys.argv) != 3:
+    print('usage:', sys.argv[0], '<host> <port>')
+    sys.exit()
+
+host, port = sys.argv[1], int(sys.argv[2])
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 lsock.bind((host, port))
 lsock.listen()
 print('listening on ', (host, port))
 lsock.setblocking(False)
-
 sel.register(lsock, selectors.EVENT_READ, data=None)
 
-while True:
-    events = sel.select(timeout=None)
-    for key, mask in events:
-        if key.data is None:
-            accept_wrapper(key.fileobj)
-        else:
-            service_connection(key, mask)
+try:
+    while True:
+        events = sel.select(timeout=None)
+        for key, mask in events:
+            if key.data is None:
+                accept_wrapper(key.fileobj)
+            else:
+                service_connection(key, mask)
+except KeyboardInterrupt:
+    print('caught keyboard interrupt, exiting')
+finally:
+    sel.close()

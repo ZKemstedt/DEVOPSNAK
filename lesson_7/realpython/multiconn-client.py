@@ -1,14 +1,9 @@
+import sys
 import socket
 import selectors
 import types
 
-# from sys import argv
-
-host = '127.0.0.1'  # The server's hostname or IP adress
-port = 65432        # Port to listen on (non-privileged ports are > 1023)
-
 sel = selectors.DefaultSelector()
-
 messages = [b'Message 1 from client.', b'Message 2 from client.']
 
 
@@ -50,9 +45,23 @@ def service_connection(key, mask):
             data.outb = data.outb[sent:]
 
 
-start_connections(host, port, 2)
+if len(sys.argv) != 4:
+    print('usage:', sys.argv[0], '<host> <port> <num_connections>')
+    sys.exit()
 
-while True:
-    events = sel.select(timeout=None)
-    for key, mask in events:
-        service_connection(key, mask)
+host, port, num_connections = sys.argv[1:4]
+start_connections(host, int(port), int(num_connections))
+
+try:
+    while True:
+        events = sel.select(timeout=None)
+        if events:
+            for key, mask in events:
+                service_connection(key, mask)
+        # Check for a socket being monitored to continue.
+        if not sel.get_map():
+            break
+except KeyboardInterrupt:
+    print('caught keyboard interrupt, exiting')
+finally:
+    sel.close()
