@@ -70,7 +70,7 @@ class Message(object):
         self, *, content_bytes, content_type, content_encoding
     ):
         jsonheader = {
-            'byteoder': sys.byteorder,
+            'byteorder': sys.byteorder,
             'content-type': content_type,
             'content-encoding': content_encoding,
             'content-length': len(content_bytes),
@@ -142,12 +142,12 @@ class Message(object):
             self.sock = None
 
     def queue_request(self):
-        conent = self.request['content']
+        content = self.request['content']
         content_type = self.request['type']
         content_encoding = self.request['encoding']
         if content_type == 'text/json':
             req = {
-                'content_bytes': self._json_encode(conent, content_encoding),
+                'content_bytes': self._json_encode(content, content_encoding),
                 'content_type': content_type,
                 'content_encoding': content_encoding,
             }
