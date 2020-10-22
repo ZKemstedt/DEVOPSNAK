@@ -40,7 +40,6 @@ class Connection:
             return
         else:
             print(str(data))
-            self.write()
 
     def write(self):
         try:
@@ -65,6 +64,9 @@ class ChatSocket:
 
     def connection_read(self, conn_id):
         self.connections[conn_id].read()
+
+    def connection_write(self, conn_id):
+        self.connections[conn_id].write()
 
     def __enter__(self):
         return self
@@ -122,10 +124,9 @@ def main():
                     if(key.data == "accept"):
                         chatSocket.accept_connection(key, mask)
                     if(key.data.startswith("conn:") and mask & selectors.EVENT_READ):
-                        print(f"hello {key.data}")
                         chatSocket.connection_read(key.data)
                     if(mask & selectors.EVENT_WRITE):
-                        print("event_write")
+                        chatSocket.connection_write(key.data)
 
         except Exception as e:
             print("end program")
