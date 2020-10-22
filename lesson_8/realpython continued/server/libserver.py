@@ -40,7 +40,7 @@ class Message(object):
             # Should be ready to read
             data = self.sock.recv(4096)
         except BlockingIOError:
-            # Resrouce temporarily unavailable (errno EWOULDBLOCK)
+            # Resource temporarily unavailable (errno EWOULDBLOCK)
             pass
         else:
             if data:
