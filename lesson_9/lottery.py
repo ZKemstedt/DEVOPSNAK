@@ -13,8 +13,8 @@ with open("lesson_9/data.csv", encoding='utf-8') as f:
     print("\n".join(map(str, sorted_list)))
 
     winners_1_round = []
-    to_place = {"Chat": 8, "Filserver": 8, "Kundregister": 8,
-                "Serverhallen": 8, "Smarta Hem": 8, "Kalender": 8, "NULL": 0, "Egen uppgift": len(sorted_list)}
+    to_place = {"Chat": 8, "Filserver": 6, "Kundregister": 6,
+                "Serverhallen": 6, "Smarta Hem": 6, "Kalender": 6, "NULL": 0, "Egen uppgift": 0}
 
     for key, group in groupby(sorted_list, itemgetter(1)):
         winners_1_round.append([key, list(map(itemgetter(0), islice(group, to_place[key])))])

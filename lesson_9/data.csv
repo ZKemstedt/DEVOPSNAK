@@ -1,8 +1,8 @@
 Adi,Filserver,Kalender,NULL
 Alexander,Kundregister,Smarta Hem,NULL
 Amir,Filserver,Kalender,NULL
-Anders S,Chat,Filserver,NULL
-Anders Ö,Chat,Kundregister,NULL
+Anders S,Chat,Filserver,Serverhallen
+Anders Ö,Chat,Kundregister,Smarta Hem
 Anton,Chat,Kundregister,NULL
 Burak,Kundregister,Smarta Hem,Kalender
 Eka,Filserver,Kalender,NULL
@@ -10,14 +10,14 @@ Emma,Chat,Kundregister,NULL
 George,Chat,Kundregister,Kalender
 Johan G,Filserver,Kundregister,NULL
 Johan S,Kundregister,Filserver,NULL
-Johanne,Chat,Filserver,NULL
+Johanne,Chat,Filserver,Kalender
 Kazi,Chat,Egen uppgift,NULL
 Lennart,Chat,Kalender,NULL
 Marcus,Chat,Smarta Hem,NULL
 Marcus,NULL,NULL,NULL
 Martin E,Serverhallen,Smarta Hem,NULL
 Martin Machl,Chat,Smarta Hem,NULL
-Mehsum,Filserver,Kundregister,NULL
+Mehsum,Smarta Hem,Filserver,Kundregister
 Mike,Chat,Smarta Hem,NULL
 Olle,Chat,Kundregister,NULL
 Philip,Chat,Kalender,Smarta Hem
@@ -32,3 +32,5 @@ Frans,Filserver,Kalender,NULL
 Rain,Serverhallen,NULL,NULL
 Ludvig,Chat,Kalender,NULL
 Daniel,Kundregister,Chat,NULL
+Jesper,Chat,Filserver,Serverhallen
+Joel,Smarta Hem,Chat,Kundregister
