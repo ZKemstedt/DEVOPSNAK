@@ -1,3 +1,7 @@
+# Heavily based on realpython's guide to python sockets.
+# guide: https://realpython.com/python-sockets/#application-client-and-server
+# github: https://github.com/realpython/materials/tree/master/python-sockets-tutorial
+
 import sys
 import selectors
 import json
@@ -96,7 +100,7 @@ class MessageBase(object):
         try:
             self.selector.unregister(self.sock)
         except Exception as e:
-            log.error(f'failed to unregister selector for addr {self.addr}', exc_info=e)
+            log.error(f'exception when trying to unregister selector for addr {self.addr}.', exc_info=e)
         finally:
             # Delete reference to socket object for garbage collection
             self.sock = None
