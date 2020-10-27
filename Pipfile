@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+coverage = "~=5.0"
+flake8 = "~=3.8"
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+server = "python3 -m server"
+client = "python3 -m client"
+test = "coverage run -m unittest"
+report = "coverage report"

@@ -1,0 +1,14 @@
+# MAC OS System files
+.DS_Store
+
+# logs
+logs/
+
+# environment
+.env
+.venv
+.ENV
+.VENV
+
+# Byte-compiled / optimized / DLL files
+*__pycache__/

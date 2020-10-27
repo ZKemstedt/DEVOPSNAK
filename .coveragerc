@@ -1,0 +1,6 @@
+[run]
+branch = true
+source =
+    client
+    server
+    tests
