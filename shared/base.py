@@ -4,10 +4,10 @@
 
 import sys
 import selectors
-import json
-import io
 import struct
 import logging
+
+from shared.utils import json_encode, json_decode
 
 log = logging.getLogger(__name__)
 
@@ -23,6 +23,8 @@ class MessageBase(object):
         self.jsonheader_len = None
         self.jsonheader = None
 
+    # --- core ---
+
     def _set_selector_events_mask(self, mode):
         """Set selector to listen for events: mode if 'r', 'w', or 'rw'."""
         if mode == 'r':
@@ -35,6 +37,33 @@ class MessageBase(object):
             raise ValueError(f'Invalid events mask mode {repr(mode)}.')
         log.debug(f'{self.addr} selector set to listen for \'{mode}\'')
         self.selector.modify(self.sock, events, data=self)
+
+    def process_events(self, mask):
+        if mask & selectors.EVENT_READ:
+            self.read()
+        if mask & selectors.EVENT_WRITE:
+            self.write()
+
+    def close(self):
+        log.info(f'closing connection to {self.addr}')
+        try:
+            self.selector.unregister(self.sock)
+        except Exception as e:
+            log.exception(f'exception when trying to unregister selector for addr {self.addr}.', exc_info=e)
+
+        try:
+            self.sock.close()
+        except OSError as e:
+            log.exception(f'exception when trying to close socket for addr {self.addr}.', exc_info=e)
+        finally:
+            # Delete reference to socket object for garbage collection
+            self.sock = None
+
+    def read(self):
+        raise NotImplementedError('Must be implemented by child class.')
+
+    def write(self):
+        raise NotImplementedError('Must be implemented by child class.')
 
     def _read(self):
         try:
@@ -62,13 +91,7 @@ class MessageBase(object):
             else:
                 self._send_buffer = self._send_buffer[sent:]
 
-    def _json_encode(self, obj, encoding):
-        return json.dumps(obj, ensure_ascii=False).encode(encoding)
-
-    def _json_decode(self, json_bytes, encoding):
-        with io.TextIOWrapper(io.BytesIO(json_bytes), encoding=encoding, newline='') as tiow:
-            obj = json.load(tiow)
-        return obj
+    # --- outbound ---
 
     def _create_message(self, *, content_bytes, content_type, content_encoding):
         jsonheader = {
@@ -77,37 +100,12 @@ class MessageBase(object):
             'content-encoding': content_encoding,
             'content-length': len(content_bytes),
         }
-        jsonheader_bytes = self._json_encode(jsonheader, 'utf-8')
+        jsonheader_bytes = json_encode(jsonheader, 'utf-8')
         messageheader = struct.pack('>H', len(jsonheader_bytes))
         message = messageheader + jsonheader_bytes + content_bytes
         return message
 
-    def process_events(self, mask):
-        if mask & selectors.EVENT_READ:
-            self.read()
-        if mask & selectors.EVENT_WRITE:
-            self.write()
-
-    def read(self):
-        raise NotImplementedError('Must be implemented by child class.')
-
-    def write(self):
-        raise NotImplementedError('Must be implemented by child class.')
-
-    def close(self):
-        log.info(f'closing connection to {self.addr}')
-        try:
-            self.selector.unregister(self.sock)
-        except Exception as e:
-            log.exception(f'exception when trying to unregister selector for addr {self.addr}.', exc_info=e)
-
-        try:
-            self.sock.close()
-        except OSError as e:
-            log.exception(f'exception when trying to close socket for addr {self.addr}.', exc_info=e)
-        finally:
-            # Delete reference to socket object for garbage collection
-            self.sock = None
+    # --- inbound ---
 
     def process_protoheader(self):
         hdrlen = 2
@@ -118,7 +116,7 @@ class MessageBase(object):
     def process_jsonheader(self):
         hdrlen = self.jsonheader_len
         if len(self._recv_buffer) >= hdrlen:
-            self.jsonheader = self._json_decode(self._recv_buffer[:hdrlen], 'utf-8')
+            self.jsonheader = json_decode(self._recv_buffer[:hdrlen], 'utf-8')
             self._recv_buffer = self._recv_buffer[hdrlen]
 
             for req in ['byteorder', 'content-length', 'content-type', 'content-encoding']:
@@ -137,7 +135,7 @@ class MessageBase(object):
         _type = self.jsonheader['content-type']
         if _type == 'text/json':
             encoding = self.jsonheader['content-encoding']
-            data = self._json_decode(data, encoding)
+            data = self.json_decode(data, encoding)
 
             log.info(f'received {repr(data)} from {self.addr}')
             self.process_inc_json(data)
