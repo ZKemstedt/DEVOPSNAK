@@ -89,19 +89,22 @@ class MessageBase(object):
             self.write()
 
     def read(self):
-        pass  # TODO
-        # Keep track of states
+        raise NotImplementedError('Must be implemented by child class.')
 
     def write(self):
-        pass  # TODO
-        # Keep track of states
+        raise NotImplementedError('Must be implemented by child class.')
 
     def close(self):
         log.info(f'closing connection to {self.addr}')
         try:
             self.selector.unregister(self.sock)
         except Exception as e:
-            log.error(f'exception when trying to unregister selector for addr {self.addr}.', exc_info=e)
+            log.exception(f'exception when trying to unregister selector for addr {self.addr}.', exc_info=e)
+
+        try:
+            self.sock.close()
+        except OSError as e:
+            log.exception(f'exception when trying to close socket for addr {self.addr}.', exc_info=e)
         finally:
             # Delete reference to socket object for garbage collection
             self.sock = None
@@ -121,3 +124,29 @@ class MessageBase(object):
             for req in ['byteorder', 'content-length', 'content-type', 'content-encoding']:
                 if req not in self.jsonheader:
                     raise ValueError(f'Missing required header "{req}".')
+
+    def process_incoming_message(self):
+        """
+        Process the incoming message by reading `content-len` from the buffer.
+        If the `content-type` is json, decode it.
+        When done, set the selector to listen to write events.
+        """
+        content_len = self.jsonheader['content-length']
+        if not len(self._recv_buffer) >= content_len:
+            return
+        data = self._recv_buffer[:content_len]
+        self._recv_buffer = self._recv_buffer[content_len:]
+
+        _type = self.jsonheader['content-type']
+        if _type == 'text/json':
+            # content type is json
+            encoding = self.jsonheader['content-encoding']
+            self.request = self._json_decode(data, encoding)
+            log.info(f'received request {repr(self.request)} from {self.addr}')
+        else:
+            # content type is binary (or unknown)
+            self.request = data
+            log.info(f'received {_type} request from {self.addr}')
+
+        # set selector to listen for write events, we're done reading.
+        self._set_selector_events_mask('w')
