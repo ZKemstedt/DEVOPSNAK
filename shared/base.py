@@ -14,13 +14,13 @@ log = logging.getLogger(__name__)
 
 class MessageBase(object):
 
-    def __init(self, selector, sock, addr):
+    def __init__(self, selector, sock, addr):
         self.selector = selector
         self.sock = sock
         self.addr = addr
         self._recv_buffer = b''
         self._send_buffer = b''
-        self.jsonheader_len = None
+        self._jsonheader_len = None
         self.jsonheader = None
 
     # --- core ---
@@ -110,14 +110,14 @@ class MessageBase(object):
     def process_protoheader(self):
         hdrlen = 2
         if len(self._recv_buffer) >= hdrlen:
-            self.jsonheader_len = struct.unpack('>H', self._recv_buffer[hdrlen:])[0]
+            self._jsonheader_len = struct.unpack('>H', self._recv_buffer[:hdrlen])[0]
             self._recv_buffer = self._recv_buffer[hdrlen:]
 
     def process_jsonheader(self):
-        hdrlen = self.jsonheader_len
+        hdrlen = self._jsonheader_len
         if len(self._recv_buffer) >= hdrlen:
             self.jsonheader = json_decode(self._recv_buffer[:hdrlen], 'utf-8')
-            self._recv_buffer = self._recv_buffer[hdrlen]
+            self._recv_buffer = self._recv_buffer[hdrlen:]
 
             for req in ['byteorder', 'content-length', 'content-type', 'content-encoding']:
                 if req not in self.jsonheader:
@@ -135,7 +135,7 @@ class MessageBase(object):
         _type = self.jsonheader['content-type']
         if _type == 'text/json':
             encoding = self.jsonheader['content-encoding']
-            data = self.json_decode(data, encoding)
+            data = json_decode(data, encoding)
 
             log.info(f'received {repr(data)} from {self.addr}')
             self.process_inc_json(data)
