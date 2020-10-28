@@ -126,27 +126,27 @@ class MessageBase(object):
                     raise ValueError(f'Missing required header "{req}".')
 
     def process_incoming_message(self):
-        """
-        Process the incoming message by reading `content-len` from the buffer.
-        If the `content-type` is json, decode it.
-        When done, set the selector to listen to write events.
-        """
+        # 1. read message from buffer
         content_len = self.jsonheader['content-length']
         if not len(self._recv_buffer) >= content_len:
             return
         data = self._recv_buffer[:content_len]
         self._recv_buffer = self._recv_buffer[content_len:]
 
+        # 2. process the message content
         _type = self.jsonheader['content-type']
         if _type == 'text/json':
-            # content type is json
             encoding = self.jsonheader['content-encoding']
-            self.request = self._json_decode(data, encoding)
-            log.info(f'received request {repr(self.request)} from {self.addr}')
-        else:
-            # content type is binary (or unknown)
-            self.request = data
-            log.info(f'received {_type} request from {self.addr}')
+            data = self._json_decode(data, encoding)
 
-        # set selector to listen for write events, we're done reading.
-        self._set_selector_events_mask('w')
+            log.info(f'received {repr(data)} from {self.addr}')
+            self.process_inc_json(data)
+        else:
+            log.info(f'received {_type} from {self.addr}')
+            self.process_inc_binary(data)
+
+    def process_inc_json(self, data):
+        raise NotImplementedError('must be implemented by child class.')
+
+    def process_inc_binary(self, data):
+        raise NotImplementedError('must be implemented by child class.')
