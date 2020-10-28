@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 
 
 class MessageBase(object):
+
     def __init(self, selector, sock, addr):
         self.selector = selector
         self.sock = sock
