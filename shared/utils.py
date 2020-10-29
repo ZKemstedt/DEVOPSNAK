@@ -15,19 +15,50 @@ def json_decode(json_bytes, encoding):
     return obj
 
 
-def create_request(action, value):
+def create_json_request(action, value):
     content = {'action': action, 'value': value}
-    return {
-        'content-type': 'text/json',
-        'content-encoding': 'utf-8',
-        'content-bytes': json_encode(content, 'utf-8'),
-    }
+    return create_json(content)
 
 
-def create_response(result, data):
+def create_json_response(result, data):
     content = {'result': result, 'data': data}
+    return create_json(content)
+
+
+def create_json(content):
     return {
-        'content-type': 'text/json',
-        'content-encoding': 'utf-8',
-        'content-bytes': json_encode(content, 'utf-8'),
+        'content_type': 'text/json',
+        'content_encoding': 'utf-8',
+        'content_bytes': json_encode(content, 'utf-8'),
     }
+
+
+def create_binary_request(data):
+    return {
+        'content_type': 'binary/custom',
+        'content_encoding': 'binary',
+        'content_bytes': data,
+    }
+
+
+def create_binary_response(data):
+    return create_binary_request(data)
+
+
+def format_time(seconds):
+    value, unit = rep_div_mod(seconds, ['s', 'm', 'h'], 60, 99)
+    if value > 99:
+        value, unit = rep_div_mod(value, ['d'], 24, 60)
+    if value > 30:
+        value, unit = rep_div_mod(value, ['M'], 30, 12)
+    if value > 12:
+        value, units = rep_div_mod(value, ['y'], 12, 99)
+    return f'{value}{unit}'
+
+
+def rep_div_mod(lower, units, div, br=99):
+    for unit in units:
+        higher, lower = divmod(lower, div)
+        if higher <= br:
+            return higher, unit
+    return higher, unit
