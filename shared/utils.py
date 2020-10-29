@@ -33,16 +33,19 @@ def create_json(content):
     }
 
 
-def create_binary_request(data):
-    return {
+def create_binary_request(data, name=None):
+    d = {
         'content_type': 'binary/custom',
         'content_encoding': 'binary',
         'content_bytes': data,
     }
+    if name:
+        d['content_name'] = name
+    return d
 
 
-def create_binary_response(data):
-    return create_binary_request(data)
+def create_binary_response(data, name=None):
+    return create_binary_request(data, name)
 
 
 def format_time(seconds):

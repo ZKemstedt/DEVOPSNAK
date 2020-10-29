@@ -8,10 +8,6 @@ log = logging.getLogger(__name__)
 
 
 class FileManager(object):
-    # register file to track state of the files we have.
-    # is it necessary?
-    # could just generate it from (list_files())
-    # hmmm
 
     def __init__(self, path):
         self.folder = Path(path)
@@ -48,9 +44,6 @@ class FileManager(object):
         return self.register
 
     def remove_file(self, filename: str):
-        pass
-
-    def add_file(self, fileobj):
         pass
 
     def get_file(self, filename: str):

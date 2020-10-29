@@ -95,12 +95,13 @@ class MessageBase(object):
 
     # --- outbound ---
 
-    def _create_message(self, *, content_bytes, content_type, content_encoding):
+    def _create_message(self, *, content_bytes, content_type, content_encoding, content_name=None):
         jsonheader = {
             'byteorder': sys.byteorder,
             'content-type': content_type,
             'content-encoding': content_encoding,
             'content-length': len(content_bytes),
+            'content-name': content_name,
         }
         jsonheader_bytes = json_encode(jsonheader, 'utf-8')
         messageheader = struct.pack('>H', len(jsonheader_bytes))

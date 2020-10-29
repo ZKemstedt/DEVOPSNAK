@@ -1,7 +1,7 @@
 import logging
 
 from shared.base import MessageBase
-from shared.utils import create_json_request
+from shared.utils import create_json_request, create_binary_request
 
 log = logging.getLogger(__name__)
 
@@ -12,12 +12,17 @@ class Message(MessageBase):
 
     def __init__(self, selector, sock, addr, files, action, value):
         super().__init__(selector, sock, addr, files)
-        self.request = create_json_request(action, value)
         self._request_queued = False
         self.response = None
         self._response_handled = False
         self.action = action
         self.value = value
+
+        if action == 'send-file':
+            data = files.get_file(value)
+            self.request = create_binary_request(data, value)
+        else:
+            self.request = create_json_request(action, value)
 
     def read(self):
         self._read()
@@ -86,5 +91,8 @@ class Message(MessageBase):
 
                 elif action == 'request-register':
                     self.files.remote = data
+
+                elif action == 'send-file':
+                    print(result)
 
         self._response_handled = True

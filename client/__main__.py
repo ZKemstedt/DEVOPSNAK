@@ -30,7 +30,7 @@ def from_keyboard(arg1, arg2):
         raise KeyboardInterrupt
     elif line == 'list-files':
         start_connection(host, port, 'list-files', None)
-    elif line.startswith('get-file'):
+    elif line.startswith('get-file') or line.startswith('send-file'):
         args = line.split()
         action = args.pop(0)
         value = ''.join(args)

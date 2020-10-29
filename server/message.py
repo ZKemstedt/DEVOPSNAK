@@ -56,40 +56,47 @@ class Message(MessageBase):
 
     def build_response(self):
         """Create the response message and add it to the buffer"""
-        action = self.request.get('action')
-        value = self.request.get('value')
-        log.info(f'request: {action} ({value}) from {self.addr}')
-
         file = None
 
-        if action == 'get-file':
-            file = self.files.get_file(value)
-            if file is None:
-                result = 'error'
-                data = f'file named {value} does not exist.'
-                response = create_json_response(result, data)
-            else:
+        if self.jsonheader['content-type'] == 'binary/custom':
+            name = self.jsonheader.get('content-name', None)
+            if name:
+                self.files.write_file(name, self.request)
                 result = 'success'
-                data = {'file-length': f'{len(file)}'}
-                response = create_binary_response(file)
+            else:
+                result = 'error'
+            response = create_json_response(result, None)
         else:
+            action = self.request.get('action')
+            value = self.request.get('value')
+            log.info(f'request: {action} ({value}) from {self.addr}')
 
-            if action == 'list-files':
-                result = 'success'
-                data = self.files.list_files()
-
-            elif action == 'request-register':
-                result = 'success'
-                data = self.files.register
-
+            if action == 'get-file':
+                file = self.files.get_file(value)
+                if file is None:
+                    result = 'error'
+                    data = f'file named {value} does not exist.'
+                    response = create_json_response(result, data)
+                else:
+                    result = 'success'
+                    data = {'file-length': f'{len(file)}'}
+                    response = create_binary_response(file)
             else:
-                result = 'error'
-                data = 'invalid request'
 
-            response = create_json_response(result, data)
+                if action == 'list-files':
+                    result = 'success'
+                    data = self.files.list_files()
+
+                elif action == 'request-register':
+                    result = 'success'
+                    data = self.files.register
+
+                else:
+                    result = 'error'
+                    data = 'invalid request'
+
+                response = create_json_response(result, data)
+        log.info(f'result built: {response}')
         message = self._create_message(**response)
         self._send_buffer += message
         self.response_created = True
-
-        log.debug(f'building response: result: {result}')
-        log.debug(f'building response: file: {file}')
