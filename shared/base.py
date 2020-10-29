@@ -8,13 +8,15 @@ import struct
 import logging
 
 from shared.utils import json_encode, json_decode
+from shared.filemanager import FileManager
 
 log = logging.getLogger(__name__)
 
 
 class MessageBase(object):
 
-    def __init__(self, selector, sock, addr):
+    def __init__(self, selector, sock, addr, filepath):
+        self.files = FileManager(filepath)
         self.selector = selector
         self.sock = sock
         self.addr = addr
@@ -56,37 +58,39 @@ class MessageBase(object):
         except OSError as e:
             log.exception(f'exception when trying to close socket for addr {self.addr}.', exc_info=e)
         finally:
-            # Delete reference to socket object for garbage collection
+            # delete reference to socket object for garbage collection
             self.sock = None
 
     def read(self):
+        # different for server/client
         raise NotImplementedError('Must be implemented by child class.')
 
     def write(self):
+        # different for server/client
         raise NotImplementedError('Must be implemented by child class.')
 
     def _read(self):
         try:
-            # Should be ready to read
+            # should be ready to read
             data = self.sock.recv(4096)
         except BlockingIOError:
-            # Resource temporarily unavailable (errno EWOULDBLOCK)
+            # resource temporarily unavailable (errno EWOULDBLOCK)
             pass
         else:
             if data:
-                log.trace(f'receiving {repr(data)} from {self.addr}')
+                log.trace(f'receiving {len(data)} bytes of data from {self.addr}')
                 self._recv_buffer += data
             else:
-                raise RuntimeError('Peer closed.')  # TODO
+                raise RuntimeError('Peer closed.')
 
     def _write(self):
         if self._send_buffer:
-            log.trace(f'sending {repr(self._send_buffer)} to {self.addr}')
+            log.trace(f'sending {len(self._send_buffer)} bytes of data to {self.addr}')
             try:
-                # Should be ready to write
+                # should be ready to write
                 sent = self.sock.send(self._send_buffer)
             except BlockingIOError:
-                # Resource temporarily unavailable (errno EWOULDBLOCK)
+                # resource temporarily unavailable (errno EWOULDBLOCK)
                 pass
             else:
                 self._send_buffer = self._send_buffer[sent:]
@@ -124,6 +128,7 @@ class MessageBase(object):
                     raise ValueError(f'Missing required header "{req}".')
 
     def process_incoming_message(self):
+        """Returns True when the completed."""
         # 1. read message from buffer
         content_len = self.jsonheader['content-length']
         if not len(self._recv_buffer) >= content_len:
@@ -131,20 +136,17 @@ class MessageBase(object):
         data = self._recv_buffer[:content_len]
         self._recv_buffer = self._recv_buffer[content_len:]
 
-        # 2. process the message content
-        _type = self.jsonheader['content-type']
-        if _type == 'text/json':
+        # 2. if json, decode it.
+        # 2. else: invalid action.
+        content_type = self.jsonheader['content-type']
+        if content_type == 'text/json':
+            log.info(f'received {content_type} from {self.addr}')
             encoding = self.jsonheader['content-encoding']
             data = json_decode(data, encoding)
-
-            log.info(f'received {repr(data)} from {self.addr}')
-            self.process_inc_json(data)
         else:
-            log.info(f'received {_type} from {self.addr}')
-            self.process_inc_binary(data)
+            data = {'action': 'help', 'value': None}
+        self.handle_message(data)
 
-    def process_inc_json(self, data):
-        raise NotImplementedError('must be implemented by child class.')
-
-    def process_inc_binary(self, data):
+    def handle_message(self, data):
+        # different for server/client
         raise NotImplementedError('must be implemented by child class.')
