@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from shared.utils import format_time
+
 
 class FileManager(object):
     # register file to track state of the files we have.
@@ -15,18 +17,24 @@ class FileManager(object):
             self.register[file.name] = {
                 'name': file.name,
                 'size': str(stat.st_size),
-                'last edited': str(stat.st_mtime),
+                'last edited': format_time(stat.st_mtime),
             }
 
     def list_files(self):
-        text = 'stuff\n'  # TODO
+        text = (
+            '\n' + '-'*80 + '\n' +
+            'filename'.ljust(40) +
+            ' | ' + 'size'.rjust(10) +
+            ' | ' + 'last edited'.rjust(10) +
+            '\n'
+        )
         for k, v in self.register.items():
             # text += f'{k}:{v}'
             name = v['name'].ljust(40)
             size = v['size'].rjust(10)
             time = v['last edited'].rjust(10)
 
-            text += f'{name} | {size} | {time}'
+            text += f'{name} | {size} | {time}\n'
         return text
         # name | size | last edit
 
@@ -40,14 +48,16 @@ class FileManager(object):
         pass
 
     def get_file(self, filename: str):
+        """Return the fileobject as a bytes object if found, otherwise None"""
         file = Path(self.folder, filename)
         if file.exists():
             with file.open(mode='rb') as f:
                 data = f.read()
             return data
-        return 'Error: file does not exist'
+        return None
 
     def write_file(self, filename, data):
+        """Write a local file."""
         file = Path(self.folder, filename)
         with file.open(mode='wb') as f:
             f.write(data)
