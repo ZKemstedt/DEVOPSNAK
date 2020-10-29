@@ -9,38 +9,23 @@ sel = selectors.DefaultSelector()
 
 host = '127.0.0.1'
 port = 65432
+filepath = 'client/files'
 
 
-def create_request(action, value=None):
-    if action == 'upload':
-        return dict(
-            type='binary/custom',
-            encoding='binary',
-            content=bytes(action + value, encoding='utf-8')
-        )
-    else:
-        return dict(
-            type='text/json',
-            encoding='utf-8',
-            content=dict(action=action, value=value),
-        )
-
-
-def start_connection(host, port, request):
+def start_connection(host, port, action, value):
     addr = (host, port)
     log.info(f'starting connection to {addr}')
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)
     sock.connect_ex(addr)
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    message = Message(sel, sock, addr, request)
+    message = Message(sel, sock, addr, filepath, action, value)
     sel.register(sock, events, data=message)
 
 
-action = 'list-files'
-# value = ''
-request = create_request(action)
-start_connection(host, port, request)
+action = 'get-file'
+value = 'wallpaper-2791474.jpg'
+start_connection(host, port, action, value)
 
 try:
     while True:
