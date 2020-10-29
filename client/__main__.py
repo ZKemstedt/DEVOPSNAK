@@ -49,6 +49,24 @@ def start_connection(host, port, action, value):
     sel.register(sock, events, data=message)
 
 
+def selector_wrapper(key, mask):
+    if isinstance(key.data, Message):
+        message = key.data
+        try:
+            message.process_events(mask)
+        except Exception as e:
+            log.exception('encountered exception when trying to process events for a socket.', exc_info=e)
+            message.close()
+    else:
+        callback = key.data
+        try:
+            callback(key.fileobj, mask)
+        except KeyboardInterrupt:
+            raise
+        except Exception as e:
+            log.exception('encountered exception in main loop.', exc_info=e)
+
+
 set_input_nonblocking()
 sel.register(sys.stdin, selectors.EVENT_READ, from_keyboard)
 
@@ -61,21 +79,7 @@ try:
         sys.stdout.flush()
 
         for key, mask in sel.select():
-            if isinstance(key.data, Message):
-                message = key.data
-                try:
-                    message.process_events(mask)
-                except Exception as e:
-                    log.exception('encountered exception when trying to process events for a socket.', exc_info=e)
-                    message.close()
-            else:
-                callback = key.data
-                try:
-                    callback(key.fileobj, mask)
-                except KeyboardInterrupt:
-                    raise
-                except Exception as e:
-                    log.exception('encountered exception in main loop.', exc_info=e)
+            selector_wrapper(key, mask)
 
 except KeyboardInterrupt:
     log.info('Closing client.')
