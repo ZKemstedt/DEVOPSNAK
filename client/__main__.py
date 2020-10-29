@@ -1,3 +1,6 @@
+import os
+import sys
+import fcntl
 import socket
 import selectors
 import logging
@@ -12,6 +15,27 @@ port = 65432
 filepath = 'client/files'
 
 
+# https://stackoverflow.com/questions/21791621/taking-input-from-sys-stdin-non-blocking
+def set_input_nonblocking():
+    orig_fl = fcntl.fcntl(sys.stdin, fcntl.F_GETFL)
+    fcntl.fcntl(sys.stdin, fcntl.F_SETFL, orig_fl | os.O_NONBLOCK)
+
+
+def from_keyboard(arg1, arg2):
+    line = arg1.read().rstrip('\n')
+    if line == 'quit':
+        raise KeyboardInterrupt
+    elif line == 'list-files':
+        start_connection(host, port, 'list-files', None)
+    elif line.startswith('get-file'):
+        args = line.split()
+        action = args.pop(0)
+        value = ''.join(args)
+        start_connection(host, port, action, value)
+    else:
+        log.info(f'user input: {line}')
+
+
 def start_connection(host, port, action, value):
     addr = (host, port)
     log.info(f'starting connection to {addr}')
@@ -23,24 +47,36 @@ def start_connection(host, port, action, value):
     sel.register(sock, events, data=message)
 
 
-action = 'get-file'
-value = 'wallpaper-2791474.jpg'
-start_connection(host, port, action, value)
+set_input_nonblocking()
+sel.register(sys.stdin, selectors.EVENT_READ, from_keyboard)
 
 try:
+    # loops ends by keyboard interrupt.
+    # the reason for this is to be able to bail out
+    # in case something gets stuck.
     while True:
-        events = sel.select(timeout=1)
-        for key, mask in events:
-            message = key.data
-            try:
-                message.process_events(mask)
-            except Exception as e:
-                log.exception('encountered exception when trying to process events.', exc_info=e)
-                message.close()
-        # Check for a socket being monitored to continue.
-        if not sel.get_map():
-            break
+        sys.stdout.write('>>> ')
+        sys.stdout.flush()
+
+        for key, mask in sel.select():
+            if isinstance(key.data, Message):
+                message = key.data
+                try:
+                    message.process_events(mask)
+                except Exception as e:
+                    log.exception('encountered exception when trying to process events for a socket.', exc_info=e)
+                    message.close()
+            else:
+                callback = key.data
+                try:
+                    callback(key.fileobj, mask)
+                except KeyboardInterrupt:
+                    raise
+                except Exception as e:
+                    log.exception('encountered exception in main loop.', exc_info=e)
+
 except KeyboardInterrupt:
-    log.info('keyboard interrupt, exiting.')
+    log.info('Closing client.')
 finally:
+    sel.unregister(sys.stdin)
     sel.close()
