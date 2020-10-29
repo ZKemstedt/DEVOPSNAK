@@ -2,7 +2,7 @@ import struct
 
 
 # Client packs a command, 1 or 2
-#command = struct.pack("!c", b"1")
+# command = struct.pack("!c", b"1")
 command = struct.pack("!c", b"2")
 
 

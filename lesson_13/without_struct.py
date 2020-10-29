@@ -15,12 +15,15 @@ print((255).to_bytes(1, byteorder="big"))
 
 print((256).to_bytes(2, byteorder="big"))
 
+# one byte
 code_1 = "1".encode()
 code_2 = "2".encode()
 code_3 = "9".encode()
-code_4 = "10".encode()
 
 print(len(code_1))
 print(len(code_2))
 print(len(code_3))
+
+# two bytes
+code_4 = "10".encode()
 print(len(code_4))
