@@ -78,17 +78,13 @@ class Message(MessageBase):
             data = self.response.get('data')
 
             if result == 'error':
-                log.info(f'result: {repr(result)}, data: {repr(data)}')
+                log.error(f'result: {repr(result)}, data: {repr(data)}')
 
             elif result == 'success':
                 if action == 'list-files':
-                    log.info(data)
+                    print(data)
 
-                elif action == 'get-file':
-                    # reset state -> wait for another message. (the file)
-                    self._jsonheader_len = None
-                    self.jsonheader = None
-                    self.response = None
-                    return
+                elif action == 'request-register':
+                    self.files.remote = data
 
         self._response_handled = True

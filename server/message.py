@@ -58,6 +58,7 @@ class Message(MessageBase):
         """Create the response message and add it to the buffer"""
         action = self.request.get('action')
         value = self.request.get('value')
+        log.info(f'request: {action} ({value}) from {self.addr}')
 
         file = None
 
@@ -66,23 +67,29 @@ class Message(MessageBase):
             if file is None:
                 result = 'error'
                 data = f'file named {value} does not exist.'
+                response = create_json_response(result, data)
             else:
                 result = 'success'
-                data = {'file length': f'{len(file)}'}
-
-        elif action == 'list-files':
-            result = 'success'
-            data = self.files.list_files()
-
+                data = {'file-length': f'{len(file)}'}
+                response = create_binary_response(file)
         else:
-            result = 'error'
-            data = 'invalid request'
 
-        response = create_json_response(result, data)
+            if action == 'list-files':
+                result = 'success'
+                data = self.files.list_files()
+
+            elif action == 'request-register':
+                result = 'success'
+                data = self.files.register
+
+            else:
+                result = 'error'
+                data = 'invalid request'
+
+            response = create_json_response(result, data)
         message = self._create_message(**response)
-        self.response_created = True
         self._send_buffer += message
-        if file:
-            response = create_binary_response(file)
-            message = self._create_message(**response)
-            self._send_buffer += message
+        self.response_created = True
+
+        log.debug(f'building response: result: {result}')
+        log.debug(f'building response: file: {file}')

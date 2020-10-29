@@ -77,7 +77,6 @@ class MessageBase(object):
             pass
         else:
             if data:
-                log.trace(f'receiving {len(data)} bytes of data from {self.addr}')
                 self._recv_buffer += data
             else:
                 raise RuntimeError('Peer closed.')
@@ -138,7 +137,7 @@ class MessageBase(object):
         content_type = self.jsonheader['content-type']
         if content_type == 'text/json':
             data = json_decode(data, self.jsonheader['content-encoding'])
-        log.info(f'received {content_type} from {self.addr}')
+        log.trace(f'received {content_type} ({content_len}) from {self.addr}')
 
         self.handle_message(data)
 
