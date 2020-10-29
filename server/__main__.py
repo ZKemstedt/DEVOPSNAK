@@ -3,7 +3,6 @@ import selectors
 import logging
 
 from server.message import Message
-from shared.filemanager import FileManager
 
 log = logging.getLogger(__name__)
 sel = selectors.DefaultSelector()
@@ -17,7 +16,7 @@ def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
     log.info(f'accepted connection from {addr}')
     conn.setblocking(False)
-    message = Message(sel, conn, addr, files=FileManager(filepath))
+    message = Message(sel, conn, addr, filepath)
     sel.register(conn, selectors.EVENT_READ, data=message)
 
 
