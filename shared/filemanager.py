@@ -40,7 +40,17 @@ class FileManager(object):
         pass
 
     def get_file(self, filename: str):
-        pass
+        file = Path(self.folder, filename)
+        if file.exists():
+            with file.open(mode='rb') as f:
+                data = f.read()
+            return data
+        return 'Error: file does not exist'
+
+    def write_file(self, filename, data):
+        file = Path(self.folder, filename)
+        with file.open(mode='wb') as f:
+            f.write(data)
 
 
 if __name__ == '__main__':
