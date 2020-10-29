@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from logging import handlers, Logger, Formatter
 
-# import coloredlogs
+import coloredlogs
 
 TRACE_LEVEL = logging.TRACE = 5
 logging.addLevelName(TRACE_LEVEL, 'TRACE')
@@ -30,13 +30,13 @@ root_log = logging.getLogger()
 root_log.setLevel(log_level)
 root_log.addHandler(file_handler)
 
-# coloredlogs.DEFAULT_LEVEL_STYLES = {
-#     **coloredlogs.DEFAULT_LEVEL_STYLES,
-#     'trace': {'color': 246},
-#     'critical': {'background': 'red'},
-#     'debug': coloredlogs.DEFAULT_LEVEL_STYLES['info']
-#     }
-# coloredlogs.DEFAULT_LOG_LEVEL = log_level
-# coloredlogs.DEFAULT_LOG_FORMAT = format_string
+coloredlogs.DEFAULT_LEVEL_STYLES = {
+    **coloredlogs.DEFAULT_LEVEL_STYLES,
+    'trace': {'color': 246},
+    'critical': {'background': 'red'},
+    'debug': coloredlogs.DEFAULT_LEVEL_STYLES['info']
+    }
+coloredlogs.DEFAULT_LOG_LEVEL = log_level
+coloredlogs.DEFAULT_LOG_FORMAT = format_string
 
-# coloredlogs.install(logger=root_log, stream=sys.stdout)
+coloredlogs.install(logger=root_log, stream=sys.stdout)
