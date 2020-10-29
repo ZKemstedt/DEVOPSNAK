@@ -10,8 +10,8 @@ class Message(MessageBase):
 
     # --- overrides ---
 
-    def __init__(self, selector, sock, addr, filepath):
-        super().__init__(selector, sock, addr, filepath)
+    def __init__(self, selector, sock, addr, files):
+        super().__init__(selector, sock, addr, files)
         self.request = None
         self.response_created = False
 

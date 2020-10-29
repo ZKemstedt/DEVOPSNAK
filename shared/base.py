@@ -8,15 +8,14 @@ import struct
 import logging
 
 from shared.utils import json_encode, json_decode
-from shared.filemanager import FileManager
 
 log = logging.getLogger(__name__)
 
 
 class MessageBase(object):
 
-    def __init__(self, selector, sock, addr, filepath):
-        self.files = FileManager(filepath)
+    def __init__(self, selector, sock, addr, files):
+        self.files = files
         self.selector = selector
         self.sock = sock
         self.addr = addr

@@ -6,6 +6,7 @@ import selectors
 import logging
 
 from client.message import Message
+from shared.filemanager import FileManager
 
 log = logging.getLogger(__name__)
 sel = selectors.DefaultSelector()
@@ -13,6 +14,7 @@ sel = selectors.DefaultSelector()
 host = '127.0.0.1'
 port = 65432
 filepath = 'client/files'
+filemanager = FileManager(filepath)
 
 
 # https://stackoverflow.com/questions/21791621/taking-input-from-sys-stdin-non-blocking
@@ -43,7 +45,7 @@ def start_connection(host, port, action, value):
     sock.setblocking(False)
     sock.connect_ex(addr)
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    message = Message(sel, sock, addr, filepath, action, value)
+    message = Message(sel, sock, addr, filemanager, action, value)
     sel.register(sock, events, data=message)
 
 

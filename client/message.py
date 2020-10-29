@@ -10,8 +10,8 @@ class Message(MessageBase):
 
     # --- overrides ---
 
-    def __init__(self, selector, sock, addr, filepath, action, value):
-        super().__init__(selector, sock, addr, filepath)
+    def __init__(self, selector, sock, addr, files, action, value):
+        super().__init__(selector, sock, addr, files)
         self.request = create_json_request(action, value)
         self._request_queued = False
         self.response = None
