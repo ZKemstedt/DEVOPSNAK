@@ -128,7 +128,6 @@ class MessageBase(object):
                     raise ValueError(f'Missing required header "{req}".')
 
     def process_incoming_message(self):
-        """Returns True when the completed."""
         # 1. read message from buffer
         content_len = self.jsonheader['content-length']
         if not len(self._recv_buffer) >= content_len:
@@ -137,14 +136,11 @@ class MessageBase(object):
         self._recv_buffer = self._recv_buffer[content_len:]
 
         # 2. if json, decode it.
-        # 2. else: invalid action.
         content_type = self.jsonheader['content-type']
         if content_type == 'text/json':
-            log.info(f'received {content_type} from {self.addr}')
-            encoding = self.jsonheader['content-encoding']
-            data = json_decode(data, encoding)
-        else:
-            data = {'action': 'help', 'value': None}
+            data = json_decode(data, self.jsonheader['content-encoding'])
+        log.info(f'received {content_type} from {self.addr}')
+
         self.handle_message(data)
 
     def handle_message(self, data):
