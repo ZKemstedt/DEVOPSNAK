@@ -2,6 +2,7 @@ import os
 import sys
 import fcntl
 import socket
+import threading
 import selectors
 import logging
 
@@ -49,6 +50,32 @@ def start_connection(host, port, action, value):
     sel.register(sock, events, data=message)
 
 
+def sync_get():
+    action = 'request-register'
+    value = None
+    start_connection(host, port, action, value)
+    log.trace('sync: requesting remote register')
+
+    global sync_tick
+    sync_tick = threading.Timer(interval=2, function=sync_compare)
+    sync_tick.start()
+    log.trace('sync stage 1 end')
+
+
+def sync_compare():
+    filemanager.compare_registers()
+    for filename in filemanager.todo:
+        action = 'get-file'
+        value = filename
+        start_connection(host, port, action, value)
+        log.info(f'sync: requesting file {filename}')
+
+    global sync_tick
+    sync_tick = threading.Timer(interval=30, function=sync_get)
+    sync_tick.start()
+    log.trace('sync stage 2 end')
+
+
 def selector_wrapper(key, mask):
     if isinstance(key.data, Message):
         message = key.data
@@ -70,7 +97,10 @@ def selector_wrapper(key, mask):
 set_input_nonblocking()
 sel.register(sys.stdin, selectors.EVENT_READ, from_keyboard)
 
+sync_tick = threading.Timer(interval=5, function=sync_get)
+
 try:
+    sync_tick.start()
     # loops ends by keyboard interrupt.
     # the reason for this is to be able to bail out
     # in case something gets stuck.
@@ -82,7 +112,8 @@ try:
             selector_wrapper(key, mask)
 
 except KeyboardInterrupt:
-    log.info('Closing client.')
+    log.info('client exit')
 finally:
+    sync_tick.cancel()
     sel.unregister(sys.stdin)
     sel.close()
