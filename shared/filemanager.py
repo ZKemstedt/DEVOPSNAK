@@ -1,9 +1,10 @@
 import os
 import logging
 
+from time import time, ctime
 from pathlib import Path
 
-from shared.utils import format_time
+# from shared.utils import format_time
 
 log = logging.getLogger(__name__)
 
@@ -20,7 +21,7 @@ class FileManager(object):
             self.register[file.name] = {
                 'name': file.name,
                 'size': str(stat.st_size),
-                'last edited': stat.st_mtime,
+                'last edited': time() - stat.st_mtime,
             }
 
     def list_files(self):
@@ -36,7 +37,8 @@ class FileManager(object):
         for k, v in self.register.items():
             name = v['name'].ljust(40)
             size = v['size'].rjust(10)
-            time = format_time(v['last edited']).rjust(10)
+            # time = format_time(v['last edited']).rjust(10)
+            time = ctime(v['last edited'])
 
             text += f'{name} | {size} | {time}\n'
         return text

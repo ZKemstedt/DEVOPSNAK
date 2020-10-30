@@ -48,20 +48,25 @@ def create_binary_response(data, name=None):
     return create_binary_request(data, name)
 
 
-def format_time(seconds):
-    value, unit = rep_div_mod(seconds, ['s', 'm', 'h'], 60, 99)
-    if value > 99:
-        value, unit = rep_div_mod(value, ['d'], 24, 60)
-    if value > 30:
-        value, unit = rep_div_mod(value, ['M'], 30, 12)
-    if value > 12:
-        value, units = rep_div_mod(value, ['y'], 12, 99)
-    return f'{value}{unit}'
+# def format_time(seconds):
+#     value = int(seconds)
+#     if value < 99:
+#         return f'{value}s'
+
+#     value, unit = rep_div_mod(value, ['m', 'h'], 60, 99)
+#     if unit == 'h' and value > 99:
+#         value, unit = rep_div_mod(value, ['d'], 24, 60)
+#     elif unit == 'd' and value > 30:
+#         value, unit = rep_div_mod(value, ['M'], 30, 12)
+#     elif unit == 'M' and value > 12:
+#         value, units = rep_div_mod(value, ['y'], 12, 99)
+#     return f'{value}{unit}'
 
 
-def rep_div_mod(lower, units, div, br=99):
-    for unit in units:
-        higher, lower = divmod(lower, div)
-        if higher <= br:
-            return higher, unit
-    return higher, unit
+# def rep_div_mod(lower, units, div, br=99):
+#     for unit in units:
+#         lower, r = divmod(lower, div)
+#         log.debug(f'div: {int(lower)} {unit}')
+#         if lower <= br:
+#             return lower, unit
+#     return lower, unit
