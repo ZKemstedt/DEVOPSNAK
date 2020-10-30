@@ -48,6 +48,13 @@ def create_binary_response(data, name=None):
     return create_binary_request(data, name)
 
 
+def check_timediff(time1, time2):
+    """Return True if time1 is the same as time2 within a 10 second margin"""
+    log.trace(f't1: {time1}, t2 :{time2}')
+    if abs(time1 - time2) > 10:
+        return True
+    return False
+
 # def format_time(seconds):
 #     value = int(seconds)
 #     if value < 99:

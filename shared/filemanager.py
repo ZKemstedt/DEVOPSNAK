@@ -4,7 +4,7 @@ import logging
 from time import time, ctime
 from pathlib import Path
 
-# from shared.utils import format_time
+from shared.utils import check_timediff
 
 log = logging.getLogger(__name__)
 
@@ -25,6 +25,7 @@ class FileManager(object):
             }
 
     def list_files(self):
+        """return a string displaying the local files"""
         # header
         headline = "-"*80
         name = 'filename'.ljust(40)
@@ -47,6 +48,7 @@ class FileManager(object):
         return self.register
 
     def remove_file(self, filename: str):
+        """Remove a local file"""
         file = Path(self.folder, filename)
         if file.exists():
             try:
@@ -89,14 +91,6 @@ class FileManager(object):
                 time2 = self.register[key]['last edited']
                 if not check_timediff(time1, time2):
                     self.todo.append(key)
-
-
-def check_timediff(time1, time2):
-    """Return True if time1 is the same as time2"""
-    log.trace(f't1: {time1}, t2 :{time2}')
-    if abs(time1 - time2) > 10:
-        return True
-    return False
 
 
 if __name__ == '__main__':
