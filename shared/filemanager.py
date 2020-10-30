@@ -1,3 +1,4 @@
+import os
 import logging
 
 from pathlib import Path
@@ -44,7 +45,15 @@ class FileManager(object):
         return self.register
 
     def remove_file(self, filename: str):
-        pass
+        file = Path(self.folder, filename)
+        if file.exists():
+            try:
+                os.remove(file)
+                del self.register[filename]
+                return None
+            except Exception as e:
+                log.error(f'failed to remove file `{filename}`', exc_info=e)
+        return f'failed to remove file `{filename}`'
 
     def get_file(self, filename: str):
         """Return the fileobject as a bytes object if found, otherwise None"""

@@ -87,6 +87,10 @@ class Message(MessageBase):
                     result = 'success'
                     data = self.files.list_files()
 
+                elif action == 'remove-file':
+                    data = self.files.remove_file(value)
+                    result = 'succcess' if data is None else 'error'
+
                 elif action == 'request-register':
                     result = 'success'
                     data = self.files.register
