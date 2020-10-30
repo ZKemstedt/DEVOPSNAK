@@ -86,13 +86,9 @@ class Message(MessageBase):
                 log.error(f'result: {repr(result)}, data: {repr(data)}')
 
             elif result == 'success':
-                if action == 'list-files':
-                    print(data)
-
-                elif action == 'request-register':
+                if action == 'request-register':
                     self.files.remote = data
-
-                elif action == 'send-file':
+                else:
                     print(result)
 
         self._response_handled = True
