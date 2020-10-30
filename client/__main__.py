@@ -17,6 +17,23 @@ port = 65432
 filepath = 'client/files'
 filemanager = FileManager(filepath)
 
+aliases = {
+    'ls': 'list-files',
+    'get': 'get-file',
+    'send': 'send-file',
+    'rm': 'remove-file',
+}
+
+help_commands = (
+            ' --- commands ---\n'
+            'quit\n'
+            '?\n'
+            'list-files\n'
+            'get-file <filename>\n'
+            'send-file <filename>\n'
+            'remove-file <filename>\n'
+        )
+
 
 # https://stackoverflow.com/questions/21791621/taking-input-from-sys-stdin-non-blocking
 def set_input_nonblocking():
@@ -26,17 +43,31 @@ def set_input_nonblocking():
 
 def from_keyboard(arg1, arg2):
     line = arg1.read().rstrip('\n')
-    if line == 'quit':
+
+    if not line:
+        return
+
+    elif line == 'quit':
         raise KeyboardInterrupt
-    elif line == 'list-files':
-        start_connection(host, port, 'list-files', None)
-    elif line.startswith('get-file') or line.startswith('send-file'):
-        args = line.split()
-        action = args.pop(0)
-        value = ''.join(args)
-        start_connection(host, port, action, value)
+
+    elif line == '?':
+        print(help_commands)
+
+    elif line == 'ls local' or line == 'local':
+        print(filemanager.list_files())
+
     else:
-        log.info(f'user input: {line}')
+        args = line.split()
+        action = aliases.get(args.pop(0), None)
+        if not action:
+            print('invalid action')
+            return
+
+        if args:
+            value = ''.join(args)
+        else:
+            value = None
+        start_connection(host, port, action, value)
 
 
 def start_connection(host, port, action, value):
@@ -50,33 +81,31 @@ def start_connection(host, port, action, value):
     sel.register(sock, events, data=message)
 
 
-def sync_get():
+def sync_clock(wait, func):
+    global sync
+    sync = threading.Timer(interval=wait, function=func)
+    sync.start()
+
+
+def check_sync():
     action = 'request-register'
     value = None
     start_connection(host, port, action, value)
-    log.trace('sync: requesting remote register')
-
-    global sync_tick
-    sync_tick = threading.Timer(interval=2, function=sync_compare)
-    sync_tick.start()
-    log.trace('sync stage 1 end')
+    sync_clock(wait=2, func=compare_and_sync)
 
 
-def sync_compare():
+def compare_and_sync():
     filemanager.compare_registers()
     for filename in filemanager.todo:
         action = 'get-file'
         value = filename
         start_connection(host, port, action, value)
         log.info(f'sync: requesting file {filename}')
-
-    global sync_tick
-    sync_tick = threading.Timer(interval=30, function=sync_get)
-    sync_tick.start()
-    log.trace('sync stage 2 end')
+    sync_clock(wait=30, func=check_sync)
 
 
 def selector_wrapper(key, mask):
+    # socket event
     if isinstance(key.data, Message):
         message = key.data
         try:
@@ -84,6 +113,7 @@ def selector_wrapper(key, mask):
         except Exception as e:
             log.exception('encountered exception when trying to process events for a socket.', exc_info=e)
             message.close()
+    # stdin event
     else:
         callback = key.data
         try:
@@ -97,10 +127,10 @@ def selector_wrapper(key, mask):
 set_input_nonblocking()
 sel.register(sys.stdin, selectors.EVENT_READ, from_keyboard)
 
-sync_tick = threading.Timer(interval=5, function=sync_get)
+sync = threading.Timer(interval=2, function=sync_clock, args=(0, check_sync))
 
 try:
-    sync_tick.start()
+    sync.start()
     # loops ends by keyboard interrupt.
     # the reason for this is to be able to bail out
     # in case something gets stuck.
@@ -114,6 +144,6 @@ try:
 except KeyboardInterrupt:
     log.info('client exit')
 finally:
-    sync_tick.cancel()
+    sync.cancel()
     sel.unregister(sys.stdin)
     sel.close()
