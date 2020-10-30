@@ -19,9 +19,9 @@ Logger.trace = monkeypatch_trace
 
 if len(sys.argv) >= 2:
     try:
-        log_level = sys.argv[2]
+        log_level = int(sys.argv[1])
     except Exception:
-        print(f'Error: invalid log level {sys.argv[2]}')
+        print(f'Error: invalid log level {sys.argv[1]}')
         sys.exit(1)
 else:
     log_level = logging.INFO
