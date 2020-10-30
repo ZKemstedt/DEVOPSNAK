@@ -17,7 +17,15 @@ def monkeypatch_trace(self: Logger, msg: str, *args, **kwargs) -> None:
 
 Logger.trace = monkeypatch_trace
 
-log_level = TRACE_LEVEL
+if len(sys.argv) >= 2:
+    try:
+        log_level = sys.argv[2]
+    except Exception:
+        print(f'Error: invalid log level {sys.argv[2]}')
+        sys.exit(1)
+else:
+    log_level = logging.INFO
+
 format_string = '%(asctime)s | %(name)30s | %(levelname)8s | %(message)s'
 log_format = Formatter(format_string)
 
