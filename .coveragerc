@@ -4,4 +4,3 @@ source =
     client
     server
     shared
-    tests
