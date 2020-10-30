@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from logging import handlers, Logger, Formatter
 
-import coloredlogs
+# import coloredlogs
 
 TRACE_LEVEL = logging.TRACE = 5
 logging.addLevelName(TRACE_LEVEL, 'TRACE')
@@ -24,7 +24,7 @@ if len(sys.argv) >= 2:
         print(f'Error: invalid log level {sys.argv[1]}')
         sys.exit(1)
 else:
-    log_level = logging.INFO
+    log_level = TRACE_LEVEL
 
 format_string = '%(asctime)s | %(name)30s | %(levelname)8s | %(message)s'
 log_format = Formatter(format_string)
@@ -38,13 +38,13 @@ root_log = logging.getLogger()
 root_log.setLevel(log_level)
 root_log.addHandler(file_handler)
 
-coloredlogs.DEFAULT_LEVEL_STYLES = {
-    **coloredlogs.DEFAULT_LEVEL_STYLES,
-    'trace': {'color': 246},
-    'critical': {'background': 'red'},
-    'debug': coloredlogs.DEFAULT_LEVEL_STYLES['info']
-    }
-coloredlogs.DEFAULT_LOG_LEVEL = log_level
-coloredlogs.DEFAULT_LOG_FORMAT = format_string
+# coloredlogs.DEFAULT_LEVEL_STYLES = {
+#     **coloredlogs.DEFAULT_LEVEL_STYLES,
+#     'trace': {'color': 246},
+#     'critical': {'background': 'red'},
+#     'debug': coloredlogs.DEFAULT_LEVEL_STYLES['info']
+#     }
+# coloredlogs.DEFAULT_LOG_LEVEL = log_level
+# coloredlogs.DEFAULT_LOG_FORMAT = format_string
 
-coloredlogs.install(logger=root_log, stream=sys.stdout)
+# coloredlogs.install(logger=root_log, stream=sys.stdout)
