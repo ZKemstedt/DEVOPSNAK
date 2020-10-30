@@ -3,4 +3,5 @@ branch = true
 source =
     client
     server
+    shared
     tests
