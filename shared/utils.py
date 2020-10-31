@@ -15,17 +15,7 @@ def json_decode(json_bytes, encoding):
     return obj
 
 
-def create_json_request(action, value):
-    content = {'action': action, 'value': value}
-    return create_json(content)
-
-
-def create_json_response(result, data):
-    content = {'result': result, 'data': data}
-    return create_json(content)
-
-
-def create_json(content):
+def create_json_content(content):
     return {
         'content_type': 'text/json',
         'content_encoding': 'utf-8',
@@ -33,7 +23,17 @@ def create_json(content):
     }
 
 
-def create_binary_request(data, name=None):
+def create_json_request(action, value):
+    content = {'action': action, 'value': value}
+    return create_json_content(content)
+
+
+def create_json_response(result, data):
+    content = {'result': result, 'data': data}
+    return create_json_content(content)
+
+
+def create_binary_content(data, name=None):
     d = {
         'content_type': 'binary/custom',
         'content_encoding': 'binary',
@@ -42,6 +42,10 @@ def create_binary_request(data, name=None):
     if name:
         d['content_name'] = name
     return d
+
+
+def create_binary_request(data, name=None):
+    return create_binary_content(data, name)
 
 
 def create_binary_response(data, name=None):
