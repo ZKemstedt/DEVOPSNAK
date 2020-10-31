@@ -89,7 +89,7 @@ class FileManager(object):
             else:
                 time1 = value['last edited']
                 time2 = self.register[key]['last edited']
-                if not check_timediff(time1, time2):
+                if check_timediff(time1, time2):
                     self.todo.append(key)
 
 
