@@ -1,3 +1,5 @@
+# client/message.py
+
 import logging
 
 from shared.base import MessageBase
