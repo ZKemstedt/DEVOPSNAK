@@ -1,4 +1,3 @@
-import logging
 import unittest
 import selectors
 from unittest.mock import Mock, patch
@@ -6,6 +5,7 @@ from unittest.mock import Mock, patch
 from shared.base import MessageBase
 
 # disable logger
+import logging
 logging.getLogger('shared.base').setLevel(50)
 
 
