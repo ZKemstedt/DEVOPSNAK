@@ -16,6 +16,10 @@ class FileManager(object):
         self.register = {}
         self.remote = None
         self.todo = []
+
+        self.refresh_register()
+
+    def refresh_register(self):
         for file in self.folder.iterdir():
             stat = file.stat()
             self.register[file.name] = {
@@ -26,6 +30,8 @@ class FileManager(object):
 
     def list_files(self):
         """return a string displaying the local files"""
+        self.refresh_register()
+
         # header
         headline = "-"*80
         name = 'filename'.ljust(40)
@@ -72,6 +78,7 @@ class FileManager(object):
         file = Path(self.folder, filename)
         with file.open(mode='wb') as f:
             f.write(data)
+        self.refresh_register()
 
 # --- sync ---
 
