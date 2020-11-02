@@ -38,7 +38,6 @@ class FileManager(object):
         for k, v in self.register.items():
             name = v['name'].ljust(40)
             size = v['size'].rjust(10)
-            # time = format_time(v['last edited']).rjust(10)
             time = ctime(v['last edited'])
 
             text += f'{name} | {size} | {time}\n'
@@ -78,7 +77,7 @@ class FileManager(object):
 
     # clientside !
     def compare_registers(self):
-        log.trace('comparing registers')
+        log.debug('comparing registers')
         if self.remote is None:
             log.debug('no remote')
             return
@@ -91,6 +90,8 @@ class FileManager(object):
                 time2 = self.register[key]['last edited']
                 if check_timediff(time1, time2):
                     self.todo.append(key)
+        log.debug('register comparison complete')
+        log.debug(f'todo: {", ".join(self.todo)}')
 
 
 if __name__ == '__main__':
