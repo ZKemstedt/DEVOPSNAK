@@ -1,8 +1,11 @@
+import sys
 import unittest
 import selectors
+import struct
 from unittest.mock import Mock, patch
 
 from shared.base import MessageBase
+from shared.utils import json_encode
 
 # disable logger
 import logging
@@ -179,20 +182,108 @@ class MessageBaseTests(unittest.TestCase):
     #
     # _create_message(self, *, content_bytes, content_type, content_encoding, content_name=None)
     #
-    def test__create_message(self):
-        pass
+    def test__create_message_ok(self):
+        # yikes
+        args = {
+            'content_bytes': b'data',
+            'content_type': 'text/json',
+            'content_encoding': 'utf-8',
+            'content_name': None
+        }
+        jsonheader = {
+            'byteorder': sys.byteorder,
+            'content-type': args['content_type'],
+            'content-encoding': args['content_encoding'],
+            'content-length': len(args['content_bytes']),
+            'content-name': args['content_name']
+        }
+
+        jsonheader_bytes = json_encode(jsonheader, 'utf-8')
+        json_len = len(jsonheader_bytes)
+
+        message = mock_message()
+        message_bytes = message._create_message(**args)
+        proto = message_bytes[:2]
+        message_bytes = message_bytes[2:]
+        json = message_bytes[:json_len]
+        message_bytes = message_bytes[json_len:]
+        content = message_bytes
+        self.assertEqual(proto, struct.pack('>H', json_len))
+        self.assertEqual(json, jsonheader_bytes)
+        self.assertEqual(content, args['content_bytes'])
 
     #
     # process_protoheader(self)
     #
-    def test_process_protoheader(self):
-        pass
+    def test_process_protoheader_only_ok(self):
+        message = mock_message()
+        sample_content_len = 17
+        message._recv_buffer = struct.pack('>H', sample_content_len)
+        message.process_protoheader()
+        self.assertEqual(message._jsonheader_len, sample_content_len)
+        self.assertEqual(len(message._recv_buffer), 0)
+
+    def test_process_protoheader_not_more(self):
+        message = mock_message()
+        sample_content_len = 17
+        padding = bytes(10)
+        message._recv_buffer = struct.pack('>H', sample_content_len) + padding
+        message.process_protoheader()
+        self.assertEqual(message._jsonheader_len, sample_content_len)
+        self.assertEqual(len(message._recv_buffer), len(padding))
+
+    def test_process_protoheader_skip_not_enough_data(self):
+        message = mock_message()
+        message._recv_buffer = bytes(1)
+        message.process_protoheader()
+        self.assertEqual(message._recv_buffer, bytes(1))
+        self.assertIs(message._jsonheader_len, None)
 
     #
     # process_jsonheader(self)
     #
-    def test_process_jsonheader(self):
-        pass
+    def test_process_jsonheader_not_more(self):
+        message = mock_message()
+        jsonheader = {
+            'byteorder': 's',
+            'content-type': 's',
+            'content-encoding': 's',
+            'content-length': 1,
+            'content-name': 's',
+        }
+        jsonheader_bytes = json_encode(jsonheader, 'utf-8')
+        message._recv_buffer = jsonheader_bytes + bytes(10)
+        message._jsonheader_len = len(jsonheader_bytes)
+        message.process_jsonheader()
+        self.assertEqual(len(message._recv_buffer), len(bytes(10)))
+        self.assertEqual(jsonheader, message.jsonheader)
+
+    def test_process_jsonheader_exception_missing_required_header(self):
+        template_jsonheader = {
+            'byteorder': 's',
+            'content-type': 's',
+            'content-encoding': 's',
+            'content-length': 1,
+            # 'content-name' is not required
+        }
+        for required_header in template_jsonheader:
+            message = mock_message()
+            jsonheader = template_jsonheader.copy()
+            del jsonheader[required_header]
+            jsonheader_bytes = json_encode(jsonheader, 'utf-8')
+            message._jsonheader_len = len(jsonheader_bytes)
+            message._recv_buffer = jsonheader_bytes
+            with self.subTest(message=message):
+                with self.assertRaises(ValueError):
+                    message.process_jsonheader()
+
+    def test_process_jsonheader_skip_not_enough_data(self):
+        message = mock_message()
+        message._jsonheader_len = 10
+        message._recv_buffer = bytes(5)
+        message.process_jsonheader()
+        self.assertEqual(message._recv_buffer, bytes(5))
+        self.assertIs(message.jsonheader, None)
 
     #
     # process_incoming_message(self)
