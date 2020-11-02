@@ -203,13 +203,16 @@ class MessageBaseTests(unittest.TestCase):
 
         message = mock_message()
         message_bytes = message._create_message(**args)
+
         proto = message_bytes[:2]
         message_bytes = message_bytes[2:]
+        self.assertEqual(proto, struct.pack('>H', json_len))
+
         json = message_bytes[:json_len]
         message_bytes = message_bytes[json_len:]
-        content = message_bytes
-        self.assertEqual(proto, struct.pack('>H', json_len))
         self.assertEqual(json, jsonheader_bytes)
+
+        content = message_bytes
         self.assertEqual(content, args['content_bytes'])
 
     #
