@@ -289,10 +289,41 @@ class MessageBaseTests(unittest.TestCase):
         self.assertIs(message.jsonheader, None)
 
     #
-    # process_incoming_message(self)
+    # process_message(self)
     #
-    def test_process_incoming_message(self):
-        pass
+    def test_process_message_skip_not_enough_data(self):
+        message = mock_message()
+        message.handle_message = Mock()
+        message.jsonheader = {'content-length': 10}
+        message._recv_buffer = bytes(9)
+        message.process_message()
+        self.assertEqual(message._recv_buffer, bytes(9))
+        message.handle_message.assert_not_called()
+
+    @patch('shared.base.json_decode')
+    def test_process_message_read_content_length_no_json_decode(self, json):
+        message = mock_message()
+        message.handle_message = Mock()
+        message.jsonheader = {'content-length': 10, 'content-type': 'binary/custom'}
+        message._recv_buffer = bytes(20)
+        message.process_message()
+        self.assertEqual(message._recv_buffer, bytes(10))
+        message.handle_message.assert_called_once_with(bytes(10))
+        json.assert_not_called()
+
+    @patch('shared.base.json_decode')
+    def test_process_message_read_content_length_json_decode_ok(self, json):
+        message = mock_message()
+        message.handle_message = Mock()
+        message.jsonheader = {'content-length': 10,
+                              'content-type': 'text/json',
+                              'content-encoding': 'utf-8'}
+        message._recv_buffer = bytes(20)
+        json.return_value = bytes(10)
+        message.process_message()
+        self.assertEqual(message._recv_buffer, bytes(10))
+        message.handle_message.assert_called_once_with(bytes(10))
+        json.assert_called_once_with(bytes(10), 'utf-8')
 
     #
     # handle_message(self, data)
