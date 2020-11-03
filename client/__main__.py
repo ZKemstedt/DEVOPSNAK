@@ -87,21 +87,21 @@ def sync_clock(wait, func):
     sync.start()
 
 
-def check_sync():
+def sync_get_remote():
     action = 'request-register'
     value = None
     start_connection(host, port, action, value)
-    sync_clock(wait=2, func=compare_and_sync)
+    sync_clock(wait=2, func=sync_compare_and_fetch)
 
 
-def compare_and_sync():
+def sync_compare_and_fetch():
     filemanager.compare_registers()
     for filename in filemanager.todo:
         action = 'get-file'
         value = filename
         start_connection(host, port, action, value)
         log.info(f'sync: requesting file {filename}')
-    sync_clock(wait=30, func=check_sync)
+    sync_clock(wait=30, func=sync_get_remote)
 
 
 def selector_wrapper(key, mask):
@@ -127,7 +127,7 @@ def selector_wrapper(key, mask):
 set_input_nonblocking()
 sel.register(sys.stdin, selectors.EVENT_READ, from_keyboard)
 
-sync = threading.Timer(interval=2, function=sync_clock, args=(0, check_sync))
+sync = threading.Timer(interval=2, function=sync_clock, args=(0, sync_get_remote))
 
 try:
     sync.start()
