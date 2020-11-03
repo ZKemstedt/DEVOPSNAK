@@ -12,7 +12,7 @@ class AnThread(threading.Thread):
             self.print_something()
 
     def print_something(self):
-        print("printing something")
+        print("\n" + "printing something")
 
 
 def main():
@@ -23,4 +23,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
