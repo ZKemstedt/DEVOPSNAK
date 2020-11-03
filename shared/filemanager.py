@@ -20,6 +20,7 @@ class FileManager(object):
         self.refresh_register()
 
     def refresh_register(self):
+        self.register = {}
         for file in self.folder.iterdir():
             stat = file.stat()
             self.register[file.name] = {
