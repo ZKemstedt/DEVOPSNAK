@@ -6,6 +6,7 @@ class AnThread(threading.Thread):
     def __init__(self, *arg, **kwargs):
         super().__init__(*arg, **kwargs)
         self.running = True
+        self.a_text = "a"
 
     def run(self):
         while self.running:
@@ -13,6 +14,9 @@ class AnThread(threading.Thread):
 
     def print_something(self):
         print("\n" + "printing something")
+
+    def print_text(self):
+        print(self.a_text)
 
 
 def main():
