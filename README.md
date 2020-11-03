@@ -1,7 +1,10 @@
 # Filserver
 By Zephyro Kemstedt
 
-## to get started (commands asume mac or linux):
+## Getting started.
+note: this project uses pipenv to manage virtual environments and packages.
+
+the commands below are for mac os, they should also work for linux/unix. if you use windows, you'll have to figure out how to execute them.
 ```
 git clone https://github.com/ZKemstedt/devops20_python_slutuppgift.git zkemstedt
 cd zkemstedt
