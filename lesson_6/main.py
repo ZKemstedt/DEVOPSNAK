@@ -1,5 +1,4 @@
 from lesson_6.menu import Menu
-from lesson_6.pizza import Pizza
 from lesson_6.file_handler import FileHandler
 
 
