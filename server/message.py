@@ -30,7 +30,7 @@ class Message(MessageBase):
         # 3. content
         if self.jsonheader:
             if self.request is None:
-                self.process_incoming_message()
+                self.process_message()
 
         # 4. done, set to write
         if self.request:

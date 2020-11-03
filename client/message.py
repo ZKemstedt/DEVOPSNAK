@@ -41,7 +41,7 @@ class Message(MessageBase):
         # 3. build content
         if self.jsonheader:
             if self.response is None:
-                self.process_incoming_message()
+                self.process_message()
 
         # 4. act on it
         if self.response:

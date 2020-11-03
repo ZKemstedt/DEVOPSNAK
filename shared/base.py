@@ -126,7 +126,7 @@ class MessageBase(object):
                 if req not in self.jsonheader:
                     raise ValueError(f'Missing required header "{req}".')
 
-    def process_incoming_message(self):
+    def process_message(self):
         # 1. read message from buffer
         content_len = self.jsonheader['content-length']
         if not len(self._recv_buffer) >= content_len:
