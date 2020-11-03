@@ -92,7 +92,7 @@ class Message(MessageBase):
                     self.files.remote = data
                 else:
                     print(result)
-                    if value:
-                        print(value)
+                    if data:
+                        print(data)
 
         self._response_handled = True
