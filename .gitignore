@@ -37,6 +37,10 @@ venv.bak/
 # Mac OS system files
 *.DS_Store
 
+# logs
+logs
+*.log
+
 # lesson 2 git repo
 lesson_2/merge_conflict/
 
@@ -44,4 +48,4 @@ lesson_2/merge_conflict/
 packaging_tutorial/
 
 # course examination git repo
-course_examination/
+.final_exam/
