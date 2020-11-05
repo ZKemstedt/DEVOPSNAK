@@ -1,6 +1,0 @@
-[run]
-branch = true
-source =
-    client
-    server
-    shared
