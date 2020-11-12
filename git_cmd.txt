@@ -11,3 +11,6 @@ How do I check out a remote Git branch?
 2.	git checkout <branchname>
 
 branch <local branchname> set up to track remote branch <remote branchname> from <remotename>
+
+# merging two git repositories
+https://stackoverflow.com/questions/1425892/how-do-you-merge-two-git-repositories
