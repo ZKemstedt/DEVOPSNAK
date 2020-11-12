@@ -1,16 +1,16 @@
-# Cache
-__pycache__/
-
 # Mac OS metadata file
 .DS_Store
 
 # VSCode
 *.code-workspace
-.mypy_cache/
+
 
 # Certain projects have repositories of their own.
 
+#
 # -- Programmering och Systemering --
+#
+
 Programmering\ och\ Systemering/Seminar4/
 Programmering\ och\ Systemering/Seminar5/
 Programmering\ och\ Systemering/Seminar7/
@@ -21,42 +21,8 @@ Programmering\ och\ Systemering/Seminar12/
 Programmering\ och\ Systemering/Examination/
 Programmering\ och\ Systemering/Examples/stuff.txt
 
+#
 #  -- Programmering i Python --
+#
+
 .Programmering\ i\ Python/
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-# pyenv
-.python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-Pipfile.lock
-
-# logs
-logs
-*.log
-
-# lesson 2 git repo
-lesson_2/merge_conflict/
-
-# packaging tutorial git repo
-packaging_tutorial/
-
-# course examination git repo
-.final_exam/
