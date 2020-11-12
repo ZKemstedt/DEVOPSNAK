@@ -25,15 +25,6 @@ coverage.xml
 #   install all needed dependencies.
 Pipfile.lock
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Mac OS system files
 *.DS_Store
 
