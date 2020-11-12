@@ -8,9 +8,6 @@ __pycache__/
 *.code-workspace
 .mypy_cache/
 
-# pdf
-*.pdf
-
 # Certain projects have repositories of their own.
 
 # -- Programmering och Systemering --
@@ -25,6 +22,7 @@ Programmering\ och\ Systemering/Examination/
 Programmering\ och\ Systemering/Examples/stuff.txt
 
 #  -- Programmering i Python --
+.Programmering\ i\ Python/
 
 # Unit test / coverage reports
 htmlcov/
