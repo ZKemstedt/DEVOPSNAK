@@ -105,7 +105,7 @@ where [Location] = (
 -- nested sub-queries
 select Lastname
 from Employee
-where DeptId = (
+where DeptId in (
     select DeptId
     from Department
     where Location = (
@@ -129,7 +129,7 @@ order by 'Salary cost' desc
 -- 15. Samma som ovan men ta bara med de avdelningar som har fler än tre anställda. 
 select DeptName, sum(Salary + isnull(Commission, 0)) 'Salary cost'
 from Employee e
-    join Department d on e.DeptID = d.DeptID
+join Department d on e.DeptID = d.DeptID
 group by DeptName
     having count(*) > 3
 order by 'Salary cost' desc
@@ -137,7 +137,7 @@ order by 'Salary cost' desc
 -- 16. Samma som ovan, men visa även avdelningsort (Location). 
 select [Location], DeptName, sum(Salary + isnull(Commission, 0)) 'Salary cost'
 from Employee e
-    join Department d on e.DeptID = d.DeptID
+join Department d on e.DeptID = d.DeptID
 group by DeptName, [Location]
     having count(*) > 3
 order by 'Salary cost' desc

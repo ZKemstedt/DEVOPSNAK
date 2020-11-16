@@ -16,8 +16,8 @@ from
     left outer join     -- left join
     right outer join    -- right join
     full outer join     -- full join
-    inner join
-    cross join          -- generate combinations
+    inner join          -- join
+    cross join          -- -> generate combinations
 where
     and
     or
@@ -115,7 +115,8 @@ convert()
 ### Etc
 ```sql
 -- sub-queries
-(
+select x from y
+where z = (
     select ...
 )
 
@@ -128,12 +129,12 @@ convert()
 
 '% pattern matching'
 
-sp_help -- ::= sp_help[cmd] -> help for cmd
+sp_help -- ::= sp_help<c> -> help for c
 sp_helplanguage
 
 
 -- global variables
-@@version -- ::= @@[varname] -> global variable varname
+@@version -- ::= @@<x> -> global variable x
 
 -- example: set first day of week
 select @@datefirst set datefirst 1
