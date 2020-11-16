@@ -42,3 +42,13 @@ set language Swedish
 select datename(weekday, '1967-08-15')
 
 set language us_english
+
+
+
+select * from employee
+where datediff(dd, hiredate, getdate()) = 
+    (
+    select
+        max(datediff(dd, hiredate, getdate()))
+    from employee
+    )

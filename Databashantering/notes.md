@@ -1,11 +1,23 @@
+# list of things we've covered/mentioned
+(does not include oracle)
+
 ### Keywords
 ```sql
-use
-go
+-- query build parts
 select
-    as
     top
+    case
+        when
+        then
+        else
+        end
+    as
 from
+    left outer join     -- left join
+    right outer join    -- right join
+    full outer join     -- full join
+    inner join
+    cross join          -- generate combinations
 where
     and
     or
@@ -13,25 +25,45 @@ where
     in
     not
     like
-    null
-union
+group by
+    having
 intersect
 except
+union
+order by
+    asc
+    desc
 
-cast
-set
-language
+-- values / types
+null
+user
+
 weekday
 date
+varchar
+int
+char()
+cast()
+
+-- etc
+use -- database to use
+go -- tell the server to execute (aka the preiously listed commands must be executed before executing the next ones)
+set
+datefirst
+language
 ```
+
 ### Built-in functions
 ```sql
+-- etc
 isnull()
-abs()
-sum()
-count()
+
+-- math
 min()
 max()
+sum()
+count()
+abs()
 pi()
 floor()
 ceiling()
@@ -41,16 +73,30 @@ power()
 stdev()
 avg()
 
-left()
-right()
-substring()
-
+-- dates
 getdate()
 datename()
 datepart()
 datediff()
 dateadd()
 
+-- string
+left()
+right()
+lower()
+upper()
+rtrim()
+ltrim()
+
+replicate()
+substring()
+replace()
+charindex()
+
+len() -- datalength()
+str()
+ascii()
+convert()
 ```
 
 ### Operators
@@ -68,11 +114,32 @@ dateadd()
 
 ### Etc
 ```sql
+-- sub-queries
+(
+    select ...
+)
+
 -- single line comment
+
 /*
  * Multi line comment
  *
  */
+
 '% pattern matching'
-sp_help -- help
+
+sp_help -- ::= sp_help[cmd] -> help for cmd
+sp_helplanguage
+
+
+-- global variables
+@@version -- ::= @@[varname] -> global variable varname
+
+-- example: set first day of week
+select @@datefirst set datefirst 1
+
+@@datefirst
+@@language
+@@version
+@@servername
 ```
