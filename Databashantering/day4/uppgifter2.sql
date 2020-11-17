@@ -108,8 +108,8 @@ from Employee
 where DeptId in (
     select DeptId
     from Department
-    where Location = (
-        select Location
+    where [Location] = (
+        select [Location]
         from Department
         where DeptId = (
             select DeptId

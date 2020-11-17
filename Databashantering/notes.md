@@ -1,7 +1,7 @@
 # list of things we've covered/mentioned
 (does not include oracle)
 
-### Keywords
+### Keywords / Statements
 ```sql
 -- query build parts
 select
