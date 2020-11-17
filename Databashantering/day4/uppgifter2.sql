@@ -119,6 +119,13 @@ where DeptId in (
     )
 )
 
+-- joins
+select lastname from employee e
+join department d on e.deptid = d.deptid
+right join department d2 on d.location = d2.location
+join employee e2 on d2.deptid = e2.deptid
+where e.lastname = 'Smith'
+
 -- 14. Visa avdelningsnamn och lönekostnad per avdelning. I lönekostnaden ingår provision.
 select DeptName, sum(Salary + isnull(Commission, 0)) 'Salary cost'
 from Employee e
