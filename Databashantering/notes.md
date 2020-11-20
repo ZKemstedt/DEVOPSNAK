@@ -4,6 +4,13 @@
 ### Keywords / Statements
 ```sql
 -- query build parts
+insert
+    into
+    values
+update
+    set
+create
+    table
 select
     top
     case
@@ -18,6 +25,7 @@ from
     full outer join     -- full join
     inner join          -- join
     cross join          -- -> generate combinations
+        on
 where
     and
     or
@@ -34,21 +42,39 @@ order by
     asc
     desc
 
--- values / types
+-- datatypes
+identity
 null
-user
 
-weekday
-date
-varchar
 int
-char()
+smallint
+bigint
+
+char
+varchar
+text        -- link -> blob
+
+nchar       -- unicode
+nvarchar    -- unicode
+ntext       -- unicode
+
+binary
+varbinary
+image       -- link -> blob
+
+date
+time
+datetime
+datetime2
+--
+
+user
+weekday
 cast()
 
 -- etc
 use -- database to use
 go -- tell the server to execute (aka the preiously listed commands must be executed before executing the next ones)
-set
 datefirst
 language
 ```
@@ -129,8 +155,8 @@ where z = (
 
 '% pattern matching'
 
-sp_help -- ::= sp_help<c> -> help for c
-sp_helplanguage
+sp_help -- ::= sp_help <c> -> help for c
+sp_help language
 
 
 -- global variables
