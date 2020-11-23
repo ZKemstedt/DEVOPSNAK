@@ -1,3 +1,7 @@
+# Databashantering - MSSQL
+
+
+
 # list of things we've covered/mentioned
 (does not include oracle)
 
@@ -24,7 +28,7 @@ from
     right outer join    -- right join
     full outer join     -- full join
     inner join          -- join
-    cross join          -- -> generate combinations
+    cross join
         on
 where
     and
@@ -46,8 +50,9 @@ order by
 identity
 null
 
+tinyint
+bigint
 int
-smallint
 bigint
 
 char
@@ -66,15 +71,24 @@ date
 time
 datetime
 datetime2
---
 
-user
+-- transaction control
+begin      
+commit
+rollback
+    tran
+    transaction
+
+-- etc
+collate     -- key collate language -> makes `key` conform to `language`
+use         -- database to use
+go          -- tell the server to execute (aka the preiously listed commands must be executed before executing the next ones)
+kill        -- kill [session id]
+
+user        -- ?
 weekday
 cast()
 
--- etc
-use -- database to use
-go -- tell the server to execute (aka the preiously listed commands must be executed before executing the next ones)
 datefirst
 language
 ```
@@ -89,6 +103,9 @@ min()
 max()
 sum()
 count()
+stdev()
+avg()
+
 abs()
 pi()
 floor()
@@ -96,8 +113,6 @@ ceiling()
 round()
 sqrt()
 power()
-stdev()
-avg()
 
 -- dates
 getdate()
@@ -119,7 +134,7 @@ substring()
 replace()
 charindex()
 
-len() -- datalength()
+len()       -- datalength()
 str()
 ascii()
 convert()
@@ -129,8 +144,8 @@ convert()
 ```sql
 =
 !=
-* -- all / multiplication
-+ -- concatenation / addition
+* -- select all / multiplication
++ -- string concatenation / addition
 -
 >=
 <=
@@ -158,6 +173,8 @@ where z = (
 sp_help -- ::= sp_help <c> -> help for c
 sp_help language
 
+sp_who
+sp_who2
 
 -- global variables
 @@version -- ::= @@<x> -> global variable x
@@ -169,4 +186,12 @@ select @@datefirst set datefirst 1
 @@language
 @@version
 @@servername
+
+
+-- stuff
+set ansi_nulls on
+go
+
+set quoted_identifier on
+go
 ```
