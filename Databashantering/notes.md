@@ -8,6 +8,9 @@
 ### Keywords / Statements
 ```sql
 -- query build parts
+grant
+revoke
+
 alter
 create
 insert
@@ -205,13 +208,17 @@ select @@datefirst set datefirst 1
 @@version
 @@servername
 
--- built in tables
--- sysindexes
--- sysobjects
+-- Built in tables
+        -- sys tables
+-- sys.sysindexes
+-- sys.sysobjects
+-- sys.sysprocesses
 -- sys.syslogins
 -- sys.sysusers
 -- sys.syspermissions
-
+        -- dynamic tables, more modern.
+-- sys.dm_exec_sessions
+-- sys.dm_exec_connections
 
 -- Settings
 set
