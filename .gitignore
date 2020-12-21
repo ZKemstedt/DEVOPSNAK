@@ -10,7 +10,6 @@
 #
 # -- Programmering och Systemering --
 #
-
 Programmering\ och\ Systemering/Seminar4/
 Programmering\ och\ Systemering/Seminar5/
 Programmering\ och\ Systemering/Seminar7/
@@ -21,10 +20,10 @@ Programmering\ och\ Systemering/Seminar12/
 Programmering\ och\ Systemering/Examination/
 Programmering\ och\ Systemering/Examples/stuff.txt
 
+
 #
 #  -- Programmering i Python --
 #
-
 .Programmering\ i\ Python/
 
 
@@ -32,3 +31,8 @@ Programmering\ och\ Systemering/Examples/stuff.txt
 # -- Projektmetodik och Agila Metoder
 #
 Agila\ Metoder\ och\ Projectmetodik/404notfound/
+
+
+#
+# -- Programmering i Java
+#
