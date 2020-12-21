@@ -1,7 +1,6 @@
 # Projectmetodic och agila metoder
 Thursday 3 December 2020
 
-* Repetition och självdiagnos
 * ITIL 
 * Kanban och Kaizen
 * Sprintplanering och Retrospektiv
