@@ -1,5 +1,5 @@
 # Mac OS metadata file
-.DS_Store
+*.DS_Store
 
 # VSCode
 *.code-workspace
@@ -26,6 +26,7 @@ Programmering\ och\ Systemering/Examples/stuff.txt
 #
 .Programmering\ i\ Python/
 
+Databashantering/exam/
 
 #
 # -- Projektmetodik och Agila Metoder
@@ -36,3 +37,4 @@ Agila\ Metoder\ och\ Projectmetodik/404notfound/
 #
 # -- Programmering i Java
 #
+Programmering i Java/devops20_java/
