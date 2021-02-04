@@ -1,71 +1,78 @@
-# Wednesday Febuary 3th
-* NTFS-dugga 2
-* Datorkontons lösenord
-* Administrera många konton med GUI
-* Kontoadminitration med PowerShell
-* Bulkimport med csvde
-* Kort om LDIFDE
-* Importera användare från fil med PowerShell
-* Grupper Kort intro: Vad man har dem till och att de har en SID
-* Grupper vs OU
-* Group scope
-* Manager till en grupp
-* Hur man lägger grupper i andra grupper
-* Om vi hinner: Administrativa rättigheter i Active Directory
+# Thursday Febuary 4th
+
+* Administrativa rättigheter i Active Directory
+* GPO:er
+* GPO-inställningar
+* ADMX/ADM-filer och Administartive Templates
+* Central Storage
+* GPO-inläsningsordning
+* Windowsbrandväggen
+* Gemensam övning: Sätta och kontrollera administrativa rättigheter i Active Directory
+* Gemensam övning: Skapa, länka och editera GPO:er
+* Gemensam övning: Central Storage
+* Demo: GPO-inställningar för Windows 10, officepaketer och Firefox
+* Gemensamma övning: Skapa brandväggsregler med GPO:er
+* Utmaning: Skapa ett skript för gruppadministration
+
+<!-- begin -->
+
+## Groups
+Group scope determines what members can be assigned to the group and
+how the group can be used (join other groups, be assigned permissions)
+
+* Local Group 
+  * Only usable locally, not in a domain.
+* Global Group
+  * Usually rather long
+  * Best to read at login, and not elsewhere
+  * Members can be Users
+* Domain Local Group
+  * Can have members from all domains
+  * Members can be Users, Computers, Global- Universal- and Domain Local Groups
+  * Can only give permissions in it's own domain
+  * Sometimes called Resource Group
+  * Usually only single Global Groups as members, sometimes Universal Groups
+* Universal Group
+  * Can have members from all domains from **one** forest
+  * Cannot be used over *External trust* - Does not work outside of it's forest
+  * Members can be Users, Computers, Global- and Universal groups
+  * Recommended to only use when no other solutions are available
+
+Globala grupper har användare som medlemmar och listan medlemmar kan bli ganska lång.
+Bra om globala grupper kontrolleras vid inloggning så filserver slipper hämta listan.
+
+Eftersom Domänlokala grupper bara har andra grupper så blir deras listor över medlemmar
+väldigt kort och går snabbt att läsas (=hämtas) över nätverk.
+
+Globala gruppen cashas aldrig på en resursserver medan de
+DomänLokala grupperna cashas under själva accessen.
+
+### "The Microsoft way" A G D L P
+#### **A**nvändare **G**lobalgrupp **D**omän**L**okalgrupp **P**ermissions
 
 
-csvde -i -f C:\temp\text.csv
-
-## Powershell Bulk Import
-```powershell
-# 1.
-$users = import-csv -path "D:/vm/userlist.csv"
-# 2.
-foreach ($user in $users) {
-    # 3.
-    $firstname = $user.'Firstname'
-    $lastname = $user.'Lastname'
-    $displayname = $firstname + " " + $lastname
-    $ou = $user.'OU'
-    $sam = $user.'SAM'
-    $upn = $firstname + "." + $lastname + "@" + $user.'Maildomain'
-    # strongly recommended to first create SAM, manipulate it to hande åäö etc, and then create UPN from SAM.
-    $pwd = $user.'Password'
-    # 4. 
-    new-aduser -name "$displayname" -displayname "$displayname" -samaccountname $sam -description "$description" -accountpassword (convertto-securestring $password -asplaintext -force) -enabled $true -path "$ou" -changepasswordatlogin $false -passwordneverexpires $true -server domain.loc
-}
-# 1. Reads the csv file
-# 2. Define rows as users
-# 3. Define and assign variables
-# 4. Create account
-```
-
-SAM vs UPN
-
-Det finns två olika inloggningsnamn i Windows Active Directory (fr.o.m Windows 2000)
-
-SAM eller SAMAccountName = Äldre standard som är NT4-kompatibel
-NACKADEMIN\ERIK.BRODIN eller JULTOMTEN\MARTIN
-
-UPN eller UserPrincipalName inkluderar @ och fullständigt domännamn erik.brodin@nackademin.local martin@jultomten.nu
-
-? Hur tolkas om man bara skriver erik.brodin eller martin?
-Svar: Olika i olika verktyg och program => Se till att alltid ha samma UPN och SAM
-(Samma i betydelsen samma 'användardel' av inloggningsnamnet)
+## Groups vs OU
+* Groups
+  - Groups have membership
+  - An entity can be a member of max 1000 groups
+  - Group Members 
+* OU
+  - An OU is a **location** in the AD-structure
+  - A GPO can be linked to an OU
+  - An Administrator can be delegated to an OU
 
 
-Reverta innan vi börjar importera konton.
-När man revertar miljön
+## GPO - Group Policy
+GPO is a list of settings
+In Azure-AD there's an alternative Intune
+* GPO's user-settings are read by the users who's accounts are in the OU which the GPO is linked to.
+* GPO's computer-settings are read by the users who's accounts are in the OU which the GPO is linked to.
 
+### GPO read-order - *last read wins!*
+1. Local computer registry
+2. Local computer policy
+3. Site GPO (very rarely used)
+4. Domain GPO
+5. OU-GPO
+6. Under-OU-GPO
 
-# Grupper
-* Group Score
-* Group Type
-  * Security (Only Security groups in this course)
-    - "Vanliga grupper"
-    - har en sid
-    - kan tilldellas rättigheter
-    - (Även en security grupp kan mail enablas)
-  * Distribution
-    - endast för exchange server
-    - har ingen sid

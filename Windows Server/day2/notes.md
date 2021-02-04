@@ -1,18 +1,17 @@
-# January 27
-Microsoft-slides 20410D 01 (Se länk högst upp för nedladdning)
+# Wednesday January 27th
 
-Snappchot/Checkpoit i Hyper-V
-Installation av Windows Server 2019
-Server Core
-Server Manager
-Hårdvaruhantering i Windows
-Drivrutiner
-Lab: Installation av Windows 2019 Core
-Lab: Post installation konfiguration med GUI
-Lab: Post installation konfiguration av Server Core
-Lab: Server Managern
-Övning: Uppdatera drivrutiner
-Övning: Rollback driver
+* Snappchot/Checkpoit i Hyper-V
+* Installation av Windows Server 2019
+* Server Core
+* Server Manager
+* Hårdvaruhantering i Windows
+* Drivrutiner
+* Lab: Installation av Windows 2019 Core
+* Lab: Post installation konfiguration med GUI
+* Lab: Post installation konfiguration av Server Core
+* Lab: Server Managern
+* Övning: Uppdatera drivrutiner
+* Övning: Rollback driver
 
 <!-- begin -->
 

@@ -1,17 +1,18 @@
-# January 28
-Diskar
-Virtuella hårddiskar
-Lokala diskar, SAN och NAS (Se till att förstå skillnaderna)
-Filserverkoncept och användning
-Klient - Server-relation
-Utdelning av foldrar
-Sharerättigheter
-RAID
-Lab: Skapa och testa RAID med GUI
-Lab: Flytta en virtuell disk mellan värddator och VM
-Lab: Administrera diskar med GUI
-Lab: Administrera diskar med Diskpart
-Lab: Administrera diskar med PowerShell
+# Thursday January 28th
+
+* Diskar
+* Virtuella hårddiskar
+* Lokala diskar, SAN och NAS (Se till att förstå skillnaderna)
+* Filserverkoncept och användning
+* Klient - Server-relation
+* Utdelning av foldrar
+* Sharerättigheter
+* RAID
+* Lab: Skapa och testa RAID med GUI
+* Lab: Flytta en virtuell disk mellan värddator och VM
+* Lab: Administrera diskar med GUI
+* Lab: Administrera diskar med Diskpart
+* Lab: Administrera diskar med PowerShell
 
 <!-- begin -->
 

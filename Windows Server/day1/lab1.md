@@ -1,4 +1,6 @@
-# Lab 1
+# Lab 1 - Tuesday January 26th
+
+<!-- begin -->
 
 ## Exercise 2
 ## 9. [optional] Create a differential disk using powershell

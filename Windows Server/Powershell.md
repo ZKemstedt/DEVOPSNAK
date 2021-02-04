@@ -73,7 +73,7 @@ foreach ($user in $users) {
 # 4. Create account
 ```
 
-# Variables
+## Variables
 ```powershell
 $Firstname = Read-Host "First name?"
 $Familyname = Read-Host "Last name?"
