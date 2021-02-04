@@ -1,12 +1,22 @@
-AD DS
-Domain -
-Objects
-Domain Controller
+Active Directory ... <!-- Domain Service ? --> - AD DS
+Domain
+Object
+User
+Computer
+DC - Domain Controller
 OU - Organizational Unit
-Containers - 
-GPO - 
+GPO - Group Policy
 Forest -
 Tree -
+
+Group
+* Security
+  * Local Group
+  * Global Group
+  * Domain Local Group
+  * Universal Group
+* Distribution - (Mail / Exchange Server)
+
 
 AD Accounts
     SID - Security ID

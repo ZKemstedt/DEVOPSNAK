@@ -64,7 +64,7 @@ DomänLokala grupperna cashas under själva accessen.
 
 ## GPO - Group Policy
 GPO is a list of settings
-In Azure-AD there's an alternative Intune
+In Azure-AD there's an alternative *Intune*
 * GPO's user-settings are read by the users who's accounts are in the OU which the GPO is linked to.
 * GPO's computer-settings are read by the users who's accounts are in the OU which the GPO is linked to.
 
