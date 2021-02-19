@@ -1,34 +1,13 @@
-# Uppdatteringar
-* Host
-* DC1
-* KlientW10
-* NAS1
+# TODO
+Move group documentation to it's own md file
 
-# Forward lookup zone DC
+Scripts
+- Script for Creating Groups
+- Script for Importing Users
+  - Assigning them to groups
+  - Assigning them to OU
 
+Knowledge Base article 942564 - DISABLE
 
-
-# OU / Groups
-OU (Ostar)
-
-
-- anvandare
-- datorer
-- grupper
-
-# Grupper - Users (exempel tillsvidare)
-- default
-- provsmakare
-- admin
-- janitor / moderator
-- sales / retail
-- analytics
-- marketing
-- manufacturing
-- chef T1
-- chef T2
-
-# Grupper - Computers
-- Kontor
-- Fabrik
-- Butik
+# IN PROGRESS
+Yrkesroller i Användarlistan
