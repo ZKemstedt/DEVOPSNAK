@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>OU Setup</title>
+        <style>
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="ou-setup">OU Setup</h1>
+<h2 id="create-ous">Create OUs</h2>
+<pre><code class="language-powershell"><div><span class="hljs-variable">$ostar</span> = <span class="hljs-selector-tag">@</span>(<span class="hljs-string">&quot;Brie&quot;</span>, <span class="hljs-string">&quot;Chevre&quot;</span>, <span class="hljs-string">&quot;Gouda&quot;</span>, <span class="hljs-string">&quot;Emmentaler&quot;</span>, <span class="hljs-string">&quot;Mozzarella&quot;</span>)
+<span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$ost</span> <span class="hljs-keyword">in</span> <span class="hljs-variable">$ostar</span>)
+{
+    <span class="hljs-built_in">New-ADOrganizationalUnit</span> <span class="hljs-literal">-Name</span> <span class="hljs-variable">$ost</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">&quot;DC=osthyvel,DC=se&quot;</span> <span class="hljs-literal">-ProtectedFromAccidentalDeletion</span> <span class="hljs-variable">$false</span>
+    <span class="hljs-built_in">New-ADOrganizationalUnit</span> <span class="hljs-literal">-Name</span> <span class="hljs-string">&quot;Anvandare&quot;</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">&quot;OU=<span class="hljs-variable">$ost</span>,DC=osthyvel,DC=se&quot;</span> <span class="hljs-literal">-ProtectedFromAccidentalDeletion</span> <span class="hljs-variable">$false</span>
+    <span class="hljs-built_in">New-ADOrganizationalUnit</span> <span class="hljs-literal">-Name</span> <span class="hljs-string">&quot;Datorer&quot;</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">&quot;OU=<span class="hljs-variable">$ost</span>,DC=osthyvel,DC=se&quot;</span> <span class="hljs-literal">-ProtectedFromAccidentalDeletion</span> <span class="hljs-variable">$false</span>
+    <span class="hljs-built_in">New-ADOrganizationalUnit</span> <span class="hljs-literal">-Name</span> <span class="hljs-string">&quot;Grupper&quot;</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">&quot;OU=<span class="hljs-variable">$ost</span>,DC=osthyvel,DC=se&quot;</span> <span class="hljs-literal">-ProtectedFromAccidentalDeletion</span> <span class="hljs-variable">$false</span>
+}
+</div></code></pre>
+<h1 id="remove-ous">Remove OUs</h1>
+<pre><code class="language-powershell"><div><span class="hljs-variable">$ostar</span> = <span class="hljs-selector-tag">@</span>(<span class="hljs-string">&quot;Brie&quot;</span>, <span class="hljs-string">&quot;Chevre&quot;</span>, <span class="hljs-string">&quot;Gouda&quot;</span>, <span class="hljs-string">&quot;Emmentaler&quot;</span>, <span class="hljs-string">&quot;Mozzarella&quot;</span>)
+<span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$ost</span> <span class="hljs-keyword">in</span> <span class="hljs-variable">$ostar</span>)
+{
+    <span class="hljs-built_in">Remove-ADOrganizationalUnit</span> <span class="hljs-literal">-Identity</span> <span class="hljs-string">&quot;OU=<span class="hljs-variable">$ost</span>,DC=osthyvel,DC=se&quot;</span> <span class="hljs-literal">-Recursive</span> <span class="hljs-literal">-Confirm</span>:<span class="hljs-variable">$false</span>
+}
+</div></code></pre>
+<h1 id="remote-ps-setup">Remote PS Setup</h1>
+<p>Host -&gt; DC1, NAS1</p>
+<pre><code class="language-powershell"><div><span class="hljs-built_in">Enable-PSRemoting</span> <span class="hljs-comment"># (Seems to be optional?)</span>
+
+<span class="hljs-comment"># SET</span>
+<span class="hljs-built_in">Set-Item</span> <span class="hljs-literal">-Path</span> WSMAN:\localhost\Client\TrustedHosts <span class="hljs-literal">-Value</span> <span class="hljs-string">&#x27;10.6.66.166, 10.6.66.165&#x27;</span>
+<span class="hljs-comment"># APPEND</span>
+<span class="hljs-variable">$curList</span> = (<span class="hljs-built_in">Get-Item</span> WSMan:\localhost\Client\TrustedHosts).value
+<span class="hljs-built_in">Set-Item</span> WSMan:\localhost\Client\TrustedHosts <span class="hljs-literal">-Value</span> <span class="hljs-string">&quot;<span class="hljs-variable">$curList</span>, Server01&quot;</span>
+
+<span class="hljs-comment"># Remote PS Entry</span>
+<span class="hljs-built_in">Enter-PSSession</span> <span class="hljs-literal">-computername</span> <span class="hljs-number">10.6</span>.<span class="hljs-number">66.165</span> <span class="hljs-literal">-credential</span> osthyvel\Administrator
+<span class="hljs-built_in">Enter-PSSession</span> <span class="hljs-literal">-computername</span> <span class="hljs-number">10.6</span>.<span class="hljs-number">66.166</span> <span class="hljs-literal">-credential</span> osthyvel\Administrator
+<span class="hljs-comment"># Exit Session</span>
+<span class="hljs-keyword">exit</span>
+`` 
+
+
+
+<span class="hljs-comment"># VM Setup</span>
+
+<span class="hljs-comment"># Extra disks for Filserver</span>
+```powershell
+<span class="hljs-keyword">for</span> (<span class="hljs-variable">$i</span>=<span class="hljs-number">1</span>; <span class="hljs-variable">$i</span> <span class="hljs-operator">-lt</span> <span class="hljs-number">7</span>; <span class="hljs-variable">$i</span>++) {
+    <span class="hljs-variable">$disk</span> = <span class="hljs-string">&quot;C:\VM\NAS1\RAIDDisk&quot;</span> + <span class="hljs-variable">$i</span> + <span class="hljs-string">&quot;.vhdx&quot;</span>
+    <span class="hljs-comment"># This script assumes the newly created disk has the id $i (1-7)</span>
+    <span class="hljs-built_in">get-disk</span> <span class="hljs-literal">-number</span> <span class="hljs-variable">$i</span> | <span class="hljs-built_in">initialize-disk</span> <span class="hljs-comment"># note: will initialize as GPT by default</span>
+    <span class="hljs-built_in">get-disk</span> <span class="hljs-literal">-number</span> <span class="hljs-variable">$i</span> | <span class="hljs-built_in">new-partition</span> <span class="hljs-literal">-usemaximumsize</span> | <span class="hljs-built_in">format-volume</span> <span class="hljs-literal">-confirm</span>:<span class="hljs-variable">$false</span> <span class="hljs-literal">-filesystem</span> NTFS <span class="hljs-literal">-newfilesystemlabel</span> PowerShellTest
+}
+</div></code></pre>
+<h1 id="dc-setup">DC Setup</h1>
+<h2 id="promote-to-dc---new-forest">Promote to DC -&gt; new Forest</h2>
+<pre><code class="language-powershell"><div><span class="hljs-comment">#</span>
+<span class="hljs-comment"># Windows PowerShell script for AD DS Deployment</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-built_in">Import-Module</span> ADDSDeployment
+<span class="hljs-built_in">Install-ADDSForest</span> `
+<span class="hljs-literal">-CreateDnsDelegation</span>:<span class="hljs-variable">$false</span> `
+<span class="hljs-literal">-DatabasePath</span> <span class="hljs-string">&quot;C:\Windows\NTDS&quot;</span> `
+<span class="hljs-literal">-DomainMode</span> <span class="hljs-string">&quot;WinThreshold&quot;</span> `
+<span class="hljs-literal">-DomainName</span> <span class="hljs-string">&quot;osthyvel.se&quot;</span> `
+<span class="hljs-literal">-DomainNetbiosName</span> <span class="hljs-string">&quot;OSTHYVEL&quot;</span> `
+<span class="hljs-literal">-ForestMode</span> <span class="hljs-string">&quot;WinThreshold&quot;</span> `
+<span class="hljs-literal">-InstallDns</span>:<span class="hljs-variable">$true</span> `
+<span class="hljs-literal">-LogPath</span> <span class="hljs-string">&quot;C:\Winwods\NTDS&quot;</span> `
+<span class="hljs-literal">-NoRebootOnCompletion</span>: <span class="hljs-variable">$false</span> `
+<span class="hljs-literal">-SysvolPath</span> <span class="hljs-string">&quot;C:\Windows\SYSVOL&quot;</span> `
+<span class="hljs-literal">-Force</span>:<span class="hljs-variable">$true</span>
+</div></code></pre>
+<h1 id="create-groups">Create Groups</h1>
+<pre><code class="language-powershell"><div><span class="hljs-variable">$groups</span> = <span class="hljs-selector-tag">@</span>(<span class="hljs-string">&quot;ITPersonal&quot;</span>, <span class="hljs-string">&quot;HRPersonal&quot;</span>, <span class="hljs-string">&quot;PRPersonal&quot;</span>, <span class="hljs-string">&quot;Ekonomer&quot;</span>, <span class="hljs-string">&quot;Provsmakare&quot;</span>, <span class="hljs-string">&quot;ButiksPersonal&quot;</span>, <span class="hljs-string">&quot;FabriksPersonal&quot;</span>)
+<span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$group</span> <span class="hljs-keyword">in</span> <span class="hljs-variable">$groups</span>) {
+    <span class="hljs-built_in">New-ADGroup</span>
+    <span class="hljs-literal">-Name</span> <span class="hljs-string">&quot;<span class="hljs-variable">$Group</span>&quot;</span>
+    <span class="hljs-literal">-GroupCategory</span> Security
+    <span class="hljs-literal">-GroupScope</span> Global
+    <span class="hljs-literal">-DisplayName</span> <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-literal">-Path</span> <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-literal">-Description</span> <span class="hljs-string">&quot;&quot;</span>
+}
+
+
+</div></code></pre>
+<h2 id="powershell-bulk-import">Powershell Bulk Import</h2>
+<pre><code class="language-powershell"><div><span class="hljs-variable">$users</span> = <span class="hljs-built_in">import-csv</span> <span class="hljs-literal">-path</span> <span class="hljs-string">&quot;D:/vm/userlist.csv&quot;</span>
+<span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$user</span> <span class="hljs-keyword">in</span> <span class="hljs-variable">$users</span>) {
+    <span class="hljs-comment"># 3.</span>
+    <span class="hljs-variable">$firstname</span> = <span class="hljs-variable">$user</span>.<span class="hljs-string">&#x27;Firstname&#x27;</span>
+    <span class="hljs-variable">$lastname</span> = <span class="hljs-variable">$user</span>.<span class="hljs-string">&#x27;Lastname&#x27;</span>
+    <span class="hljs-variable">$displayname</span> = <span class="hljs-variable">$firstname</span> + <span class="hljs-string">&quot; &quot;</span> + <span class="hljs-variable">$lastname</span>
+    <span class="hljs-variable">$ou</span> = <span class="hljs-variable">$user</span>.<span class="hljs-string">&#x27;OU&#x27;</span>
+    <span class="hljs-variable">$sam</span> = <span class="hljs-variable">$user</span>.<span class="hljs-string">&#x27;SAM&#x27;</span>
+    <span class="hljs-variable">$upn</span> = <span class="hljs-variable">$firstname</span> + <span class="hljs-string">&quot;.&quot;</span> + <span class="hljs-variable">$lastname</span> + <span class="hljs-string">&quot;@&quot;</span> + <span class="hljs-variable">$user</span>.<span class="hljs-string">&#x27;Maildomain&#x27;</span>
+    <span class="hljs-comment"># strongly recommended to first create SAM, manipulate it to hande åäö etc, and then create UPN from SAM.</span>
+    <span class="hljs-variable">$pwd</span> = <span class="hljs-variable">$user</span>.<span class="hljs-string">&#x27;Password&#x27;</span>
+    <span class="hljs-comment"># 4. </span>
+    <span class="hljs-built_in">New-ADUser</span> `
+    <span class="hljs-literal">-name</span> <span class="hljs-string">&quot;<span class="hljs-variable">$displayname</span>&quot;</span> `
+    <span class="hljs-literal">-displayname</span> <span class="hljs-string">&quot;<span class="hljs-variable">$displayname</span>&quot;</span> `
+    <span class="hljs-literal">-samaccountname</span> <span class="hljs-variable">$sam</span> `
+    <span class="hljs-literal">-description</span> <span class="hljs-string">&quot;<span class="hljs-variable">$description</span>&quot;</span> `
+    <span class="hljs-literal">-accountpassword</span> (<span class="hljs-built_in">convertto-securestring</span> <span class="hljs-variable">$password</span> <span class="hljs-literal">-asplaintext</span> <span class="hljs-literal">-force</span>) `
+    <span class="hljs-literal">-enabled</span> <span class="hljs-variable">$true</span> `
+    <span class="hljs-literal">-path</span> <span class="hljs-string">&quot;<span class="hljs-variable">$ou</span>&quot;</span> `
+    <span class="hljs-literal">-changepasswordatlogin</span> <span class="hljs-variable">$false</span> `
+    <span class="hljs-literal">-passwordneverexpires</span> <span class="hljs-variable">$true</span> `
+    <span class="hljs-literal">-server</span> domain.loc
+}
+
+<span class="hljs-built_in">New-ADUser</span> <span class="hljs-literal">-Name</span> <span class="hljs-string">&quot;<span class="hljs-variable">$Fullname</span>&quot;</span>
+<span class="hljs-literal">-GivenName</span> <span class="hljs-variable">$Firstname</span>
+<span class="hljs-literal">-Surname</span> <span class="hljs-variable">$Familyname</span>
+<span class="hljs-literal">-SamAccountName</span> <span class="hljs-variable">$SAM</span>
+<span class="hljs-literal">-UserPrincipalName</span> <span class="hljs-variable">$UPN</span>
+<span class="hljs-literal">-Description</span> Kung
+<span class="hljs-literal">-Path</span> <span class="hljs-variable">$Path</span>
+<span class="hljs-literal">-accountPassword</span> (<span class="hljs-built_in">ConvertTo-SecureString</span> <span class="hljs-literal">-AsPlainText</span> <span class="hljs-string">&quot;<span class="hljs-variable">$PWD</span>&quot;</span> <span class="hljs-literal">-Force</span>)
+<span class="hljs-literal">-passThru</span> | <span class="hljs-built_in">Enable-ADAccount</span>
+</div></code></pre>
+
+    </body>
+    </html>

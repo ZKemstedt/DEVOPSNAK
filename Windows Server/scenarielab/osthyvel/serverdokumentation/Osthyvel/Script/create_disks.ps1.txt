@@ -1,0 +1,26 @@
+# Run on: Host
+
+# Create Disks and add to VM
+
+$nas = "NAS1"
+# $nas = "NAS2"
+
+$path1 = "C:\VM\$nas\AnvandareDisk"
+$size1 = 1024GB
+$count1 = 12
+
+$path2 = "C:\VM\$nas\DelatDisk"
+$size2 = 1024GB
+$count2 = 20
+
+for ($i = 1; $i -le $count1; $i++) {
+    $disk = $path1 + $i + ".vhdx"
+    New-VHD -Path $disk -SizeBytes $size1
+    Add-VMHardDiskDrive -VMName $nas -ControllerType SCSI -ControllerNumber 0 -Path $disk
+}
+
+for ($i = 1; $i -le $count2; $i++) {
+    $disk = $path2 + $i + ".vhdx"
+    New-VHD -Path $disk -SizeBytes $size2
+    Add-VMHardDiskDrive -VMName $nas -ControllerType SCSI -ControllerNumber 0 -Path $disk
+}

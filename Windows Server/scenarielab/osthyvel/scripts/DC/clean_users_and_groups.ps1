@@ -1,0 +1,25 @@
+﻿# Script to Remove the bulk created Users and Groups
+
+Import-Module activedirectory
+$users = Import-csv "C:\Users\Administrator\Downloads\Lista över anstallda - Export CSV.csv"
+foreach ($user in $users) {
+    $firstname 	    = $user.firstname
+	$lastname 	    = $user.lastname
+
+	$password 	    = $user.password
+    $telephone      = $user.telephone
+    $email          = $user.upn
+    $upn            = $user.upn
+    $sam            = $user.sam
+
+	$ou 		    = $user.ou
+    $group          = $user.group
+    $spgroup        = $user.spgroup
+    $subgroup       = "$ou$group"
+    $description    = "$group hos $ou"
+
+    # Primary Group
+    Get-ADGroup -F {Name -eq $group} | Remove-ADGroup -Confirm:$false
+    Get-ADGroup -F {Name -eq $subgroup} | Remove-ADGroup -Confirm:$false
+    Get-ADUser -F {SamAccountName -eq $sam} | Remove-ADUser -Confirm:$false
+}

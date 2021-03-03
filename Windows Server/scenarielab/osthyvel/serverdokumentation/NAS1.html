@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Filserver - NAS1</title>
+        <style>
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="filserver---nas1">Filserver - NAS1</h1>
+<!-- https://www.supermicro.com/en/products/system/4U/6048/SSG-6048R-E1CR36N.cfm -->
+<!-- https://www.komplett.se/product/898949/datorutrustning/lagring/haarddisk/haarddisk-35/seagate-barracuda-1tb-35-hdd -->
+<h2 id="location">Location</h2>
+<ul>
+<li>Brie Server Hall, Rack 2 Row 10</li>
+</ul>
+<h2 id="hardware">Hardware</h2>
+<ul>
+<li>RAM: xxx GB yyy MHz</li>
+<li>Processor: 2x Intel Xeon yyy GHz</li>
+<li>Hard Drives: 32x 1TB HDD 3.5&quot;</li>
+<li>Hard Drives: 1x 1TB SSD ?????</li>
+</ul>
+<!-- * Main Disk
+  - Type: Differential
+  - Location: C:\VM\NAS1\NAS1.vhdx
+  - Parent Location: C:\VM\Moderdiskar\ModerdiskW2019.vhd
+  - Size: 40GB
+* Generation: 1
+* RAM
+  - Dynamic: True
+  - MinimumBytes: 800MB
+  - StartupBytes: 1500MB 
+  - MaximumBytes: 4GB
+  - Priority: 80
+  - Buffer: 25 -->
+<h1 id="configuration">Configuration</h1>
+<ul>
+<li>OS: Windows Server 2019 Datacenter</li>
+<li>Build: 17763.rs5_release.180914-1434</li>
+<li>Display Resolution: 1024x768</li>
+<li>Network Configuration:
+<ul>
+<li>IP adress 10.6.66.166</li>
+<li>Subnet mask: 255.0.0.0</li>
+<li>Default gateway 10.6.68.1</li>
+<li>Preferred DNS server: 10.6.66.165</li>
+<li>Alternate DNS server: <em>None</em></li>
+</ul>
+</li>
+<li>Windows Update Configuration:
+<ul>
+<li>Download updates only, using Windows Update</li>
+</ul>
+</li>
+<li>Remote Access Configuration:
+<ul>
+<li>Remote Management: Enabled</li>
+<li>Remote Desktop: Disabled</li>
+</ul>
+</li>
+</ul>
+<h2 id="printers">Printers</h2>
+<h2 id="storage-services">Storage Services</h2>
+<ul>
+<li>Storage Pool 1
+<ul>
+<li>Name: DelatDiskPool</li>
+<li>Mirror: 2</li>
+<li>Physical Disks: 20x 1TB</li>
+<li>Virtual Disks:
+<ul>
+<li>DelatDisk 10TB</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Storage Pool 2
+<ul>
+<li>Name: AnvandareDiskPool</li>
+<li>Mirror: 2</li>
+<li>Physical Disks: 12x 1TB</li>
+<li>Virtual Disks:
+<ul>
+<li>AnvandareDisk 6TB</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="shared-folders">Shared Folders</h2>
+<h3 id="anvandarediskusers---nas1users">AnvandareDisk:\Users$\ -&gt; \\NAS1\Users$</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>Domain users (Allow)
+<ul>
+<li>Traverse folder / execute file</li>
+<li>List folder / read data</li>
+<li>Create folders / append data</li>
+<li>This folder only</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdiskglobal---nas1global">DelatDisk:\Global\ -&gt; \\NAS1\Global</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>Authenticated Users (Allow)
+<ul>
+<li>Read, write &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdiskbrie---nas1brie">DelatDisk:\Brie\ -&gt; \\NAS1\Brie</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>BriePersonal (Allow)
+<ul>
+<li>Read, write &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdiskchevre---nas1chevre">DelatDisk:\Chevre\ -&gt; \\NAS1\Chevre</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>ChevrePersonal (Allow)
+<ul>
+<li>Read, write &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdiskemmentaler---nas1emmentaler">DelatDisk:\Emmentaler\ -&gt; \\NAS1\Emmentaler</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>EmmentalerPersonal (Allow)
+<ul>
+<li>Read, write &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdiskgouda---nas1gouda">DelatDisk:\Gouda\ -&gt; \\NAS1\Gouda</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>GoudaPersonal (Allow)
+<ul>
+<li>Read, write &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdiskmozzarella---nas1mozzarella">DelatDisk:\Mozzarella\ -&gt; \\NAS1\Mozzarella</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>MozzarellaPersonal (Allow)
+<ul>
+<li>Read, write &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="delatdisksystem-resouces---nas1system-resouces">DelatDisk:\System Resouces$\ -&gt; \\NAS1\System Resouces$</h3>
+<ul>
+<li>Share Permissions:
+<ul>
+<li>Authenticated Users: Full Control</li>
+</ul>
+</li>
+<li>NTFS Permissions:
+<ul>
+<li>System (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Administrators (Allow)
+<ul>
+<li>Full Control</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+<li>Creator Owner (Allow)
+<ul>
+<li>Full Control</li>
+<li>Subfolders and fils only</li>
+</ul>
+</li>
+<li>Authenticated Users (Allow)
+<ul>
+<li>Read &amp; execute</li>
+<li>This folder, subfolders and files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="mapped-drives">Mapped Drives</h2>
+<ol>
+<li>Brie</li>
+</ol>
+<ul>
+<li>Folder: \\NAS1\Brie</li>
+<li>Mount as Network Drive</li>
+<li>Drive letter: First available from I:</li>
+<li>Item Level Targeting: (Security Group) BriePersonal</li>
+</ul>
+<ol start="2">
+<li>Chevre</li>
+</ol>
+<ul>
+<li>Folder: \\NAS1\Chevre</li>
+<li>Mount as Network Drive</li>
+<li>Drive letter: First available from I:</li>
+<li>Item Level Targeting: (Security Group) ChevrePersonal</li>
+</ul>
+<ol start="3">
+<li>Emmentaler</li>
+</ol>
+<ul>
+<li>Folder: \\NAS1\Emmentaler</li>
+<li>Mount as Network Drive</li>
+<li>Drive letter: First available from I:</li>
+<li>Item Level Targeting: (Security Group) EmmentalerPersonal</li>
+</ul>
+<ol start="4">
+<li>Gouda</li>
+</ol>
+<ul>
+<li>Folder: \\NAS1\Gouda</li>
+<li>Mount as Network Drive</li>
+<li>Drive letter: First available from I:</li>
+<li>Item Level Targeting: (Security Group) GoudaPersonal</li>
+</ul>
+<ol start="5">
+<li>Mozzarella</li>
+</ol>
+<ul>
+<li>Folder: \\NAS1\Mozzarella</li>
+<li>Mount as Network Drive</li>
+<li>Drive letter: First available from I:</li>
+<li>Item Level Targeting: (Security Group) MozzarellaPersonal</li>
+</ul>
+<ol start="6">
+<li>Global</li>
+</ol>
+<ul>
+<li>Folder: \\NAS1\Global</li>
+<li>Mount as Network Drive</li>
+<li>Drive letter: First available from G:</li>
+</ul>
+<h2 id="printers-1">Printers</h2>
+<ol>
+<li>BrieKontorsskrivare</li>
+</ol>
+<ul>
+<li>IP: 10.10.10.10</li>
+<li>Deploy with GPO Per Machine to respective OU</li>
+<li>Driver: Microsoft IPP Class Driver</li>
+<li>Noteable Permissions:
+<ul>
+<li>Allow BriePersonal: Print</li>
+<li>Allow BrieITPersonal: Print, Manage this printer, Manage documents</li>
+<li>Allow Creator Owner: Manage documents</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>ChevreKontorsskrivare</li>
+</ol>
+<ul>
+<li>IP: 10.10.10.11</li>
+<li>Deploy with GPO Per Machine to respective OU</li>
+<li>Driver: Microsoft IPP Class Driver</li>
+<li>Noteable Permissions:
+<ul>
+<li>Allow ChevrePersonal: Print</li>
+<li>Allow ChevreITPersonal: Print, Manage this printer, Manage documents</li>
+<li>Allow Creator Owner: Manage documents</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>EmmentalerKontorsskrivare</li>
+</ol>
+<ul>
+<li>IP: 10.10.10.12</li>
+<li>Deploy with GPO Per Machine to respective OU</li>
+<li>Driver: Microsoft IPP Class Driver</li>
+<li>Noteable Permissions:
+<ul>
+<li>Allow EmmentalerPersonal: Print</li>
+<li>Allow EmmentalerITPersonal: Print, Manage this printer, Manage documents</li>
+<li>Allow Creator Owner: Manage documents</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>GoudaKontorsskrivare</li>
+</ol>
+<ul>
+<li>IP: 10.10.10.13</li>
+<li>Deploy with GPO Per Machine to respective OU</li>
+<li>Driver: Microsoft IPP Class Driver</li>
+<li>Noteable Permissions:
+<ul>
+<li>Allow GoudaPersonal: Print</li>
+<li>Allow GoudaITPersonal: Print, Manage this printer, Manage documents</li>
+<li>Allow Creator Owner: Manage documents</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>MozzarellaKontorsskrivare</li>
+</ol>
+<ul>
+<li>IP: 10.10.10.14</li>
+<li>Deploy with GPO Per Machine to respective OU</li>
+<li>Driver: Microsoft IPP Class Driver</li>
+<li>Noteable Permissions:
+<ul>
+<li>Allow MozzarellaPersonal: Print</li>
+<li>Allow MozzarellaITPersonal: Print, Manage this printer, Manage documents</li>
+<li>Allow Creator Owner: Manage documents</li>
+</ul>
+</li>
+</ul>
+<h2 id="roles-and-features">Roles and Features</h2>
+<p><em>None</em></p>
+<!-- Add Printer stuff -->
+
+    </body>
+    </html>
