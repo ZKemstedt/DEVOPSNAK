@@ -35,7 +35,8 @@ Databashantering/exam/
 # -- Projektmetodik och Agila Metoder
 #
 Agila\ Metoder\ och\ Projectmetodik/404notfound/
-
+Agila\ Metoder\ och\ Projectmetodik/*.pptx
+Agila\ Metoder\ och\ Projectmetodik/*.pdf
 
 #
 # -- Programmering i Java
@@ -46,4 +47,27 @@ Programmering i Java/devops20_java/
 #
 # -- Windows Server
 #
-# ... Do not ignore
+Windows\ Server/scenarielab/osthyvel/.env
+
+#
+# -- Linux
+#
+
+#
+# -- LAN
+#
+LAN/*.pdf
+
+# Why is this a thing?
+LAN/day1/1. Exploring the network.pdf
+LAN/day1/2. Network Protocols and Communications.pdf
+LAN/day1/3. Network Access.pdf
+
+#
+# -- IT Säkerhet
+#
+
+#
+# -- Linux 2
+#
+

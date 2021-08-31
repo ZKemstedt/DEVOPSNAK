@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Program to output a system information page
+
+_GATEWAY=10.0.2.1
+
+# command output
+UPTIME="$(uptime -p)"
+PING="$(ping -c 4 $_GATEWAY | tail -1 | awk '{print $2 ": " $4}')"
+CURRENT_TIME="$(date +"%x %r %Z")"
+TCP_CONNECTIONS="$(netstat -natp | grep esta | wc -l)"
+NETWORK_INTERFACE="$(ip addr | grep enp0s3: )"
+
+PACKAGE_COUNT="$(apt list --installed | wc -l)"
+UPGRADEABLE_COUNT="$(apt list --upgradeable | wc -l)"
+
+BASH_COUNT="$(ps -e | grep bash | wc -l)"
+OPEN_FILE_COUNT="$(ps -e | grep bash | awk '{print $1}' | lsof | wc -l)"
+
+# formatting
+TITLE="System Information Report for $HOSTNAME"
+TIMESTAMP="Generated $CURRENT_TIME, by $USER"
+BASH_FILES="$OPEN_FILE_COUNT open files across $BASH_COUNT bash processes."
+PACKAGES="$PACKAGE_COUNT installed packages, $UPGRADEABLE_COUNT upgradeable."
+cat <<ENDREPORT
+<html>
+	<head>
+		<title>$TITLE</title>
+	</head>
+	<body>
+		<h1>$TITLE</h1>	
+		<p>$TIMESTAMP</p>
+		<p>$UPTIME</p>
+		<h3>Network</h3>
+		<p>Router Ping: $PING</p>
+		<p>Interface $NETWORK_INTERFACE</p>
+		<p>Active tcp connections: $TCP_CONNECTIONS</p>
+		<h3>System</h3>
+		<p>Installed Packages: $PACKAGES</p>
+		<p>$BASH_FILES<p>
+		
+	</body>
+</html>
+ENDREPORT
+
