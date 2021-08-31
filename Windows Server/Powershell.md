@@ -1,26 +1,17 @@
-# Powershell Syntax
+# Powershell snippets
 
-## syntax
-```
-Verb-Noun -parameter | Verb-Noun -parameter ...
-```
-notes:
-    There is no space between verb and noun but there is a dash.
-    There are exclusions to the verb-noun rule, such as `new`.
 
-#### example:
+## Use the pipe character(|) to pass a list of objects to another cmdlet for further proessing
+### 1.
 ```powershell
 Get-ADUser -Filter * -SearchBase "OU=Test,DC=brodin,DC=local" | Set-ADUser -Department "Hej"
 ```
-
-## Use the pipe character(|) to pass a list of objects to a cmdlet for further proessing
+### 2.
 ```powershell
 Get-ADUser -Filter {company -notlike "*"} | Set-ADUser -Company "A. Datum"
 Get-ADUser -Filter {lastlogondate -lt "January 1, 2012"} | Disable-ADAccount
 Get-Content C:\users.txt | Disable-ADAccount
 ```
-
-cmdlet
 
 ## Querying Objects with Windows PowerShell
 ```powershell

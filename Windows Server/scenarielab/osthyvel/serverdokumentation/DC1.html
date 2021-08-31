@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Prim&auml;r Dom&auml;nkontrollant - DC1</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="primär-domänkontrollant---dc1">Primär Domänkontrollant - DC1</h1>
+<!-- https://www.dell.com/sv-se/work/shop/servrar-lagring-och-natverk/smart-value-poweredge-t640-server-for-large-smb-customers/spd/poweredge-t640/pet6409a?configurationid=b76a51cd-460c-4811-86b9-aa9579ca3bfe -->
+<!-- # Description
+## Virtual Machine Running on 
+## C003
+## Virtuella Komponenter:
+* Main Disk
+  - Type: Differential
+  - Location: C:\VM\DC1\DC1.vhdx
+  - Parent Location: C:\VM\Moderdiskar\ModerdiskW2019.vhd
+  - Size: 40GB
+* Generation: 1
+* RAM
+  - Dynamic: True
+  - MinimumBytes: 800MB
+  - StartupBytes: 1500MB 
+  - MaximumBytes: 4GB
+  - Priority: 80
+  - Buffer: 25
+* Processor
+  - Count: 2
+* Virtual Switch: Klassrumsnät -->
+<h2 id="location">Location</h2>
+<ul>
+<li>Brie Server Hall, Tower 1</li>
+</ul>
+<h2 id="hardware">Hardware</h2>
+<ul>
+<li>RAM: 4x 14GB 3200MT/s</li>
+<li>Processor: 2x Intel Xeon Silver 4214R 2.5GHz</li>
+<li>Hard Drives: 1x 960GB SSD 2.5&quot;</li>
+</ul>
+<h1 id="configuration">Configuration</h1>
+<ul>
+<li>OS: Windows Server 2019 Datacenter Evaluation</li>
+<li>Build: 17763.rs5_release.180914-1434</li>
+<li>Display Resolution: 1024x768</li>
+<li>Network Configuration:
+<ul>
+<li>IP adress 10.6.66.165</li>
+<li>Subnet mask: 255.0.0.0</li>
+<li>Default gateway 10.6.68.1</li>
+<li>Preferred DNS server: 127.0.0.1</li>
+<li>Alternate DNS server: 8.8.8.8</li>
+</ul>
+</li>
+<li>Windows Update Configuration:
+<ul>
+<li>Download updates only, using Windows Update</li>
+</ul>
+</li>
+<li>Remote Access Configuration:
+<ul>
+<li>Remote Management: Enabled</li>
+<li>Remote Desktop: Disabled</li>
+</ul>
+</li>
+</ul>
+<h1 id="roles-and-features">Roles and Features</h1>
+<ul>
+<li>DNS</li>
+<li>AD DS</li>
+</ul>
+<h1 id="dns">DNS</h1>
+<ul>
+<li>Zone name: <a href="http://osthyvel.se">osthyvel.se</a></li>
+<li>Static Records:
+<ul>
+<li><a href="http://dc1.osthyvel.se">dc1.osthyvel.se</a>         10.6.66.165</li>
+</ul>
+</li>
+<li>Forwarders:
+<ul>
+<li>unConditional           8.8.8.8</li>
+</ul>
+</li>
+<li>Stub-Zone:
+<ul>
+<li><a href="http://luddan.se">luddan.se</a>               10.6.66.160</li>
+</ul>
+</li>
+</ul>
+<h1 id="ad-ds">AD DS</h1>
+<ul>
+<li>Domain Name: <a href="http://osthyvel.se">osthyvel.se</a></li>
+<li>NetBIOS Domain Name: OSTHYVEL</li>
+<li>DSRM password: <em>Hidden</em></li>
+</ul>
+<h2 id="ou-structure">OU-Structure:</h2>
+<p><img src="file:///c:\Users\Administrator\Documents\DEVOPSNAK\Windows Server\scenarielab\osthyvel\serverdokumentation\OU-Structure.png" alt="OU-Structure" title="Image"></p>
+<h2 id="ou-delegated-control">OU-Delegated Control:</h2>
+<h3 id="brie">Brie</h3>
+<ul>
+<li>BrieITPersonal -&gt; <a href="http://Brie.osthyvel.se">Brie.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Create, delete and manage groups</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+<li>BrieHRPersonal -&gt; <a href="http://Anvandare.Brie.osthyvel.se">Anvandare.Brie.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+</ul>
+<h3 id="chevre">Chevre</h3>
+<ul>
+<li>ChevreITPersonal -&gt; <a href="http://Chevre.osthyvel.se">Chevre.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Create, delete and manage groups</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+<li>ChevreHRPersonal -&gt; <a href="http://Anvandare.Chevre.osthyvel.se">Anvandare.Chevre.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+</ul>
+<h3 id="emmentaler">Emmentaler</h3>
+<ul>
+<li>EmmentalerITPersonal -&gt; <a href="http://Emmentaler.osthyvel.se">Emmentaler.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Create, delete and manage groups</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+<li>EmmentalerHRPersonal -&gt; <a href="http://Anvandare.Emmentaler.osthyvel.se">Anvandare.Emmentaler.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+</ul>
+<h3 id="gouda">Gouda</h3>
+<ul>
+<li>GoudaITPersonal -&gt; <a href="http://Gouda.osthyvel.se">Gouda.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Create, delete and manage groups</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+<li>GoudaHRPersonal -&gt; <a href="http://Anvandare.Gouda.osthyvel.se">Anvandare.Gouda.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+</ul>
+<h3 id="mozzarella">Mozzarella</h3>
+<ul>
+<li>MozzarellaITPersonal -&gt; <a href="http://Mozzarella.osthyvel.se">Mozzarella.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Create, delete and manage groups</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+<li>MozzarellaHRPersonal -&gt; <a href="http://Anvandare.Mozzarella.osthyvel.se">Anvandare.Mozzarella.osthyvel.se</a>
+<ul>
+<li>Create, delete and manage user accounts</li>
+<li>Reset user passwords and force password change at next logon</li>
+<li>Read all luser information</li>
+<li>Modify the membership of a group</li>
+</ul>
+</li>
+</ul>
+<h2 id="groups">Groups</h2>
+<p>[DL]: Domain Local Group
+[G]: Global Group</p>
+<ul>
+<li>[DL] BriePersonal -&gt; <a href="http://Grupper.Brie.osthyvel.se">Grupper.Brie.osthyvel.se</a>
+<ul>
+<li>[G] BrieITPersonal</li>
+<li>[G] BrieHRPersonal</li>
+<li>[G] BriePRPersonal</li>
+<li>[G] BrieButiksPersonal</li>
+<li>[G] BrieFabriksPersonal</li>
+<li>[G] BrieKontorsPersonal</li>
+<li>[G] BrieEkonom</li>
+<li>[G] BrieProvsmakare</li>
+</ul>
+</li>
+<li>[DL] ChevrePersonal -&gt; <a href="http://Grupper.Chevre.osthyvel.se">Grupper.Chevre.osthyvel.se</a>
+<ul>
+<li>[G] ChevreITPersonal</li>
+<li>[G] ChevreHRPersonal</li>
+<li>[G] ChevrePRPersonal</li>
+<li>[G] ChevreButiksPersonal</li>
+<li>[G] ChevreFabriksPersonal</li>
+<li>[G] ChevreKontorsPersonal</li>
+<li>[G] ChevreEkonom</li>
+<li>[G] ChevreProvsmakare</li>
+</ul>
+</li>
+<li>[DL] EmmentalerPersonal -&gt; <a href="http://Grupper.Emmentaler.osthyvel.se">Grupper.Emmentaler.osthyvel.se</a>
+<ul>
+<li>[G] EmmentalerITPersonal</li>
+<li>[G] EmmentalerHRPersonal</li>
+<li>[G] EmmentalerPRPersonal</li>
+<li>[G] EmmentalerButiksPersonal</li>
+<li>[G] EmmentalerFabriksPersonal</li>
+<li>[G] EmmentalerKontorsPersonal</li>
+<li>[G] EmmentalerEkonom</li>
+<li>[G] EmmentalerProvsmakare</li>
+</ul>
+</li>
+<li>[DL] GoudaPersonal -&gt; <a href="http://Grupper.Gouda.osthyvel.se">Grupper.Gouda.osthyvel.se</a>
+<ul>
+<li>[G] GoudaITPersonal</li>
+<li>[G] GoudaHRPersonal</li>
+<li>[G] GoudaPRPersonal</li>
+<li>[G] GoudaButiksPersonal</li>
+<li>[G] GoudaFabriksPersonal</li>
+<li>[G] GoudaKontorsPersonal</li>
+<li>[G] GoudaEkonom</li>
+<li>[G] GoudaProvsmakare</li>
+</ul>
+</li>
+<li>[DL] MozzarellaPersonal -&gt; <a href="http://Grupper.Mozzarella.osthyvel.se">Grupper.Mozzarella.osthyvel.se</a>
+<ul>
+<li>[G] MozzarellaITPersonal</li>
+<li>[G] MozzarellaHRPersonal</li>
+<li>[G] MozzarellaPRPersonal</li>
+<li>[G] MozzarellaButiksPersonal</li>
+<li>[G] MozzarellaFabriksPersonal</li>
+<li>[G] MozzarellaKontorsPersonal</li>
+<li>[G] MozzarellaEkonom</li>
+<li>[G] MozzarellaProvsmakare</li>
+</ul>
+</li>
+<li>[DL] ITPersonal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieITPersonal</li>
+<li>ChevreITPersonal</li>
+<li>EmmentalerITPersonal</li>
+<li>GoduaITPersonal</li>
+<li>MozzarellaITPersonal</li>
+</ul>
+</li>
+<li>[DL] HRPersonal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieHRPersonal</li>
+<li>ChevreHRPersonal</li>
+<li>EmmentalerHRPersonal</li>
+<li>GoduaHRPersonal</li>
+<li>MozzarellaHRPersonal</li>
+</ul>
+</li>
+<li>[DL] PRPersonal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BriePRPersonal</li>
+<li>ChevrePRPersonal</li>
+<li>EmmentalerPRPersonal</li>
+<li>GoduaPRPersonal</li>
+<li>MozzarellaPRPersonal</li>
+</ul>
+</li>
+<li>[DL] ButiksPersonal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieButiksPersonal</li>
+<li>ChevreButiksPersonal</li>
+<li>EmmentalerButiksPersonal</li>
+<li>GoduaButiksPersonal</li>
+<li>MozzarellaButiksPersonal</li>
+</ul>
+</li>
+<li>[DL] FabriksPersonal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieFabriksPersonal</li>
+<li>ChevreFabriksPersonal</li>
+<li>EmmentalerFabriksPersonal</li>
+<li>GoduaFabriksPersonal</li>
+<li>MozzarellaFabriksPersonal</li>
+</ul>
+</li>
+<li>[DL] KontorsPersonal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieKontorsPersonal</li>
+<li>ChevreKontorsPersonal</li>
+<li>EmmentalerKontorsPersonal</li>
+<li>GoduaKontorsPersonal</li>
+<li>MozzarellaKontorsPersonal</li>
+</ul>
+</li>
+<li>[DL] Ekonom -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieEkonom</li>
+<li>ChevreEkonom</li>
+<li>EmmentalerEkonom</li>
+<li>GoduaEkonom</li>
+<li>MozzarellaEkonom</li>
+</ul>
+</li>
+<li>[DL] Provsmakare -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BrieProvsmakare</li>
+<li>ChevreProvsmakare</li>
+<li>EmmentalerProvsmakare</li>
+<li>GoduaProvsmakare</li>
+<li>MozzarellaProvsmakare</li>
+</ul>
+</li>
+<li>[DL] Personal -&gt; <a href="http://Resursgrupper.osthyvel.se">Resursgrupper.osthyvel.se</a>
+<ul>
+<li>BriePersonal</li>
+<li>ChevrePersonal</li>
+<li>EmmentalerPersonal</li>
+<li>GoudaPersonal</li>
+<li>MozzarellaPersonal</li>
+</ul>
+</li>
+</ul>
+<h2 id="group-policy-objects-gpo">Group Policy Objects (GPO)</h2>
+<p>See GPOReportsAll.html</p>
+
+    </body>
+    </html>

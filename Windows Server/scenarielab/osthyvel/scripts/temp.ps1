@@ -1,0 +1,212 @@
+# Static
+$nas1 = "10.6.66.166"
+$dc1 = "10.6.66.165"
+$target = $dc1
+
+$pw = ConvertTo-SecureString "Password123" -AsPlainText -Force
+$usr = "osthyvel\administrator"
+$cred = New-Object System.Management.Automation.PSCredential ($usr, $pw)
+
+# $users = Import-csv "C:\Users\Administrator\Downloads\Lista över anstallda - Export CSV.csv"
+
+
+# 
+#   Scripts
+# 
+
+# # Folder Redirection Group Policy
+# $gpo_folder_redirection = @{
+#     ComputerName = $dc1
+#     Credential = $cred
+#     ScriptBlock = {
+#         New-GPO -Name TestGPO `
+#         | Set-GPRegistryValue -key "HKCU\Policies\Windows Settings\Folder Redirection\Documents" -Value "123123" `
+#         | New-GPLink -target "DC=osthyvel,DC=se"
+#     }
+#     # Redirect settings are stored at 
+#     # "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+#     # To change this you may use cmdlets:
+
+#     Set-GPPrefRegistryValue
+#     # Configures a registry preference item under either Computer Configuration or User Configuration in a GPO.
+
+#     Set-GPRegistryValue
+#     # Configures one or more registry-based policy settings under either Computer Configuration or User Configuration in a GPO.
+# }
+
+# # Create OU, Groups, Users and Assign Users to Groups
+# $setup_ou_groups_user = @{
+#     ComputerName = $dc1
+#     Credential = $cred
+#     ScriptBlock = {
+#         Import-Module activedirectory
+        
+#         $ostar = @("Brie", "Chevre", "Gouda", "Emmentaler", "Mozzarella")
+#         foreach ($ost in $ostar)
+#         {
+#             New-ADOrganizationalUnit -Name $ost -Path "DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+#             New-ADOrganizationalUnit -Name "Anvandare" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+#             New-ADOrganizationalUnit -Name "Datorer" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+#             New-ADOrganizationalUnit -Name "Grupper" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+#         }
+#         # ??
+#         $users = $Using:users_csv
+    
+#         foreach ($user in $users) {
+#             $firstname 	    = $user.firstname
+#             $lastname 	    = $user.lastname
+
+#             # $password 	    = $user.password
+#             $password       = "Password123"
+#             $telephone      = $user.telephone
+#             $email          = $user.upn
+#             $upn            = $user.upn
+#             $sam            = $user.sam
+
+#             $ou 		    = $user.ou
+#             $group          = $user.group
+#             $spgroup        = $user.spgroup
+#             $subgroup       = "$ou$group"
+#             $description    = "$group hos $ou"
+
+#             # Primary Group Creator
+#             if (Get-ADGroup -F {Name -eq $group}) {
+#                 # if Primary group exists...
+#                 # Write-Warning "Primary Group exists: $group"
+#             }
+#             else {
+#                 New-ADGroup -Name $group -GroupCategory Security -GroupScope DomainLocal -Path "dc=osthyvel,dc=se"
+#             }
+#             $ParentGroup = Get-ADGroup -F {Name -eq $group}
+
+#             # Sub Group Creator
+#             if (Get-ADGroup -f {Name -eq $subgroup}) {
+#                 # if Sub Group exists...
+#                 # Write-Warning "Sub Group exists: $subgroup"
+#             }
+#             else {
+#                 New-ADGroup -Name $subgroup `
+#                 -GroupCategory Security -GroupScope Global `
+#                 -Path "ou=grupper,ou=$ou,dc=osthyvel,dc=se" -Description $description `
+#                 -PassThru | Add-ADPrincipalGroupMembership -MemberOf $ParentGroup
+#             }
+#             $ChildGroup = Get-ADGroup -f {Name -eq $subgroup}
+
+
+#             # Create User
+#             if (Get-ADUser -F {SamAccountName -eq $sam}) {
+#                 Write-Warning "A user account with username $sam already exist in Active Directory."
+#             }
+#             else {
+#                 New-ADUser `
+#                     -SamAccountName $sam `
+#                     -UserPrincipalName "$upn" `
+#                     -Name "$firstname $lastname" `
+#                     -GivenName $firstname `
+#                     -Surname $lastname `
+#                     -Enabled $true `
+#                     -DisplayName "$firstname $lastname" `
+#                     -Path "ou=anvandare,ou=$ou,dc=osthyvel,dc=se" `
+#                     -OfficePhone $telephone `
+#                     -EmailAddress $email `
+#                     -AccountPassword (convertto-securestring $password -AsPlainText -Force) -ChangePasswordAtLogon $true `
+#                     -PassThru | Add-ADPrincipalGroupMembership -MemberOf $ChildGroup
+#                 # Write-Host "Created user $sam"
+#                 # Write-Host "Added to group $ChildGroup"
+#             }
+#         }
+#     }
+#     ArgumentList = $users # ???
+# }
+
+
+
+# $control_groups = @{
+#     ComputerName = $dc1
+#     Credential = $cred
+#     ScriptBlock = {
+#         $ostar = @("Brie", "Chevre", "Gouda", "Emmentaler", "Mozzarella")
+    
+#         foreach ($ost in $ostar) {
+#             $group = ""
+
+#             Get-ADGroup -F {Name -eq $group}) 
+
+#             -passThru | Add-ADPrincipalGroupMembership -MemberOf $ParentGroup
+#         }
+#     } 
+#     ArgumentList = $users # ??? 
+# }
+
+# GPO REPORT
+# Get-GPOReport -All -Domain "sales.contoso.com" -Server "DC1" -ReportType XML -Path "C:\GPOReports\GPOReportsAll.xml"
+# $session = New-PSSession -ComputerName $dc1 -Credential $cred
+# Copy-Item -FromSession $session C:\GPOReportsAll.html -Destination C:\Users\Administrator\Desktop\GPOReportsAll.html
+# Remove-PSSession $session
+
+
+
+
+#
+#   Invoke
+#
+# Invoke-Command @setup_ou_groups_user
+
+
+
+
+
+#
+#   Snippets
+#
+
+# $PhysicalDisks = Get-StorageSubSystem -FriendlyName "Windows Storage*" | Get-PhysicalDisk -CanPool $True
+# New-StoragePool -FriendlyName "CompanyData" -StorageSubsystemFriendlyName "Windows Storage*" `-PhysicalDisks $PhysicalDisks `
+# | New-VirtualDisk -FriendlyName "UserData" -Size 100GB -ProvisioningType Thin `
+# | Initialize-Disk -PassThru | New-Partition -AssignDriveLetter -UseMaximumSize | Format-Volume
+
+# New-VirtualDisk -StoragePoolFriendlyName CompanyData -FriendlyName BusinessCritical -ResiliencySettingName Mirror -NumberOfDataCopies 3 -Size 42TB -ProvisioningType Thin
+# two-column mirror?
+# New-VirtualDisk -StoragePoolFriendlyName CompanyData -FriendlyName BusinessCritical -ResiliencySettingName Mirror - -Size 42TB -ProvisioningType Thin -NumberOfColumns 2
+# Create a dual-parity space?
+# New-VirtualDisk -StoragePoolFriendlyName "CompanyData" -FriendlyName "ArchivalData" -Size 50GB -ProvisioningType Fixed -ResiliencySettingName "Parity" -PhysicalDiskRedundancy 2
+
+
+# {($_.extension -eq ".xls" -or $_.extension -eq ".xlk") -and ($_.creationtime -ge "06/01/2014")}
+    # 1-12 -> #A
+    # 13-32 -> #B
+
+# $PhysicalDisks = (Get-PhysicalDisk -CanPool $True)
+# New-StoragePool -FriendlyName CompanyData -StorageSubsystemFriendlyName "Windows Storage*" -PhysicalDisks $PhysicalDisks
+
+    # $disks = Get-PhysicalDisk -CanPool $True | Select-Object * | Where-Object DeviceID -lt 12
+    # foreach ($disk in $disks) {
+    #     Write-Host ($disk | Format-List | Out-String)
+    # }
+
+    # Get-PhysicalDisk -CanPool $True `
+    # | Select-Object * `
+    # | Where-Object {[int]$_.DeviceID -gt 12} `
+    # | Sort-Object {[int]$_.DeviceID} `
+    # | Format-Table
+
+# $script_folder = "C:\Users\Administrator\Documents\DEVOPSNAK\Windows Server\scenarielab\osthyvel\scripts\"
+# $script_files = @("create_disks.ps1")
+# $script_sub_folder = ""
+# if ($target -eq $nas1) {
+#     $script_sub_folder = "NAS1\"
+# }
+# if ($target -eq $dc1) {
+#     $script_sub_folder = "DC1\"
+# }
+# foreach ($script in $script_files) {
+#     $script_path = $script_folder + script_sub_folder + $script
+#     Invoke-Command -Session $session -FilePath $script_path
+# }
+
+# Copy-Item -FromSession $session [path] -Destination [path] [-Recurse]
+# Copy-Item -FromSession $session C:\administrator\Desktop\text.txt -Destination C:\administrator\Desktop\text.txt
+
+# Get-Disk | Where-Object IsOffline -Eq $True | Set-Disk -IsOffline $False
+# Get-Disk | Where partitionstyle -eq 'raw' | Initialize-Disk
+# Get-Disk | Where-Object IsReadonly -Eq $True | Set-Disk -IsReadonly $False

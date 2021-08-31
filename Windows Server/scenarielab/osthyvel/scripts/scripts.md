@@ -1,3 +1,48 @@
+
+# OU Setup
+
+## Create OUs
+```powershell
+$ostar = @("Brie", "Chevre", "Gouda", "Emmentaler", "Mozzarella")
+foreach ($ost in $ostar)
+{
+    New-ADOrganizationalUnit -Name $ost -Path "DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name "Anvandare" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name "Datorer" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name "Grupper" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
+}
+```
+
+# Remove OUs
+```powershell
+$ostar = @("Brie", "Chevre", "Gouda", "Emmentaler", "Mozzarella")
+foreach ($ost in $ostar)
+{
+    Remove-ADOrganizationalUnit -Identity "OU=$ost,DC=osthyvel,DC=se" -Recursive -Confirm:$false
+}
+```
+
+
+# Remote PS Setup 
+Host -> DC1, NAS1
+```powershell
+Enable-PSRemoting # (Seems to be optional?)
+
+# SET
+Set-Item -Path WSMAN:\localhost\Client\TrustedHosts -Value '10.6.66.166, 10.6.66.165'
+# APPEND
+$curList = (Get-Item WSMan:\localhost\Client\TrustedHosts).value
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$curList, Server01"
+
+# Remote PS Entry
+Enter-PSSession -computername 10.6.66.165 -credential osthyvel\Administrator
+Enter-PSSession -computername 10.6.66.166 -credential osthyvel\Administrator
+# Exit Session
+exit
+`` 
+
+
+
 # VM Setup
 
 # Extra disks for Filserver
@@ -31,28 +76,6 @@ Install-ADDSForest `
 -NoRebootOnCompletion: $false `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
-```
-
-
-# OU Setup
-
-## Create OUs
-```powershell
-$ostar = @("Brie", "Chevre", "Gouda", "Emmentaler", "Mozzarella")
-foreach ($ost in $ostar) {
-    New-ADOrganizationalUnit -Name $ost -Path "DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
-    New-ADOrganizationalUnit -Name "Anvandare" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
-    New-ADOrganizationalUnit -Name "Datorer" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
-    New-ADOrganizationalUnit -Name "Grupper" -Path "OU=$ost,DC=osthyvel,DC=se" -ProtectedFromAccidentalDeletion $false
-}
-```
-
-# Remove OUs
-```powershell
-$ostar = @("Brie", "Chevre", "Gouda", "Emmentaler", "Mozzarella")
-foreach ($ost in $ostar) {
-    Remove-ADOrganizationalUnit -Identity "OU=$ost,DC=osthyvel,DC=se" -Recursive -Confirm:$false
-}
 ```
 
 # Create Groups

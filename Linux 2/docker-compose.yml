@@ -1,0 +1,16 @@
+version: "3.9"
+
+services: 
+  lab:
+    build: .
+    expose:
+      - "22"
+    ports:
+      - "4848:22"
+    volumes:
+      - linux2-lab-data:/home/zephyro/code
+
+volumes:
+  linux2-lab-data:
+    name: "linux2-lab-data"
+
