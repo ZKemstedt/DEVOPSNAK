@@ -1,14 +1,6 @@
 # syntax=docker/dockerfile:1.2
 FROM alpine:3.14
 
-# == snipps ==
-
-# # RUN --mount=type=secret,id=password groupadd -r zephyro \
-# 	# && echo "zephyro:$(cat /run/secrets/password)" | chpasswd \
-
-# RUN (umask 077 && test -d ~/.ssh || mkdir ~/.ssh) \
-# 	&& (umask 077 && mv ~/priv.pub ~/.ssh/authorized_keys)
-
 RUN apk add --update --no-cache git shadow vim wget doas sed openssh
 
 RUN groupadd -r zephyro \
