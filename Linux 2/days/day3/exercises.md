@@ -1,7 +1,7 @@
 ## Ex 1
 * Warm upp exercise:
 List all installed packets on your Linux machine, take a look at the things you recognize.
-```sh
+```bash
 apt list # Ubuntu
 apk list # Alpine
 ```
@@ -13,7 +13,7 @@ apk list # Alpine
 * Start the daemon
 * verify that the daemon is running
 * see more information with `systemctl list-dependencies`, `systemctl cat` and `systemctl show`
-```sh
+```bash
 sudo apt install apache2
 sudo systemctl enable apache2
 sudo systemctl start apache2
@@ -28,7 +28,7 @@ systemctl show
 * create a simple program that writes a timestamp to a logfile of your choosing when it starts and then loops forever (doing nothing)
 * make a daemon of this program called simpled
 * start and restart your daemon and verify that it writes to the logfile and stays as a backgroundprocess
-```sh
+```bash
 # -- ~/day3/ex3.sh --
 #!/bin/bash
 logfile=/home/zephyro/day3/simpled.log;
@@ -78,7 +78,7 @@ sudo systemctl stop simpled
   * ```if [ `systemctl is-active apache2` == "active" ]```
   * crontab: `* * * * 1-5 <script_path>`
 
-```sh
+```bash
 # -- ~/day3/ex5.sh --
 #!/bin/bash
 logfile=/home/zephyro/apache.log
