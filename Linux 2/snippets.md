@@ -4,7 +4,10 @@
 
 ## vim
 ```bash
-echo "set 
+echo "set number" >> ~/.vimrc
+echo "set tabstop=4" >> ~/.vimrc
+echo "syntax on" >> ~/.vimrc
+echo "set expandtab" >> ~/.vimrc
 ```
 
 ## ssh
