@@ -15,6 +15,22 @@ echo "set
 
 # Appendix
 
+## DNS
+### Records
+  - A
+    * Maps name to ip-address
+  - CNAME
+    * Alias: maps name -> name
+  - MX
+    * Points out mailserver
+  - NS
+    * Points out nameserver (DNS)
+  - TXT
+    * Text, often used for machine-machine interactions and verifications
+  - PTR
+    * Maps ip-address to name
+
+
 ## Email
 ### SMTP
   - "Push" to mailserver
