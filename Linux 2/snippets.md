@@ -2,9 +2,12 @@
 
 
 
+## vim
+```bash
+echo "set 
+```
 
-
-### ssh
+## ssh
 * generate keys `ssh-keygen -t ed25519`
 
 
