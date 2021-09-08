@@ -8,19 +8,28 @@
   server? Vad bör vara öppet och stängt i
   kommunikationen mellan servrarna?
 
-```md 
-* Server 1: Webbserver, med program för detta (t ex Apache) och
-  presentationslogik. Typiskt på DMZ, öppet för http / https utifrån
-  och för ssh från internt nät för administration, samt tillåta trafik in
-  till internt nät till moduler på server 2.
-* Server 2: JVM och beräkningsmodulerna. Typiskt på internt nät.
-  Öppet för trafik till modulerna från server 1 och för trafik till
-  databasen på server 3, samt ssh för administration Ingen direkt
-  Internet-koppling.
-* Server 3: Databasmotor (t ex MySQL), databas med relevant
-  data. Öppen för trafik till databasen från server 2, samt ssh för
-  administration. Alternativt: Databas i databaskluster på servrar
-  för det ändamålet. Ingen direkt Internet-koppling.
+```md
+## "default" things
+permissions / system security
+service-redundancy
+network filter mode: whitelist (+ssh usually)
+monitoring with auto actions etc
+
+## Server1: Frontend
+* apache
+* expose to {http/https request in, response OUT} to internet (80/443)
+* prioritize: availability
+
+## Server2: Java
+* Runns math and stuff
+* expose {math-request IN, math-response OUT} to Server1 (Frontend)
+* expose {db-request OUT, db-response IN} to Server3 (DB)
+* prioritize: performance
+
+## Server3: DB
+* Mongodb 
+* expose {db-request IN, db-response OUT} to Server2 (Java)
+* prioritize: reliability
 ```
 
 ## Ex 2
