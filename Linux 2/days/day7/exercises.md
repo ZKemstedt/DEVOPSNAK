@@ -141,18 +141,29 @@ insert into users (first_name, last_name, email) values ('Findus', 'Pettersson',
   - Hur allvarligt är det?
   - Åtgärder för höga riskvärden
 
-| Risk | Sannolikhet | Konsekvens | Riskvärde | Åtgärder |
-|------|-------------|------------|-----------|----------|
-|      |             |            |           |          |
-|      |             |            |           |          |
-|      |             |            |           |          |
-|      |             |            |           |          |
-|      |             |            |           |          |
-
+| Potential Risk                  | Probability | Severity | Rating | Actions   [ SR = Service Redundancy ]                              |
+|---------------------------------|-------------|----------|--------|--------------------------------------------------------------------|
+| Loss of Power                   | 2           | 5        | 10     | SR (Generator &\| Round Robbin)                                    |
+| Loss of Network                 | 3           | 5        | 15     | SR (Mirrors &\| Double cables)                                     |
+| Data loss from Human Error      | 2           | 3        | 6      | Backups, Activity Monitoring                                       |
+| Data loss from Hardware Failure | 3           | 5        | 15     | Backups, SR                                                        |
+| Data loss from SEU              | 1           | 5        | 5      | SR (Data Parity)                                                   |
+| Loss of Building                | 1           | 5        | 5      | Off-site Backups, Fire Extinguishers,<br>Strong Finance Department |
+| Loss of Personel                | 1           | 4        | 4      | Hire More People                                                   |
+| Data Theft                      | 3           | 2        | 6      |                                                                    |
+| Ransomware                      | 4           | 5        | 20     | Off-site Backups, Threat Protection,<br>Read-Only DB               |
+| Software Degradation            | 5           | 4        | 20     | Regular Updates                                                    |
+| Licenses Run Out                | 4           | 3        | 12     | Reminder Scripts                                                   |
+| Loss of Building: Flooding      | 1           | 5        | 5      | Storm Drains, Off-site Backups                                     |
+| Loss of Building: Explosions    | 1           | 5        | 5      | Blast Protective Walls, Off-site Backups                           |
 
 ## Ex 5
 * Om vi nu tänker oss vår LAMP-server, vad är
   relevant att ta backup på där? 
+
+```md
+
+```
 
 
 ## Ex 6
@@ -173,12 +184,18 @@ Några extra övningar för den får tråkigt, eller som helt enkelt vill labba 
 ## eEx 1
 Gör ett script som kontrollerar ifall några LAMP+komponenter finns 
 installerade på servern, och listar vilka som finns där.
+
+
 ## eEx 2
 Gör ett script som listar alla användare på servern som har sudo-rättigheter 
 och inte har tvingade lösenordsbyten konfigurerade med högst 90 dagars mellanrum.
+
+
 ## eEx 3
  Installera packer på en EC2-server i AWS och testa att använda det till
 att skapa en kopia av denna server.
+
+
 ## eEx 4
  Bygg upp en miljö i KVM med två databasservrar (MySQL och/eller MongoDB) och 
 automatisera switch-over mellan dem när en av servrarna stängs ned.
