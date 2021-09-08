@@ -8,7 +8,7 @@
   server? Vad bör vara öppet och stängt i
   kommunikationen mellan servrarna?
 
-```md
+```md 
 * Server 1: Webbserver, med program för detta (t ex Apache) och
   presentationslogik. Typiskt på DMZ, öppet för http / https utifrån
   och för ssh från internt nät för administration, samt tillåta trafik in
@@ -96,7 +96,7 @@ http://127.0.0.1/mysqlconnect.php
 # --- install_lamp.sh ---
 #!/bin/bash
 
-apt-get update -y
+apt-get update
 apt-get install -y apache2 mysql-server php libapache2-mod-php php-mysql
 
 systemctl restart apache2
@@ -158,3 +158,18 @@ insert into users (first_name, last_name, email) values ('Findus', 'Pettersson',
   - tips: `find`
 
 
+# Extralabbar
+Några extra övningar för den får tråkigt, eller som helt enkelt vill labba lite mer.
+
+## eEx 1
+Gör ett script som kontrollerar ifall några LAMP+komponenter finns 
+installerade på servern, och listar vilka som finns där.
+## eEx 2
+Gör ett script som listar alla användare på servern som har sudo-rättigheter 
+och inte har tvingade lösenordsbyten konfigurerade med högst 90 dagars mellanrum.
+## eEx 3
+ Installera packer på en EC2-server i AWS och testa att använda det till
+att skapa en kopia av denna server.
+## eEx 4
+ Bygg upp en miljö i KVM med två databasservrar (MySQL och/eller MongoDB) och 
+automatisera switch-over mellan dem när en av servrarna stängs ned.
