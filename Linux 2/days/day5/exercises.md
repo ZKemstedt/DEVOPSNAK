@@ -47,20 +47,16 @@ accept http && https in out
 - Nr2 = SQL
 
 - Båda
-
   - Network
     * ports
       - accept ssh on local network
       - accept db-conn (ip specific)
       - deny others
     * Do not respond to pings
-
   - Användare
     * remove root pwd ? *Tillåt ej att logga in med root*
     * pwd policy
-
   - shutdown/remove unneccessary processes/programs
-
   - Logging and monitoring
 
 
