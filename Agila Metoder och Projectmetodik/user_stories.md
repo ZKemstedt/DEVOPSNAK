@@ -1,9 +1,7 @@
-# User stories:
+### User stories:
 * Who
 * What
 * Why
-
-## Examples:
 
 ### Template
 ```
@@ -14,13 +12,14 @@ I want to
 So I can
 - 
 ```
+
+### Examples:
 As a
 - registered user
 I want to
 - change my password
 So I can
 - keep my account secure
-
 
 As a
 - website visitor
@@ -42,4 +41,3 @@ I want to
 - save all my data to the cloud
 So I can
 - access it from another device
-
