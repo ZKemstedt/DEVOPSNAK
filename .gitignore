@@ -24,12 +24,14 @@ Programmering\ och\ Systemering/Examples/stuff.txt
 #
 #  -- Programmering i Python --
 #
+# repository used in the course, has then been partially copied here
 .Programmering\ i\ Python/
+
 
 #
 # --  Databashantering
 #
-Databashantering/exam/
+Databashantering/exam/*
 
 #
 # -- Projektmetodik och Agila Metoder
