@@ -22,48 +22,6 @@ Programmering\ och\ Systemering/Examples/stuff.txt
 
 
 #
-#  -- Programmering i Python --
-#
-# repository used in the course, has then been partially copied here
-.Programmering\ i\ Python/
-
-
-#
-# --  Databashantering
-#
-Databashantering/exam/*
-
-#
-# -- Projektmetodik och Agila Metoder
-#
-Agila\ Metoder\ och\ Projectmetodik/404notfound/
-Agila\ Metoder\ och\ Projectmetodik/*.pptx
-Agila\ Metoder\ och\ Projectmetodik/*.pdf
-
-#
 # -- Programmering i Java
 #
 Programmering i Java/devops20_java/
-
-
-#
-# -- Windows Server
-#
-Windows\ Server/scenarielab/osthyvel/.env
-
-#
-# -- Linux
-#
-
-#
-# -- LAN
-#
-
-#
-# -- IT-Säkerhet och Sårbarhetsanalys
-#
-
-#
-# -- Linux 2
-#
-Linux\ 2/gruppuppgift/
