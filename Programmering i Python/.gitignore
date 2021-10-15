@@ -1,7 +1,5 @@
-# Sub repos
-.final_exam/
+# Sub repository
 lesson_2/merge_conflict/
-packaging_tutorial/
 
 # Cache
 __pycache__/
