@@ -1,0 +1,11 @@
+# group project
+aries/
+
+# ssh key
+azure/azure
+
+# openstack identity
+*openrc.sh
+
+# pdf
+*.pdf
