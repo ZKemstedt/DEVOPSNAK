@@ -1,2 +1,0 @@
-zephyro:skt
-nisse:password123
