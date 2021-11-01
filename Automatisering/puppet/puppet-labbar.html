@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-10-20 Tue 18:31 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Puppet-laborationer</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jenny Dybedahl" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Puppet-laborationer</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org758a251">1. Laborationer på Puppet</a>
+<ul>
+<li><a href="#orgc29aba8">1.1. Installera och konfigurera puppet-server och puppet-agent</a>
+<ul>
+<li><a href="#org7c235b1">1.1.1. 1: Lägg till puppet-repo</a></li>
+<li><a href="#org2a5f9d7">1.1.2. 2: Installera och grundkonfigurera puppetserver</a></li>
+<li><a href="#org22d8ddb">1.1.3. 3: Installera och grundkonfigurera puppet-agent</a></li>
+<li><a href="#org4d2ac1f">1.1.4. 4: Godkänn klientens certifikat</a></li>
+<li><a href="#org3044f7f">1.1.5. 5: Testa att klienten kan tala med puppet-servern</a></li>
+<li><a href="#orge1684d5">1.1.6. 6: Ta fram puppet-serverns information om klienten</a></li>
+</ul>
+</li>
+<li><a href="#orga4764df">1.2. Skapa puppet-moduler</a>
+<ul>
+<li><a href="#orgaa234b7">1.2.1. Installera Puppet Development Kit</a></li>
+<li><a href="#org5658f24">1.2.2. Generera "skelett" för apache-modul</a></li>
+<li><a href="#org4eecb14">1.2.3. Verifiera att modulen hittas</a></li>
+<li><a href="#orgd5a34dd">1.2.4. Skriva manifest för att installera apache</a></li>
+<li><a href="#org61cab7b">1.2.5. Skapa en virtuell host</a></li>
+<li><a href="#orge2dffe2">1.2.6. Lägga till information om den virtuella hosten i manifestet</a></li>
+<li><a href="#org8f07c32">1.2.7. Få apache att starta om när konfigurationen ändrats</a></li>
+<li><a href="#org947df49">1.2.8. Lägga in webbsidor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org758a251" class="outline-2">
+<h2 id="org758a251"><span class="section-number-2">1</span> Laborationer på Puppet</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Börja med att skapa två virtuella maskiner med Vagrant. Den ena ska ha
+hostnamn "puppet" och den andra "puppetagent". Ge minst 2 GB minne
+till "puppet".
+</p>
+</div>
+<div id="outline-container-orgc29aba8" class="outline-3">
+<h3 id="orgc29aba8"><span class="section-number-3">1.1</span> Installera och konfigurera puppet-server och puppet-agent</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org7c235b1" class="outline-4">
+<h4 id="org7c235b1"><span class="section-number-4">1.1.1</span> 1: Lägg till puppet-repo</h4>
+<div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgbc58397"></a>CentOS 7<br />
+<div class="outline-text-5" id="text-1-1-1-1">
+<pre class="example">
+sudo rpm -Uvh https://yum.puppet.com/puppet6/puppet6-release-el-7.noarch.rpm
+</pre>
+</div>
+</li>
+<li><a id="org48d47e5"></a>CentOS 6<br />
+<div class="outline-text-5" id="text-1-1-1-2">
+<p>
+sudo rpm -Uvh <a href="https://yum.puppet.com/puppet6/puppet6-release-el-6.noarch.rpm">https://yum.puppet.com/puppet6/puppet6-release-el-6.noarch.rpm</a>
+</p>
+</div>
+</li>
+<li><a id="org50f2a0a"></a>Ubuntu 18.04 Bionic Beaver<br />
+<div class="outline-text-5" id="text-1-1-1-3">
+<pre class="example">
+wget https://apt.puppetlabs.com/puppet6-release-bionic.deb
+sudo dpkg -i puppet6-release-bionic.deb
+sudo apt update
+</pre>
+</div>
+</li>
+<li><a id="org59846bb"></a>Ubuntu 16.04 Xenial Xerus<br />
+<div class="outline-text-5" id="text-1-1-1-4">
+<pre class="example">
+wget https://apt.puppetlabs.com/puppet6-release-xenial.deb
+sudo dpkg -i puppet6-release-xenial.deb
+sudo apt update
+</pre>
+</div>
+</li>
+<li><a id="org47507db"></a>Övriga OS/versioner<br />
+<div class="outline-text-5" id="text-1-1-1-5">
+<p>
+Se <a href="https://puppet.com/docs/puppet/6.0/puppet_platform.html">https://puppet.com/docs/puppet/6.0/puppet_platform.html</a>
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org2a5f9d7" class="outline-4">
+<h4 id="org2a5f9d7"><span class="section-number-4">1.1.2</span> 2: Installera och grundkonfigurera puppetserver</h4>
+<div class="outline-text-4" id="text-1-1-2">
+</div>
+<ol class="org-ol">
+<li><a id="org995a7c6"></a>Installera server<br />
+<ol class="org-ol">
+<li><a id="org05ba4d7"></a>Centos och andra yum-baserade<br />
+<div class="outline-text-6" id="text-1-1-2-1-1">
+<pre class="example">
+sudo yum install puppetserver
+</pre>
+</div>
+</li>
+<li><a id="org4ff3cb0"></a>Ubuntu och andra apt-baserade<br />
+<div class="outline-text-6" id="text-1-1-2-1-2">
+<pre class="example">
+sudo apt-get install puppetserver
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org659d474"></a>Skapa CA<br />
+<div class="outline-text-5" id="text-1-1-2-2">
+<pre class="example">
+sudo /opt/puppetlabs/bin/puppetserver ca setup
+</pre>
+<p>
+Du ska nu få meddelandet
+</p>
+<pre class="example">
+Generation succeeded. Find your files in /etc/puppetlabs/puppet/ssl/ca
+</pre>
+</div>
+</li>
+<li><a id="orgbde78c3"></a>Starta PuppetServer<br />
+<div class="outline-text-5" id="text-1-1-2-3">
+<pre class="example">
+sudo systemctl start puppetserver
+</pre>
+<p>
+Om den inte startar pga slut på minne:
+Editera /etc/sysconfig/puppetserver (på CentOS) eller
+/etc/defaults/puppetserver (på Ubuntu)
+På raden JAVA<sub>ARGS</sub> står det från början "-Xms2g -Xmx2g"
+Minska till 1G istället:
+</p>
+<pre class="example">
+JAVA_ARGS="-Xms1g -Xmx1g" för att ta 1g
+</pre>
+<p>
+Eller till 512MB istället:
+</p>
+<pre class="example">
+JAVA_ARGS="-Xms512m -Xmx512m"
+</pre>
+</div>
+</li>
+<li><a id="org90eb8f7"></a>Tillåt puppetserver i brandväggen<br />
+<div class="outline-text-5" id="text-1-1-2-4">
+<p>
+Detta gäller förstås bara om du har en brandvägg igång, annars kan du
+strunta i det!
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org593859b"></a>CentOS<br />
+<div class="outline-text-6" id="text-1-1-2-4-1">
+<pre class="example">
+sudo firewall-cmd --add-service puppetmaster
+sudo firewall-cmd --permanent --add-service puppetmaster
+</pre>
+</div>
+</li>
+<li><a id="orgde904bd"></a>Ubuntu<br />
+<div class="outline-text-6" id="text-1-1-2-4-2">
+<pre class="example">
+sudo ufw allow 8140/tcp
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-org22d8ddb" class="outline-4">
+<h4 id="org22d8ddb"><span class="section-number-4">1.1.3</span> 3: Installera och grundkonfigurera puppet-agent</h4>
+<div class="outline-text-4" id="text-1-1-3">
+</div>
+<ol class="org-ol">
+<li><a id="org11fdddd"></a>Installera puppet-agent<br />
+<ol class="org-ol">
+<li><a id="orgf44876a"></a>Centos och andra yum-baserade<br />
+<div class="outline-text-6" id="text-1-1-3-1-1">
+<pre class="example">
+sudo yum install puppet-agent
+</pre>
+</div>
+</li>
+<li><a id="orgc261c58"></a>Ubuntu och andra apt-baserade<br />
+<div class="outline-text-6" id="text-1-1-3-1-2">
+<pre class="example">
+sudo apt-get install puppet-agent
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org739158f"></a>Lägg till i din PATH<br />
+<div class="outline-text-5" id="text-1-1-3-2">
+<pre class="example">
+export PATH=/opt/puppetlabs/bin:$PATH
+</pre>
+<p>
+Lägg lämpligen till i din .bashrc eller .profile också
+</p>
+</div>
+</li>
+<li><a id="org73d32dc"></a>Konfigurera serveradress<br />
+<div class="outline-text-5" id="text-1-1-3-3">
+<p>
+Ifall din server inte heter just "puppet" måste du tala om vad den heter. 
+Editera filen /etc/puppetlabs/puppet/puppet.conf
+Lägg till raderna
+</p>
+<pre class="example">
+[main]
+server = servernamnet.example.com
+</pre>
+<p>
+Mer information om konfigfil: <a href="https://puppet.com/docs/puppet/6.0/config_file_main.html">https://puppet.com/docs/puppet/6.0/config_file_main.html</a>
+Du måste också lägga in puppet-serverns IP-adress och hostnamn i
+/etc/hosts på både puppet-agenten och puppet-servern. Det gör du genom
+att lägga till en rad som ser ut ungefär så här:
+</p>
+<pre class="example">
+1.2.3.4  puppet
+</pre>
+<p>
+på båda maskinerna.
+</p>
+</div>
+</li>
+<li><a id="orgf1e1e3a"></a>Starta puppet-agent<br />
+<div class="outline-text-5" id="text-1-1-3-4">
+<pre class="example">
+sudo /opt/puppetlabs/bin/puppet resource service puppet ensure=running enable=true
+</pre>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org4d2ac1f" class="outline-4">
+<h4 id="org4d2ac1f"><span class="section-number-4">1.1.4</span> 4: Godkänn klientens certifikat</h4>
+<div class="outline-text-4" id="text-1-1-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgcffe70b"></a>På puppet-servern:<br />
+<div class="outline-text-5" id="text-1-1-4-1">
+<pre class="example">
+sudo /opt/puppetlabs/bin/puppetserver ca list
+Requested Certificates:
+  puppetclient.int.dybedahl.se  (SHA256) 11:27:86:FB:46:67:07:AB:51:69:65:B5:AC:59:09:2E:65:01:47:92:84:7F:3F:FA:82:4D:45:C5:12:58:BC:C4
+sudo /opt/puppetlabs/bin/puppetserver ca sign puppetclient.int.dybedahl.se
+</pre>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org3044f7f" class="outline-4">
+<h4 id="org3044f7f"><span class="section-number-4">1.1.5</span> 5: Testa att klienten kan tala med puppet-servern</h4>
+<div class="outline-text-4" id="text-1-1-5">
+</div>
+<ol class="org-ol">
+<li><a id="org10406f7"></a>På klienten:<br />
+<div class="outline-text-5" id="text-1-1-5-1">
+<pre class="example">
+sudo /opt/puppetlabs/bin/puppet agent --test
+Info: Using configured environment 'production'
+Info: Retrieving pluginfacts
+Info: Retrieving plugin
+Info: Retrieving locales
+Info: Caching catalog for puppet2.int.dybedahl.se
+Info: Applying configuration version '1540842621'
+Notice: Applied catalog in 0.01 seconds
+</pre>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orge1684d5" class="outline-4">
+<h4 id="orge1684d5"><span class="section-number-4">1.1.6</span> 6: Ta fram puppet-serverns information om klienten</h4>
+<div class="outline-text-4" id="text-1-1-6">
+</div>
+<ol class="org-ol">
+<li><a id="org0ad063b"></a>På puppet-servern:<br />
+<div class="outline-text-5" id="text-1-1-6-1">
+<pre class="example">
+sudo /opt/puppetlabs/bin/puppet node find KLIENTNAMN.example.com
+</pre>
+<p>
+(Det kommer rätt mycket output, du kan vilja pipa genom more/less)
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga4764df" class="outline-3">
+<h3 id="orga4764df"><span class="section-number-3">1.2</span> Skapa puppet-moduler</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Vi lägger våra moduler /etc/puppetlabs/code/environments/production/modules (på puppet-servern, förstås!)
+Det är en jättebra idé att versionshantera modulerna!
+Puppet tillhandahåller ett bra verktyg för att skapa skelett för modulerna, med alla de filer och malldokument som behövs. Du behöver sedan bara fylla på med den information som är specifik för just din modul och system.
+</p>
+</div>
+<div id="outline-container-orgaa234b7" class="outline-4">
+<h4 id="orgaa234b7"><span class="section-number-4">1.2.1</span> Installera Puppet Development Kit</h4>
+<div class="outline-text-4" id="text-1-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org36646b4"></a>Centos och andra yum-baserade<br />
+<div class="outline-text-5" id="text-1-2-1-1">
+<pre class="example">
+sudo yum install pdk
+</pre>
+</div>
+</li>
+<li><a id="org90b5faf"></a>Ubuntu och andra apt-baserade<br />
+<div class="outline-text-5" id="text-1-2-1-2">
+<pre class="example">
+
+</pre>
+<p>
+sudo apt-get install pdk
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org5658f24" class="outline-4">
+<h4 id="org5658f24"><span class="section-number-4">1.2.2</span> Generera "skelett" för apache-modul</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<pre class="example">
+cd /etc/puppetlabs/code/environments/production/modules
+sudo pdk new module example-apache
+</pre>
+</div>
+</div>
+<div id="outline-container-org4eecb14" class="outline-4">
+<h4 id="org4eecb14"><span class="section-number-4">1.2.3</span> Verifiera att modulen hittas</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<pre class="example">
+sudo puppet module list
+/etc/puppetlabs/code/environments/production/modules
+--- example-apache (v0.1.0)
+/etc/puppetlabs/code/modules (no modules installed)
+/opt/puppetlabs/puppet/modules (no modules installed)
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd5a34dd" class="outline-4">
+<h4 id="orgd5a34dd"><span class="section-number-4">1.2.4</span> Skriva manifest för att installera apache</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+Modulens grund-manifest är manifests/init.pp. I vårt exempel börjar vi med att bara installera http och se till att den faktiskt kör:
+</p>
+
+<pre class="example">
+package { 'httpd' :
+  ensure =&gt; installed,
+}
+
+service { 'httpd' :
+  ensure =&gt; running,
+}
+</pre>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgc2539d1"></a>Tala om för puppet att klienten ska ha apache<br />
+<div class="outline-text-5" id="text-1-2-4-1">
+<p>
+Puppet-servern har ett manifest som talar om vad som gäller för alla maskiner i ett visst environment. I det här fallet heter filen "/etc/puppetlabs/code/environments/production/manifests/site.pp". Gå in och editera den filen så här:
+</p>
+<pre class="example">
+node 'puppetklient.example.com' {
+     include apache
+}
+</pre>
+</div>
+</li>
+
+<li><a id="org24e6343"></a>Läs in den nya katalogen på klienten<br />
+<div class="outline-text-5" id="text-1-2-4-2">
+<p>
+Gå in på klienten och säg åt puppet-agenten att hämta sin katalog ifrån servern:
+</p>
+
+<pre class="example">
+sudo puppet agent -t
+</pre>
+
+<p>
+Vill du ha mer information så lägg på "&#x2013;debug" på kommandoraden
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org61cab7b" class="outline-4">
+<h4 id="org61cab7b"><span class="section-number-4">1.2.5</span> Skapa en virtuell host</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<p>
+Det enklaste sättet att skapa filer på klienterna är att helt enkelt skapa filen på servern och säga åt puppet var filen ska placeras. Det gör du genom att skapa filen i underkatalogen files inne i modulen. I det här fallet ska filen heta "min<sub>vhost.conf</sub>" och innehålla en konfiguration för en vhost:
+</p>
+<pre class="example">
+&lt;VirtualHost *:80&gt;
+    ServerName www.example.org
+    DocumentRoot "/var/www/example.org"
+&lt;/VirtualHost&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge2dffe2" class="outline-4">
+<h4 id="orge2dffe2"><span class="section-number-4">1.2.6</span> Lägga till information om den virtuella hosten i manifestet</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<p>
+Editera manifests/init.pp igen, och lägg till följande
+</p>
+
+<pre class="example">
+file { '/etc/httpd/conf.d/min_vhost.conf' :
+  ensure =&gt; file,
+  owner  =&gt; root,
+  group  =&gt; root,
+  mode   =&gt; "0666",
+  source =&gt; "puppet:///modules/apache/min_vhost.conf",
+}
+</pre>
+
+<p>
+(före det sista "}") .
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8f07c32" class="outline-4">
+<h4 id="org8f07c32"><span class="section-number-4">1.2.7</span> Få apache att starta om när konfigurationen ändrats</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<p>
+Apache läser bara om sin konfiguration när den specifikt blir tillsagd att göra det, eller den startar om. För att slippa göra det manuellt varje gång kan du säga åt puppet att ifall filen min<sub>vhost.conf</sub> ändras, så ska apache få en liten spark att starta om sig. Editera definitionen av filen igen och lägg till raden
+</p>
+
+<pre class="example">
+notify =&gt; Service[httpd],
+</pre>
+
+<p>
+Hela manifests.init.pp ska nu se ut så här:
+</p>
+
+<pre class="example">
+class apache {
+  package { 'httpd' :
+    ensure =&gt; installed,
+  }
+  
+  service { 'httpd' :
+    ensure =&gt; running,
+  }
+
+  file { '/etc/httpd/conf.d/min_vhost.conf' :
+    notify =&gt; Service['httpd'],
+    ensure =&gt; file,
+    owner  =&gt; root,
+    group  =&gt; root,
+    mode   =&gt; "0666",
+    source =&gt; "puppet:///modules/apache/min_vhost.conf",
+  }
+}
+</pre>
+
+<p>
+Testa att det funkar genom att köra sudo puppet agent -t
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org947df49" class="outline-4">
+<h4 id="org947df49"><span class="section-number-4">1.2.8</span> Lägga in webbsidor</h4>
+<div class="outline-text-4" id="text-1-2-8">
+<p>
+Vi sade ju att webbsidorna ska ligga under /var/www/example.org. Det blir ju lite roligare att surfa dit om det faktiskt finns några webbsidor där, så låt oss skapa några.
+Om vi skulle lägga ut varje sida för sig med en egen file-resurs skulle det ju vara jättebökigt att skapa nya sidor, så istället lägger vi till en resurs för att skapa en hel katalog.
+Gå in i modulens files-katalog och skapa en underkatalog som heter webpages-example.org. Skapa där en fil som heter "index.html" och har följande innehåll:
+</p>
+
+<pre class="example">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"&gt;
+&lt;head&gt;
+&lt;title&gt;Example.org index page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Indexsida example.org&lt;/h1&gt;
+&lt;p&gt;Nothing to see here, move along!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+(Du får byta ut texten mot något roligare om du vill&#x2026;)
+</p>
+
+<p>
+Editera din manifests/init.pp igen och skapa en resurs för katalogen:
+</p>
+
+<pre class="example">
+file { '/var/www/example.org' :
+  ensure =&gt; directory,
+  owner  =&gt; root,
+  group  =&gt; root,
+  mode   =&gt; "0444",
+  source =&gt; "puppet:///modules/apache/webpages-example.org",
+  purge  =&gt; true,
+  recurse =&gt; true,
+}
+</pre>
+
+<p>
+Kör sedan sudo puppet agent -t igen, och testa att webbsiten fungerar genom att köra curl www.example.org - du bör då få se din index-sida
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Jenny Dybedahl</p>
+<p class="date">Created: 2020-10-20 Tue 18:31</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
