@@ -1,0 +1,9 @@
+---
+- name: Restart exporter
+  ansible.builtin.service:
+    name: exporter
+    state: restarted
+
+- name: Reload exporter
+  ansible.builtin.systemd:
+    daemon-reload: yes

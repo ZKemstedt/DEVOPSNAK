@@ -1,0 +1,14 @@
+---
+- name: Install grafana
+  import_tasks: install.yml
+
+- name: Apply grafana default configuration
+  import_tasks: default.yml
+  notify:
+    - Restart grafana
+
+- name: Provide grafana dashboards
+  import_tasks: dashboards.yml
+  notify:
+    - Restart grafana
+

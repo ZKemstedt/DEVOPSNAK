@@ -1,0 +1,37 @@
+---
+- name: Assert apache-exporter present
+  ansible.builtin.copy:
+    src: apache-exporter/
+    dest: /apache-exporter/
+    mode: 0744
+
+- name: Assert unit file present
+  ansible.builtin.copy:
+    src: apache-exporter.service
+    dest: /etc/systemd/system/apache-exporter.service
+
+- name: Assert server-status enabled (conf file exists)
+  ansible.builtin.copy:
+    src: server-status.conf
+    dest: /etc/httpd/conf.d/server-status.conf
+
+- name: Reload systemd
+  service:
+    daemon_reload: yes
+
+- name: Restart apache
+  service:
+    name: httpd
+    state: restarted
+
+- name: Restart apache-exporter
+  ansible.builtin.service:
+    name: apache-exporter
+    state: restarted
+
+- name: Assert apache-exporter service enabled
+  ansible.builtin.service:
+    name: apache-exporter
+    state: started
+    enabled: yes
+

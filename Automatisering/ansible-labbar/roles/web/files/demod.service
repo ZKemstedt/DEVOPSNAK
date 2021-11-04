@@ -1,0 +1,8 @@
+[Unit]
+Description=Ansible demo app.
+
+[Service]
+ExecStart=/var/www/demo/bin/app.pl --port=8080 --environment=production
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,51 @@
+---
+- name: Assert mysql-exporter present
+  ansible.builtin.copy:
+    src: mysql-exporter/mysql-exporter
+    dest: /mysql-exporter/
+    mode: 0740
+
+- name: Assert mysql-exporter unit file present
+  ansible.builtin.copy:
+    src: mysql-exporter.service
+    dest: /etc/systemd/system/mysql-exporter.service
+    mode: 0640
+
+- name: Assert mysql-exporter config present
+  ansible.builtin.template:
+    src: config.cnf.j2
+    dest: /mysql-exporter/config.cnf
+    mode: 0640
+
+- name: Assert mysql-exporter db-user present
+  no_log: true
+  ansible.builtin.mysql_user:
+    name: "{{ db_exporter_user }}"
+    password: "{{ db_exporter_pwd }}"
+    host: "localhost"
+    priv: "*.*:PROCESS,REPLICATION CLIENT"
+    state: present
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Assert mysql-exporter service enabled
+  ansible.builtin.service:
+    name: mysql-exporter
+    enabled: yes
+    state: started
+
+- name: Restart mysql-exporter
+  ansible.builtin.service:
+    name: mysql-exporter
+    state: restarted
+
+- name: Reload mysql-exporter
+  ansible.builtin.systemd:
+    daemon-reload: yes
+
+- name: Start MariaDB on boot
+  ansible.builtin.service:
+    name: mariadb
+    enabled: yes
+    state: started

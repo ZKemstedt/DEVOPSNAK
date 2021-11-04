@@ -1,0 +1,96 @@
+---
+# taglist:
+#   debug
+#   db
+#   web
+#   grafana
+#   prometheus
+
+- name: Gather and set facts
+  hosts: all
+  tasks:
+    - name: Gather facts
+      setup:
+    - name: Save the dp-ip
+      set_fact:
+        db_ip: "{{ hostvars['db']['ansible_eth1']['ipv4']['address'] }}"
+        web_ip: "{{ hostvars['web']['ansible_eth1']['ipv4']['address'] }}"
+        mon_ip: "{{ hostvars['grafana']['ansible_eth1']['ipv4']['address'] }}"
+  tags:
+    - always
+
+- name: Verfiy if the correct ips are accessible to role `webb` from role `db` and vice-versa
+  hosts: db, web
+  gather_facts: no
+  tasks:
+    - name: "web/db: IP"
+      debug:
+        msg:
+          - "hostname: {{ inventory_hostname }}"
+          - "web_ip: {{ web_ip }}"
+          - "db_ip: {{ db_ip }}"
+  tags:
+    - never
+    - debug
+
+- name: Verfiy if the role `web` can access variables from the role `db` by including it's vars-file
+  hosts: web
+  gather_facts: no
+  vars_files: roles/db/vars/main.yml
+  tasks:
+    - name: "web: db vars"
+      debug:
+        msg:
+          - "{{ db_name }}"
+          - "{{ db_user }}"
+          - "{{ db_user_pwd }}"
+  tags:
+    - never
+    - debug
+
+- name: Apply the db, exporter and tzone roles to the host `db`
+  hosts: db
+  gather_facts: no
+  roles:
+    - db
+    - exporter
+    - tzone
+  tags:
+    - db
+
+- name: Apply the web, exporter and tzone roles to the host `web` 
+  hosts: web
+  gather_facts: no
+  vars_files: roles/db/vars/main.yml # trying to aquire 
+  roles:
+    - web
+    - exporter
+    - tzone
+  tags:
+    - web
+
+- name: Apply the exporter and tzone roles to the hosts `grafana`, `prometheus`
+  hosts: grafana, prometheus
+  gather_facts: no
+  roles:
+    - tzone
+    - exporter
+  tags:
+    - grafana
+    - prometheus
+
+- name: Apply the grafana role to host `grafana`
+  hosts: grafana
+  gather_facts: no
+  roles:
+    - grafana
+  tags:
+    - grafana
+
+- name: Apply the prometheus role to host `prometheus`
+  hosts: prometheus
+  gather_facts: no
+  roles:
+    - prometheus
+  tags:
+    - prometheus

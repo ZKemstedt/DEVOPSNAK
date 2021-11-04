@@ -1,0 +1,10 @@
+[Unit]
+Description=Mysql exporter for Prometheus
+
+[Service]
+ExecStart=/mysql-exporter/mysql-exporter \
+    --config.my-cnf /mysql-exporter/config.cnf \
+    --web.listen-address=0.0.0.0:9004
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+---
+- name: Setup mariadb
+  import_tasks: mariadb.yml
+  tags:
+    - db
+
+- name: Configure mysql-exporter for Prometheus
+  include_tasks: mysql-exporter.yml
+  tags:
+    - db

@@ -1,0 +1,30 @@
+---
+- name: Assert latest EPEL rpm available
+  yum:
+    name: http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: latest
+
+- name: Assert latest app dependencies installed
+  yum:
+    name: 
+      - "httpd"
+      - libsemanage-python
+      - libselinux-python
+      - "@Development tools"
+      - perl
+      - "perl-App*"
+      - "perl-DBD*"
+      - "perl-Template*"
+      - "perl-YAML*"
+      - "perl-Capture-Tiny*"
+      - mod_security
+      - mod_ssl
+      - mod_wsgi
+      - mod_ldap
+      - mod_auth_kerb
+      - mod_auth_gssapi
+    state: latest
+
+- name: Assert dependency Dancer installed
+  cpanm:
+    name: Dancer

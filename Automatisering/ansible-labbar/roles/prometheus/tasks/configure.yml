@@ -1,0 +1,7 @@
+---
+- name: Assert prometheus.yml present
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+  notify:
+    - Restart prometheus

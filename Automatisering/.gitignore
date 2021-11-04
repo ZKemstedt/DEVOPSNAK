@@ -1,0 +1,6 @@
+vagrant-ansible/.vagrant
+ansible-labbar/vault_password
+
+ansible-labbar/roles/db/files/mysql-exporter/
+ansible-labbar/roles/web/files/apache-exporter/
+ansible-labbar/roles/exporter/files/exporter/

@@ -1,0 +1,21 @@
+---
+# - name: Setup webserver
+#   import_tasks: default.yml
+#   tags:
+#     - web
+
+- name: Install dependencies for web
+  import_tasks: dependencies.yml
+  notify: Restart apache
+  tags:
+    - web
+
+- name: Install webbapp
+  import_tasks: app.yml
+  tags:
+    - web
+
+- name: Configure apache-exporter for Prometheus
+  import_tasks: apache-exporter.yml
+  tags:
+    - web

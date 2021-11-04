@@ -1,0 +1,58 @@
+---
+- name: Assert apache owns webbapp folder
+  file:
+    path: /var/www/demo
+    state: directory
+    owner: apache
+    group: apache
+
+- name: Assert git repo present
+  git:
+    force: yes # conflicts with 'Configure DB access', but this will make these 2 tasks always display as 'changed' ...
+    repo: "https://github.com/initab/demoapp"
+    dest: /var/www/demo
+
+- name: Assert production configuration present
+  template:
+    src: "production.yml.j2"
+    dest: "/var/www/demo/environments/production.yml"
+
+- name: Define vhost
+  template:
+    src: "web.conf.j2"
+    dest: "/etc/httpd/conf.d/web.conf"
+
+- name: Assert unit file present
+  copy:
+    src: demod.service
+    dest: "/etc/systemd/system/demod.service"
+
+- name: Assert can_network_connect flag is persistently set to yes
+  ansible.posix.seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+
+- name: Reload systemd
+  service:
+    daemon_reload: yes
+
+- name: Restart apache
+  service:
+    name: httpd
+    state: restarted
+
+- name: Restart demod
+  service:
+    name: demod
+    state: restarted
+
+- name: Enable apache
+  service:
+    name: httpd
+    enabled: yes
+
+- name: Enable demod
+  service:
+    name: demod
+    enabled: yes

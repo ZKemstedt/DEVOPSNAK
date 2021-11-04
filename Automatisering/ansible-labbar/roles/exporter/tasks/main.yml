@@ -1,0 +1,24 @@
+---
+- name: Assert exporter present
+  ansible.builtin.copy:
+    src: exporter/
+    dest: /exporter/
+    mode: '0744'
+  notify:
+    - Reload exporter
+    - Restart exporter
+
+- name: Assert unit file present
+  ansible.builtin.copy:
+    src: exporter.service
+    dest: /etc/systemd/system/exporter.service
+  notify:
+    - Reload exporter
+    - Restart exporter
+
+- name: Assert exporter enabled
+  ansible.builtin.service:
+    name: exporter
+    enabled: yes
+  notify:
+    - Restart exporter

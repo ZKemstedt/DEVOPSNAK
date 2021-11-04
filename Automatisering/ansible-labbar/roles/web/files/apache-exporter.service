@@ -1,0 +1,8 @@
+[Unit]
+Description=Prometheus Apache exporter
+
+[Service]
+ExecStart=/apache-exporter/apache-exporter --scrape_uri='http://127.0.0.1/server-status/?auto'
+
+[Install]
+WantedBy=multi-user.target

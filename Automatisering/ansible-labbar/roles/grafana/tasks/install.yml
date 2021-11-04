@@ -1,0 +1,18 @@
+---
+- name: Assert grafana repo available
+  copy:
+    src: grafana.repo
+    dest: /etc/yum.repos.d/grafana.repo
+
+- name: Assert grafana installed
+  yum:
+    name: grafana
+    state: latest
+  notify:
+    - Restart grafana # on update
+
+- name: Assert grafana service enabled
+  service:
+    name: grafana-server
+    enabled: yes
+

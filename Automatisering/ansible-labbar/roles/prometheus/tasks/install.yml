@@ -1,0 +1,18 @@
+---
+- name: Assert prometheus rpm available
+  copy:
+    src: "prometheus.repo"
+    dest: "/etc/yum.repos.d/prometheus.repo"
+
+- name: Assert prometheus installed
+  yum:
+    name: prometheus
+    state: latest
+  notify:
+    - Restart prometheus
+
+- name: Assert prometheus service enabled
+  service:
+    name: prometheus
+    enabled: yes
+    state: started

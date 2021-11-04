@@ -1,0 +1,11 @@
+---
+- name: Assert grafana.ini present
+  copy:
+    src: grafana.ini
+    dest: /etc/grafana/grafana.ini
+
+- name: Assert grafana datasource default.yml present
+  template:
+    src: default.yml.j2
+    dest: /etc/grafana/provisioning/datasources/default.yaml
+
