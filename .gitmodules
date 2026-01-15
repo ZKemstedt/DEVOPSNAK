@@ -1,3 +1,9 @@
-[submodule "Molndrift/AriusTF"]
+[submodule "Molndrift/aries"]
 	path = Molndrift/aries
 	url = git@github.com:me2001ru/AriusTF.git
+[submodule "cicd/coursefiles"]
+	path = cicd/coursefiles
+	url = git@gitlab.com:zkemstedt/devops20_contin.git
+[submodule "cicd/courseproject"]
+	path = cicd/courseproject
+	url = git@gitlab.com:zkemstedt/devops20_cicd.git
